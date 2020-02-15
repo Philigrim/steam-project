@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69d117cf-4785-4e1a-9a98-89bda5bb85a8" name="Default Changelist" comment="" />
+    <list default="true" id="69d117cf-4785-4e1a-9a98-89bda5bb85a8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +16,9 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -106,6 +113,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1XetqkD36UthgzTv4VIO1rFZDk6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -140,7 +148,9 @@
       <updated>1581418580421</updated>
       <workItem from="1581418586608" duration="676000" />
       <workItem from="1581621958612" duration="1006000" />
-      <workItem from="1581627899149" duration="2319000" />
+      <workItem from="1581627899149" duration="2904000" />
+      <workItem from="1581674957968" duration="1114000" />
+      <workItem from="1581784440562" duration="2228000" />
     </task>
     <servers />
   </component>
