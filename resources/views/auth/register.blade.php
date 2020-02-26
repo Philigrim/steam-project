@@ -12,7 +12,20 @@
                     <div class="card-body px-lg-5 py-lg-5">
                         <form role="form" method="POST" action="{{ route('register') }}">
                             @csrf
-                            <p class ="text-center font-weight-bold">REGISTRACIJA</p>
+
+                            <div class="form-group{{ $errors->has('usertype') ? ' has-danger' : '' }}">
+                            <div class="d-flex justify-content-center" >
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="customRadioInline1" name="usertype" value="mokytojas" class="custom-control-input" required autofocus>
+                                <label class="custom-control-label" for="customRadioInline1">Mokytojas</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="customRadioInline2" name="usertype" value ="paskaitu_lektorius" class="custom-control-input" >
+                                <label class="custom-control-label" for="customRadioInline2">Paskaitų lektorius</label>
+                              </div>
+                            </div>
+                            </div>
+                            <br>
                             <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
@@ -38,7 +51,7 @@
                                         <strong>{{ $errors->first('lastname') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div>      
                             <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
