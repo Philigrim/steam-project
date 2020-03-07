@@ -12,7 +12,6 @@
                     <div class="card-body px-lg-5 py-lg-5">
                         <form role="form" method="POST" action="{{ route('register') }}">
                             @csrf
-
                             <div class="form-group{{ $errors->has('usertype') ? ' has-danger' : '' }}">
                             <div class="d-flex justify-content-center" >
                             <div class="custom-control custom-radio custom-control-inline">
@@ -89,14 +88,10 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center" >
-                                <button type="submit" class="btn btn-primary mt-4 text-center">{{ __('Create account') }}</button>   
-                                       
-                        </div>
+                                <button type="submit" class="btn btn-primary mt-4 text-center">{{ __('Registruotis') }}</button>   
+                              </div>
                         
-                        </form> 
-                            <a class="nav-link nav-link-icon" href="{{ route('login') }}">
-                                <button type="nav-link" class="btn .bg-info mt-4 text-center" href="{{ route('login') }}">Login</button>
-                            </a>
+                        </form>     
                     </div>
                 </div>
             </div>
