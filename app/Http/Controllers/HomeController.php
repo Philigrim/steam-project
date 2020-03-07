@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
+use DB;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 class HomeController extends Controller
 {
     /**
@@ -21,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-          return view('mainwindow');
+        $courses = DB::select('select * from courses_displays');
+        return view('mainwindow',['courses'=>$courses]);
     }
 }
+
