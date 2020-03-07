@@ -20,5 +20,5 @@
                 <span class="text-nowrap">Since last month</span>
             </p>
         </div>
-    </div> 
+    </div>
 @endsection
