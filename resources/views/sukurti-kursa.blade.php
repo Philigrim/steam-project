@@ -5,7 +5,7 @@
              'description' => __('Kursų kurimo puslapis. Sukurti kursai bus naudojami kuriant paskaitas.')])
 
     <div class="container-fluid mt--7">
-        <form action = "/sukurti-kursa" method="post">
+        <form action = "/home" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-3">
