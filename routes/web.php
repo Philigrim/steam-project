@@ -20,8 +20,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/create-course', 'CreateCourseController@index');
-
 Route::get('/kursai','RouteToCourse@index')->name('RouteToCourse');
 
 Route::group(['middleware' => 'auth'], function () {
