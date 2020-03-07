@@ -22,6 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/sukurti-kursa', 'CreateCourseController@index')->name('RouteToCreateCourse');
 
+Route::post('/sukurti-kursa','CreateCourseController@insert');
+
 Route::get('/kursai','RouteToCourse@index')->name('RouteToCourse');
 
 Route::group(['middleware' => 'auth'], function () {

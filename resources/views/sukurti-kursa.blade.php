@@ -5,26 +5,29 @@
              'description' => __('Kursų kurimo puslapis. Sukurti kursai bus naudojami kuriant paskaitas.')])
 
     <div class="container-fluid mt--7">
-        <form class="card-body">
+        <form action = "/sukurti-kursa" method="post">
+            @csrf
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
-                        <div class="input-group input-group-alternative mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                            </div>
-                            <input class="form-control{{ $errors->has('course_title') ? ' is-invalid' : '' }}" placeholder="{{ __('Kurso pavadinimas') }}" type="text" name="course_title" value="{{ old('course_title') }}" required autofocus>
-                        </div>
-                        @if ($errors->has('course_title'))
-                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('course_title') }}</strong>
-                                    </span>
-                        @endif
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Vardas" name="lecturer_name" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Pavardė" name="lecturer_last_name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <select class="form-control dropdown-menu-arrow">
+                        <select class="form-control dropdown-menu-arrow" name="subject" required>
                             <option value="Placeholder" selected disabled>Dalykas</option>
                             <option value="Physics">Fizika</option>
                             <option value="Biology">Biologija</option>
@@ -38,21 +41,28 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <textarea class="form-control" rows="5" placeholder="Apie kursą ..."></textarea>
+                        <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" required></textarea>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <textarea class="form-control" rows="5" placeholder="Reikalinga įranga ..."></textarea>
+                        <textarea class="form-control" rows="5" placeholder="Reikalinga įranga ..." name="equipment" required></textarea>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..."></textarea>
+                        <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mt-4 text-center">{{ __('Patvirtinti') }}</button>
                     </div>
                 </div>
             </div>

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69d117cf-4785-4e1a-9a98-89bda5bb85a8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/AdminMiddleware.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_03_07_202044_create_courses_table.php" afterDir="false" />
+    <list default="true" id="6d181b7a-7bf2-4589-b144-1926d46a1039" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/CoursesDisplay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_03_07_170337_create_courses_displays_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_03_07_213610_create_courses_table_2.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/create-course.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sukurti-kursa.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/navbars/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/navbars/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_07_202044_create_courses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_07_202044_create_courses_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/mainwindow.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mainwindow.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sukurti-kursa.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sukurti-kursa.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
