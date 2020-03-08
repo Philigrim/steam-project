@@ -20,7 +20,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/create-course', 'CreateCourseController@index');
+Route::get('/sukurti-kursa', 'CreateCourseController@index')->name('RouteToCreateCourse');
+
+Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','RouteToCourse@index')->name('RouteToCourse');
 
