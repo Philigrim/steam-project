@@ -11,9 +11,6 @@
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_07_202044_create_courses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_07_202044_create_courses_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/mainwindow.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mainwindow.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/sukurti-kursa.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sukurti-kursa.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +153,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="69d117cf-4785-4e1a-9a98-89bda5bb85a8" name="Default Changelist" comment="" />
+      <changelist id="6d181b7a-7bf2-4589-b144-1926d46a1039" name="Default Changelist" comment="" />
       <created>1581418580421</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -170,6 +167,8 @@
       <workItem from="1582667900786" duration="82000" />
       <workItem from="1583086870186" duration="600000" />
       <workItem from="1583585535314" duration="6582000" />
+      <workItem from="1583688479377" duration="446000" />
+      <workItem from="1583708278856" duration="3636000" />
     </task>
     <servers />
   </component>
@@ -180,14 +179,18 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="616" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1583585672929">
+    <state x="616" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1583708438378">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="616" y="380" key="com.intellij.ide.util.TipDialog/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1583086870825" />
+    <state x="616" y="380" key="com.intellij.ide.util.TipDialog/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1583708438378" />
     <state x="616" y="380" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1583585672929" />
     <state x="761" y="472" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582667985943">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="761" y="472" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1582667985943" />
+    <state width="600" height="424" key="javadoc.popup" timestamp="1583709823386">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="600" height="424" key="javadoc.popup/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1583709823386" />
   </component>
 </project>

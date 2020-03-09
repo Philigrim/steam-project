@@ -23,5 +23,7 @@ class CreateCourseController extends Controller
         $data = array('lecturer_name' => $lecturer_name, "lecturer_last_name" => $lecturer_last_name, "course_title" => $course_title, "subject" => $subject,
                         "description" => $description, "equipment" => $equipment, "comments" => $comments);
         DB::table('courses')->insert($data);
+
+        return redirect('home');
     }
 }
