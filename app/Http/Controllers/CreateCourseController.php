@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Auth;
 
 class CreateCourseController extends Controller
 {
@@ -25,6 +26,6 @@ class CreateCourseController extends Controller
         DB::table('courses')->insert($data);
         
         $courses = DB::select('select * from courses');
-        return view('mainwindow',['courses'=>$courses]);
+        return view('kursai',['courses'=>$courses]);
     }
 }
