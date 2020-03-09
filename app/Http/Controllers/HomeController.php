@@ -24,8 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $courses = DB::select('select * from courses');
-        return view('mainwindow',['courses'=>$courses]);
+        return view("mainwindow");
     }
 }
 

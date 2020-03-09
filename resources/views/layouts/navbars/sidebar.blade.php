@@ -95,7 +95,7 @@
                     <div class="collapse show" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
+                                <a class="nav-link" href="{{ route('Kursai') }}">
                                     {{ __('Kursai') }}
                                 </a>
                             </li>
@@ -104,16 +104,18 @@
                                     {{ __('Vartotojo paskyra') }}
                                 </a>
                             </li>
+                            @if(Auth::user()->isRole()=="admin")
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
                                     {{ __('Sukurti kursą') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link" href="{{ route('RouteToUserManagement') }}">
                                     {{ __('Vartotojų valdymas') }}
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
 
