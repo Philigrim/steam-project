@@ -24,7 +24,7 @@ Route::get('/sukurti-kursa', 'CreateCourseController@index')->name('RouteToCreat
 
 Route::post('/home','CreateCourseController@insert');
 
-Route::get('/kursai','RouteToCourse@index')->name('RouteToCourse');
+Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
