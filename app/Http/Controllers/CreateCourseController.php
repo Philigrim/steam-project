@@ -24,8 +24,7 @@ class CreateCourseController extends Controller
         $data = array('lecturer_name' => $lecturer_name, "lecturer_last_name" => $lecturer_last_name, "course_title" => $course_title, "subject" => $subject,
                         "description" => $description, "equipment" => $equipment, "comments" => $comments);
         DB::table('courses')->insert($data);
-        
-        $courses = DB::select('select * from courses');
-        return view('kursai',['courses'=>$courses]);
+
+        return redirect('sukurti-kursa');
     }
 }
