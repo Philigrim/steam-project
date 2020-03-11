@@ -5,25 +5,30 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Auth;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class CreateCourseController extends Controller
 {
     public function index(){
-        return view('sukurti-kursa');
+
+        $users = DB::select('select * from users where usertype =:usertype', ['usertype'=>'paskaitu_lektorius']);
+        $courses = DB::select('select * from courses');
+        return view('sukurti-kursa',['users'=>$users],['courses'=>$courses]);
     }
 
     public function insert(Request $request)
     {
-        $lecturer_name = $request->input('lecturer_name');
-        $lecturer_last_name = $request->input('lecturer_last_name');
         $course_title = $request->input('course_title');
         $subject = $request->input('subject');
+        $user_id = $request->input('user_id');
         $description = $request->input('description');
-        $equipment = $request->input('equipment');
         $comments = $request->input('comments');
-        $data = array('lecturer_name' => $lecturer_name, "lecturer_last_name" => $lecturer_last_name, "course_title" => $course_title, "subject" => $subject,
-                        "description" => $description, "equipment" => $equipment, "comments" => $comments);
+
+        $data = array("course_title" => $course_title, "description" => $description, "subject" => $subject,"user_id"=>$user_id, "comments" => $comments);
+
         DB::table('courses')->insert($data);
+        
 
         return redirect('sukurti-kursa');
     }

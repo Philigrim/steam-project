@@ -30,7 +30,7 @@
                         <div class="mb-0 text-muted text-sm">
                             <h3>Dėstytojas:</h3>
                         </div>
-                        <div class="ml-3">{{ $course->lecturer_name }} {{ $course->lecturer_last_name }}</div>
+                    <div class="ml-3">{{$course ->user_id}}</div>
                     </div>
                     <div class="text-center ">
                         <button type="submit" class="btn btn-primary my-4">Registruotis</button>

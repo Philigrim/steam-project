@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCoursesDisplaysTable extends Migration
+class CreateEventTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCoursesDisplaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('h', function (Blueprint $table) {
+        Schema::create('event', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('lecturer_name');
-            $table->text('description');
-            $table->date("time_of_lecture");
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateCoursesDisplaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses_displays');
+        Schema::dropIfExists('event');
     }
 }
