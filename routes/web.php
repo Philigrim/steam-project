@@ -20,11 +20,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/sukurti-kursa', 'CreateCourseController@index')->name('RouteToCreateCourse');
+Route::post('/home','CreateCourseController@insert');
 
-//Route::post('/sukurti-kursa','CreateCourseController@insert');
-
-Route::get('/kursai','RouteToCourse@index')->name('RouteToCourse');
+Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
@@ -32,8 +30,7 @@ Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']],
 });
 
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
-    Route::get('/', 'UserManagementController@index')->name('RouteToUserManagement');
-    //Route::post('/','CreateCourseController@insert');
+    Route::get('/', 'UserController@index')->name('RouteToUserManagement');
 });
 
 Route::group(['middleware' => 'auth'], function () {

@@ -25,6 +25,6 @@ class CreateCourseController extends Controller
                         "description" => $description, "equipment" => $equipment, "comments" => $comments);
         DB::table('courses')->insert($data);
 
-        return redirect('home');
+        return redirect('sukurti-kursa');
     }
 }

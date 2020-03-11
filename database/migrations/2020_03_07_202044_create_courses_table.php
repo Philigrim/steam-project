@@ -13,7 +13,8 @@ class CreateCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('lecturer_name');
             $table->string('lecturer_last_name');
             $table->string('course_title');
@@ -21,7 +22,6 @@ class CreateCoursesTable extends Migration
             $table->mediumText('description');
             $table->mediumText('equipment');
             $table->mediumText('comments');
-            $table->bigIncrements('course_id');
             $table->timestamps();
         });
     }
