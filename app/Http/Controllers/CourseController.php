@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\LecturerHasCourse;
 use Illuminate\Http\Request;
-use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Course;
+use DB;
 
 class CourseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $courses = DB::select('select * from courses');
+        $courses = LecturerHasCourse::all();
+
         return view('kursai',['courses'=>$courses]);
     }
 }
