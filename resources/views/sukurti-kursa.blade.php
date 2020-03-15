@@ -8,6 +8,16 @@
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
+                        <div class="col-12">
+                            @if (session()->has('message'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session()->get('message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                         <h2 class="col-12 mb-0">{{ __('Informacija apie kursą') }}</h2>
                     </div>
                 </div>
@@ -18,18 +28,17 @@
                                     <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
                                 </div>
                             </div>
-                        
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                             <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="subject" required>
+                                <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
                                     <option value="" selected disabled>Kurso vadovas</option>
                                     @foreach ($users as $user)
-                                <option name="{{$user -> id}}">{{$user->firstname}} {{$user->lastname}}</option>
-                                @endforeach
+                                        <option value="{{$user->lecturer->id}}">{{$user->firstname}} {{$user->lastname}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                        </div> 
+                        </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow" name="subject" required>
