@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Teacher;
+use App\Lecturer;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use DB;
 
 class RegisterController extends Controller
 {
@@ -68,12 +69,20 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        return User::create([
+        $users = User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'usertype' => $data['usertype'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if($users->usertype == 'mokytoja'){
+            Teacher::create(['user_id' => $users->id]);
+        }elseif ($users->usertype == 'paskaitu_lektorius'){
+            Lecturer::create(['user_id' => $users->id]);
+        }
+
+        return $users;
     }
 }

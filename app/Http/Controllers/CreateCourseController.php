@@ -2,34 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use App\LecturerHasCourse;
 use Illuminate\Http\Request;
 use Auth;
+use App\User;
+use App\Course;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class CreateCourseController extends Controller
 {
-    public function index(){
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-        $users = DB::select('select * from users where usertype =:usertype', ['usertype'=>'paskaitu_lektorius']);
-        $courses = DB::select('select * from courses');
-        return view('sukurti-kursa',['users'=>$users],['courses'=>$courses]);
+    public function index(){
+        $users = User::where('usertype', 'paskaitu_lektorius')->get();
+
+        return view('sukurti-kursa',['users'=>$users]);
     }
 
     public function insert(Request $request)
     {
-        $course_title = $request->input('course_title');
-        $subject = $request->input('subject');
-        $user_id = $request->input('user_id');
-        $description = $request->input('description');
-        $comments = $request->input('comments');
+        $course = Course::create(['course_title' => $request->course_title,
+                        'subject' => $request->subject,
+                        'description' => $request->description,
+                        'comments' => $request->comments]);
 
-        $data = array("course_title" => $course_title, "description" => $description, "subject" => $subject,"user_id"=>$user_id, "comments" => $comments);
+        LecturerHasCourse::create(['course_id' => $course->id,
+                                   'lecturer_id' => $request->lecturer_id]);
 
-        DB::table('courses')->insert($data);
-        
-
-        return redirect('sukurti-kursa');
+        return redirect()->back()->with('message', 'Kursas pridėtas. Jį galite matyti Kursų puslapyje.');
     }
 }
