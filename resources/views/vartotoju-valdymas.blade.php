@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => __('User Management')])
 
 @section('content')
-    @include('users.partials.header', ['title' => __('Vartotojai'),
+    @include('layouts.headers.cards', ['title' => __('Vartotojai'),
              'description' => __('Vartotojų valdymo puslapis. Sukurti, blokuoti, ištrinti vartotojus.')])
 
     <div class="container-fluid mt--7">

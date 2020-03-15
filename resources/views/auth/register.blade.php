@@ -50,7 +50,7 @@
                                         <strong>{{ $errors->first('lastname') }}</strong>
                                     </span>
                                 @endif
-                            </div>      
+                            </div>
                             <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
@@ -64,7 +64,7 @@
                                     </span>
                                 @endif
                             </div>
-                            
+
                             <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative">
                                     <div class="input-group-prepend">
@@ -83,15 +83,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input class="form-control" placeholder="{{ __('Pakartokite slaptažodį:
-') }}" type="password" name="password_confirmation" required>
+                                    <input class="form-control" placeholder="{{ __('Pakartokite slaptažodį:') }}" type="password" name="password_confirmation" required>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center" >
-                                <button type="submit" class="btn btn-primary mt-4 text-center">{{ __('Registruotis') }}</button>   
+                                <button type="submit" class="btn btn-primary mt-4 text-center">{{ __('Registruotis') }}</button>
                               </div>
-                        
-                        </form>     
+                        </form>
                     </div>
                 </div>
             </div>
