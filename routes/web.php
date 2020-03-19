@@ -24,6 +24,9 @@ Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
+Route::get('/eventai','EventController@index')->name('Eventai');
+
+
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
@@ -32,6 +35,7 @@ Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']],
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'UserController@index')->name('RouteToUserManagement');
 });
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
