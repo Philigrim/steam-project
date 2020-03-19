@@ -15,12 +15,13 @@ class CreateEventTable extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('room');
             $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('course');
-            $table->unsignedBigInteger('Capacity_left');
-            $table->unsignedBigInteger('Description');
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->unsignedBigInteger('capacity_left');
+            $table->unsignedBigInteger('description');
             $table->timestamps();
         });
     }

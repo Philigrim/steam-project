@@ -2,7 +2,7 @@
 
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti kursą'),
-             'description' => __('Paskaitų kūrimo puslapis.')])
+             'description' => __('Kursų kurimo puslapis. Sukurti kursai bus naudojami kuriant paskaitas.')])
     <div class="container-fluid mt--7 row d-flex justify-content-center">
         <div class="col-xl-6 order-xl-1">
             <div class="card bg-secondary shadow">
@@ -25,7 +25,7 @@
                     <form action = "/home" method="post">
                         @csrf<div class="col-md-12  ">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="course_title" required>
+                                    <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
                                 </div>
                             </div>
                         <div class="row d-flex justify-content-center">
@@ -33,7 +33,9 @@
                             <div class="form-group">
                                 <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
                                     <option value="" selected disabled>Kurso vadovas</option>
-
+                                    @foreach ($users as $user)
+                                        <option value="{{$user->lecturer->id}}">{{$user->firstname}} {{$user->lastname}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
