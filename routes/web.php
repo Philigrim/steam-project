@@ -24,6 +24,8 @@ Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
+Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
