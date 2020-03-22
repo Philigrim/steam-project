@@ -24,8 +24,10 @@ Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
-Route::get('/eventai','EventController@index')->name('Eventai');
+Route::get('eventai','EventController@getCities');
+Route::get('findSteamCenter/{id}','EventController@findSteamCenter');
 
+Route::get('/time','TimeController@index');
 
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');

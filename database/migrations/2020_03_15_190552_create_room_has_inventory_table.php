@@ -15,7 +15,7 @@ class CreateRoomHasInventoryTable extends Migration
     {
         Schema::create('room_has_inventory', function (Blueprint $table) {
             $table->unsignedBigInteger('room_id');
-            $table->foreign('room_id')->references('id')->on('room');
+            $table->foreign('room_id')->references('id')->on('rooms');
             $table->unsignedBigInteger('inventory_id');
             $table->foreign('inventory_id')->references('id')->on('inventory');
             $table->timestamps();

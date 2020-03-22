@@ -10,8 +10,8 @@ class RoomHasInventory extends Model
         'steam_id', 'inventory_id'  
     ];
 
-    public function steam_center(){
-        return $this->belongsTo(SteamCenter::class);
+    public function room(){
+        return $this->belongsTo(Room::class);
     }
 
     public function inventory(){

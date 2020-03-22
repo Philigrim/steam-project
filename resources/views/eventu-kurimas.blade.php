@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('users.partials.header', ['title' => __('Sukurti kursą'),
-             'description' => __('Kursų kurimo puslapis. Sukurti kursai bus naudojami kuriant paskaitas.')])
+    @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
     <div class="container-fluid mt--7 row d-flex justify-content-center">
         <div class="col-xl-6 order-xl-1">
             <div class="card bg-secondary shadow">
@@ -25,32 +24,45 @@
                     <form action = "/home" method="post">
                         @csrf<div class="col-md-12  ">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="course_title" required>
                                 </div>
                             </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                             <div class="form-group">
                                 <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
-                                    <option value="" selected disabled>Kurso vadovas</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{$user->lecturer->id}}">{{$user->firstname}} {{$user->lastname}}</option>
+                                    <option value="" selected disabled>Kursas</option>
+                                    @foreach ($courses as $course)
+                                        <option value="{{$course->id}}">{{$course->course_title}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow" name="subject" required>
-                                        <option value="" selected disabled>Dalykas</option>
-                                        <option value="Physics">z</option>
-                                        <option value="Biology">Biologija</option>
-                                        <option value="Engineering">Inžinerija</option>
-                                        <option value="Informatics">Informatika</option>
-                                        <option value="Chemistry">Chemija</option>
-                                    </select>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control dropdown-menu-arrow" name="city" id ="city" required>
+                                    <option value="" selected disabled>Miestas</option>
+                                    @foreach($cities as $key=> $value)
+                                        <option value="{{$key}}">{{ucfirst($value)}}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select class="form-control dropdown-menu-arrow" name="steam" id="steam" required>
+                                            <option value="" selected disabled>Steam centras</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
+                                            <option value="" selected disabled>Kambarys </option>
+                                           
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -77,4 +89,63 @@
             @include('layouts.footers.auth')
         </div>
     </div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ()
+    {
+            jQuery('select[name="city"]').on('change',function(){
+               var cityID = jQuery(this).val();
+               if(cityID)
+               {
+                  jQuery.ajax({
+                     url : 'findSteamCenter/' +cityID,
+                     type : "GET",
+                     dataType : "json",
+                     success:function(data)
+                     {
+                        console.log(data);
+                        jQuery('select[name="steam"]').empty();
+                        jQuery('select[name="steam"').append('<option value="">Steam centras</option>'); 
+
+                        jQuery.each(data, function(key,value){
+                           $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
+                        });
+                        }
+                  });
+               }
+               else
+               {
+                  $('select[name="steam"]').empty();
+               }
+            });
+            jQuery('select[name="steam"]').on('change',function(){
+               var steamID = jQuery(this).val();
+               if(steamID)
+               {
+                  jQuery.ajax({
+                     url : 'findSteamCenter/' +cityID,
+                     type : "GET",
+                     dataType : "json",
+                     success:function(data)
+                     {
+                        console.log(data);
+                        jQuery('select[name="room"]').empty();
+                        jQuery('select[name="room"').append('<option value="">belekas</option>'); 
+
+                        jQuery.each(data, function(key,value){
+                           $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
+                        });
+                     }
+                  });
+               }
+               else
+               {
+                  $('select[name="room"]').empty();
+               }
+            });
+    });
+    </script>
+ 
 @endsection
