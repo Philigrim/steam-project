@@ -77,7 +77,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        if($users->usertype == 'mokytojas'){
+        if($users->usertype == 'mokytoja'){
             Teacher::create(['user_id' => $users->id]);
         }elseif ($users->usertype == 'paskaitu_lektorius'){
             Lecturer::create(['user_id' => $users->id]);
