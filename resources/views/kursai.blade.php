@@ -4,7 +4,6 @@
     @include('layouts.headers.cards')
     <div class="container-fluid">
     @foreach ($courses->split($courses->count()/2)->reverse() as $row)
-
             <div class="row">
                 @foreach($row as $info)
                     <div class="col-md-6">
