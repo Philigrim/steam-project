@@ -50,8 +50,6 @@ return array(
     'App\\Room' => $baseDir . '/app/Room.php',
     'App\\RoomHasInventory' => $baseDir . '/app/RoomHasInventory.php',
     'App\\Rules\\CurrentPasswordCheckRule' => $baseDir . '/app/Rules/CurrentPasswordCheckRule.php',
-
-
     'App\\SteamCenter' => $baseDir . '/app/SteamCenter.php',
     'App\\SteamCenterHasRoom' => $baseDir . '/app/SteamCenterHasRoom.php',
     'App\\Teacher' => $baseDir . '/app/Teacher.php',
