@@ -32,9 +32,9 @@
                             <div class="form-group">
                                 <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
                                     <option value="" selected disabled>Kursas</option>
-                                    {{-- @foreach ($courses as $course)
+                                    @foreach ($courses as $course)
                                         <option value="{{$course->id}}">{{$course->course_title}}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

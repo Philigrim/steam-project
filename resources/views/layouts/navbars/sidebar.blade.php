@@ -100,6 +100,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('RouteToEvents') }}">
+                                    {{ __('Paskaitos') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">
                                     {{ __('Vartotojo paskyra') }}
                                 </a>

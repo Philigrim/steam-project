@@ -19,7 +19,7 @@ class CreateEventController extends Controller
     public function index(){
         $courses = Course::all();
         $cities = City::all()->pluck("name","id");
-        return view('sukurti-paskaita',compact('cities'));
+        return view('sukurti-paskaita',compact('cities'),['courses'=>$courses]);
     }
     public function findSteamCenter ($id)
     {
