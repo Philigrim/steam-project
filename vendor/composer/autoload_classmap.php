@@ -9,10 +9,7 @@ return array(
     'App\\City' => $baseDir . '/app/City.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Course' => $baseDir . '/app/Course.php',
-<<<<<<< HEAD
-=======
     'App\\Event' => $baseDir . '/app/Event.php',
->>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -39,13 +36,9 @@ return array(
     'App\\Http\\Requests\\PasswordRequest' => $baseDir . '/app/Http/Requests/PasswordRequest.php',
     'App\\Http\\Requests\\ProfileRequest' => $baseDir . '/app/Http/Requests/ProfileRequest.php',
     'App\\Http\\Requests\\UserRequest' => $baseDir . '/app/Http/Requests/UserRequest.php',
-<<<<<<< HEAD
-    'App\\Lecturer' => $baseDir . '/app/Lecturer.php',
-=======
     'App\\Inventory' => $baseDir . '/app/Inventory.php',
     'App\\Lecturer' => $baseDir . '/app/Lecturer.php',
     'App\\LecturerHasCourse' => $baseDir . '/app/LecturerHasCourse.php',
->>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
     'App\\Observers\\UserObserver' => $baseDir . '/app/Observers/UserObserver.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
@@ -55,11 +48,8 @@ return array(
     'App\\Room' => $baseDir . '/app/Room.php',
     'App\\RoomHasInventory' => $baseDir . '/app/RoomHasInventory.php',
     'App\\Rules\\CurrentPasswordCheckRule' => $baseDir . '/app/Rules/CurrentPasswordCheckRule.php',
-<<<<<<< HEAD
-=======
     'App\\SteamCenter' => $baseDir . '/app/SteamCenter.php',
     'App\\SteamCenterHasRoom' => $baseDir . '/app/SteamCenterHasRoom.php',
->>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
     'App\\Teacher' => $baseDir . '/app/Teacher.php',
     'App\\User' => $baseDir . '/app/User.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',

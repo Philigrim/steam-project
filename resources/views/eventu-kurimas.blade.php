@@ -1,5 +1,23 @@
 @extends('layouts.app')
 
+@section('additional_header_content')
+
+{{--Gijgo--}}
+{{--Date pickeris--}}
+    <script src="/gijgo/dist/modular/js/core.js" type="text/javascript"></script>
+    <link href="/gijgo/dist/modular/css/core.css" rel="stylesheet" type="text/css">
+    <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
+    <script src="/gijgo/dist/modular/js/datepicker.js"></script>
+
+{{--Drop downas--}}
+    <link href="/gijgo/dist/modular/css/dropdown.css" rel="stylesheet" type="text/css">
+    <script src="/gijgo/dist/modular/js/dropdown.js"></script>
+
+{{--Nedulio skriptai--}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+@endsection
+
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
     <div class="container-fluid mt--7 row d-flex justify-content-center">
@@ -57,13 +75,44 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <select id="dropdown" width="200">Destytojas</select>
+                                        <script>
+                                            $('#dropdown').dropdown({
+                                                textField: 'newTextField',
+                                                dataSource: [ { value: 1, newTextField: 'One' }, { value: 2, newTextField: 'Two' }, { value: 3, newTextField: 'Three' } ]
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
-                                            <option value="" selected disabled>Kambarys </option>
-                                           
+                                            <option value="" selected disabled>kazkas </option>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
+                                                <option value="" selected disabled>Kambarys </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input id="datepicker" width="234" />
+                                    <script>
+                                        new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -89,9 +138,8 @@
             @include('layouts.footers.auth')
         </div>
     </div>
+
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ()
     {
@@ -107,7 +155,7 @@
                      {
                         console.log(data);
                         jQuery('select[name="steam"]').empty();
-                        jQuery('select[name="steam"').append('<option value="">Steam centras</option>'); 
+                        jQuery('select[name="steam"]').append('<option value="">Steam centras</option>');
 
                         jQuery.each(data, function(key,value){
                            $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
@@ -132,7 +180,7 @@
                      {
                         console.log(data);
                         jQuery('select[name="room"]').empty();
-                        jQuery('select[name="room"').append('<option value="">belekas</option>'); 
+                        jQuery('select[name="room"]').append('<option value="">belekas</option>');
 
                         jQuery.each(data, function(key,value){
                            $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
@@ -145,7 +193,8 @@
                   $('select[name="room"]').empty();
                }
             });
+            JQuery('select[name=""]')
     });
     </script>
- 
+
 @endsection
