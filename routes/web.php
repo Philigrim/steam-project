@@ -21,7 +21,22 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::post('/home','CreateCourseController@insert');
+Route::post('/home', 'HomeController@store')->name('home.store');
+
+Route::get('/home/returnAnnouncement/{announcement_id}', 'HomeController@returnAnnouncement')->name('home.returnAnnouncement');
+
+Route::put('/announcements/edit/{announcement_id}', 'HomeController@update')->name('home.update');
+
+Route::delete('/announcements/delete/{announcement_id}', 'HomeController@destroy')->name('home.destroy');
+
+
+
+
+
+Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
+//Route::post('/home', 'HomeController@delete')->name('home');
+
+//Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
