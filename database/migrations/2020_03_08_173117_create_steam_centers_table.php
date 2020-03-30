@@ -18,6 +18,7 @@ class CreateSteamCentersTable extends Migration
             $table->string('name');   
             $table->bigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
+            $table->string('address');
             $table->timestamps();
         });
     }

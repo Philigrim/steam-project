@@ -32,9 +32,9 @@
                             <div class="form-group">
                                 <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
                                     <option value="" selected disabled>Kursas</option>
-                                    @foreach ($courses as $course)
+                                    {{-- @foreach ($courses as $course)
                                         <option value="{{$course->id}}">{{$course->course_title}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -118,21 +118,23 @@
                else
                {
                   $('select[name="steam"]').empty();
+                  $('select[name="room"]').empty();
+                  jQuery('select[name="room"').append('<option value="">kambarys</option>'); 
                }
             });
             jQuery('select[name="steam"]').on('change',function(){
                var steamID = jQuery(this).val();
                if(steamID)
                {
-                  jQuery.ajax({
-                     url : 'findSteamCenter/' +cityID,
+                  jQuery.ajax({ 
+                     url : 'findRoom/' +steamID,
                      type : "GET",
                      dataType : "json",
                      success:function(data)
                      {
                         console.log(data);
                         jQuery('select[name="room"]').empty();
-                        jQuery('select[name="room"').append('<option value="">belekas</option>'); 
+                        jQuery('select[name="room"').append('<option value="">kambarys</option>'); 
 
                         jQuery.each(data, function(key,value){
                            $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');

@@ -10,7 +10,9 @@ class Room extends Model
         'room_number', 'capacity','course_category'
     ];
 
-
+    public function steam_center(){
+        return $this->belongsTo(SteamCenter::class);
+    }
     public function steam_center_has_room(){
         return $this->hasOne(SteamCenterHasRoom::class);
     }
