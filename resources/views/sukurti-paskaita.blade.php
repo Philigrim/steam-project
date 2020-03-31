@@ -39,16 +39,16 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "/home" method="post">
+                    <form action = "/eventai" method="post">
                         @csrf<div class="col-md-12  ">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="course_title" required>
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
                                 </div>
                             </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                             <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
+                                <select class="form-control dropdown-menu-arrow" name="course_id" required>
                                     <option value="" selected disabled>Kursas</option>
                                     @foreach ($courses as $course)
                                         <option value="{{$course->id}}">{{$course->course_title}}</option>
@@ -58,17 +58,17 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="city" id ="city" required>
+                                <select class="form-control dropdown-menu-arrow" name="city_id" id ="city_id" required>
                                     <option value="" selected disabled>Miestas</option>
                                     @foreach($cities as $key=> $value)
-                                        <option value="{{$key}}">{{ucfirst($value)}}</option>
+                                        <option value="{{$key}}">{{$value}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select class="form-control dropdown-menu-arrow" name="steam" id="steam" required>
+                                        <select class="form-control dropdown-menu-arrow" name="steam_id" id="steam_id" required>
                                             <option value="" selected disabled>Steam centras</option>
                                         </select>
                                     </div>
@@ -86,15 +86,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
-                                            <option value="" selected disabled>kazkas </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <div class="form-group">
-                                            <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
+                                            <select class="form-control dropdown-menu-arrow" name="room_id" id="room_id" required>
                                                 <option value="" selected disabled>Kambarys </option>
                                             </select>
                                         </div>
@@ -120,13 +113,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments" required></textarea>
-                                </div>
-                            </div>
-                        </div>
                         <div class="text-center">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
@@ -143,7 +129,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function ()
     {
-            jQuery('select[name="city"]').on('change',function(){
+            jQuery('select[name="city_id"]').on('change',function(){
                var cityID = jQuery(this).val();
                if(cityID)
                {
@@ -154,23 +140,23 @@
                      success:function(data)
                      {
                         console.log(data);
-                        jQuery('select[name="steam"]').empty();
-                        jQuery('select[name="steam"]').append('<option value="">Steam centras</option>');
+                        jQuery('select[name="steam_id"]').empty();
+                        jQuery('select[name="steam_id"]').append('<option value="">Steam centras</option>');
 
                         jQuery.each(data, function(key,value){
-                           $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
-                        });
+                           $('select[name="steam_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+5                        });
                         }
                   });
                }
                else
                {
-                  $('select[name="steam"]').empty();
+                  $('select[name="steam_id"]').empty();
                   $('select[name="room"]').empty();
                   jQuery('select[name="room"').append('<option value="">kambarys</option>'); 
                }
             });
-            jQuery('select[name="steam"]').on('change',function(){
+            jQuery('select[name="steam_id"]').on('change',function(){
                var steamID = jQuery(this).val();
                if(steamID)
                {
@@ -181,11 +167,11 @@
                      success:function(data)
                      {
                         console.log(data);
-                        jQuery('select[name="room"]').empty();
-                        jQuery('select[name="room"').append('<option value="">kambarys</option>'); 
+                        jQuery('select[name="room_id"]').empty();
+                        jQuery('select[name="room_id"').append('<option value="">Kambarys</option>'); 
 
                         jQuery.each(data, function(key,value){
-                           $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
+                           $('select[name="room_id"]').append('<option value="'+ key +'">'+ value +'</option>');
                         });
                      }
                   });

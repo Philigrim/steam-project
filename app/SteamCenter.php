@@ -13,6 +13,9 @@ class SteamCenter extends Model
     public function room(){
         return $this->hasMany(Room::class);
     }
+    public function event(){
+        return $this->hasMany(Event::class);
+    }
 
     public function city(){
         return $this->belongsTo(City::class);

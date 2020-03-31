@@ -28,6 +28,8 @@ Route::get('eventai','CreateEventController@index')->name('RouteToEvents');
 Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
 Route::get('findRoom/{id}','CreateEventController@findRoom');
 
+Route::post('/eventai','CreateEventController@insert');
+
 
 Route::get('/time','TimeController@index');
 
