@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Course;
+use App\LecturerHasCourse;
 use App\Room;
 use App\SteamCenter;
 use App\City;
-use App\Event;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -17,35 +16,41 @@ class CreateEventController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(){  
-        
-        $steams = SteamCenter::all();
-        $courses = Course::all();
+
+    public function index(){
+        $rooms = Room::all()->pluck("");
         $cities = City::all()->pluck("name","id");
-        return view('sukurti-paskaita',('cities'),['courses'=>$courses,'steams'=>$steams]);
+
+        $lecturer_has_courses = LecturerHasCourse::all()->groupBy('lecturer_id');
+        $lecturer_has_courses->toArray();
+        return view('sukurti-paskaita', ['lecturer_has_courses'=>$lecturer_has_courses], compact('cities', 'rooms'));
     }
+
+    function fetch(Request $request){
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+        $data = LecturerHasCourse::all()->where($select, $value);
+
+        $output = '<option value="" selected disabled>Pasirinkti kursą</option>';
+        foreach($data as $row){
+            $output .= '<option value="'.$row->course_id.'">'.$row->course->course_title.'</option>';
+        }
+        echo $output;
+    }
+
     public function findSteamCenter ($id)
     {
          $steams= SteamCenter::all()->where("city_id",$id)->pluck("name","id");
          return json_encode($steams);
-    }  
-    public function findRoom($id)
-    {
-
-        
-        $rooms = Room::all()->where("steam_id",$id)->pluck("room_number","id");
-        return json_encode($rooms); 
-        
     }
-    public function insert (Request $request){
-        $event = Event::create([
-        'name' => $request->name,
-        'course_id' => $request->course_id,
-        'room_id' => $request->room_id,
-        'city_id' => $request->city_id,
-        'steam_id' => $request->steam_id,
-        'description' => $request->description]);
-        return redirect()->back()->with('message', 'Kursas pridėtas. Jį galite matyti Kursų puslapyje.');
+
+    public function getCities()
+    {
+        $rooms = Room::all()->pluck("");
+        $cities = City::all()->pluck("name","id");
+
+        return view('sukurti-paskaita',compact('cities','rooms'));
     }
 
 

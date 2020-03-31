@@ -35,12 +35,13 @@
                                 </div>
                             @endif
                         </div>
-                        <h2 class="col-12 mb-0">{{ __('Informacija apie kursą') }}</h2>
+                        <h2 class="col-12 mb-0">{{ __('Informacija apie paskaitą') }}</h2>
                     </div>
                 </div>
                 <div class="card-body">
                     <form action = "/eventai" method="post">
-                        @csrf<div class="col-md-12  ">
+                        @csrf
+                        <div class="col-md-12  ">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
                                 </div>
@@ -48,11 +49,23 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                             <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="course_id" required>
-                                    <option value="" selected disabled>Kursas</option>
-                                    @foreach ($courses as $course)
-                                        <option value="{{$course->id}}">{{$course->course_title}}</option>
+                                <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer" id="lecturer_id" data-dependent="course_id" required>
+                                    @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                        <option value="{{ Auth::user()->lecturer->id }}" selected>{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</option>
+                                    @else
+                                        <option value="" selected disabled>Pasirinkite dėstytoją</option>
+                                    @endif
+                                    @foreach($lecturer_has_courses as $lecturer_has_course)
+                                        <option value="{{ $lecturer_has_course[0]->lecturer->id }}">{{ $lecturer_has_course[0]->lecturer->user->firstname }}
+                                                                                                {{ $lecturer_has_course[0]->lecturer->user->lastname }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control dropdown-menu-arrow dynamic" name="course" id="course_id" data-dependent="lecturer" required>
+                                    <option value="" selected disabled>Pasirinkti kursą</option>
                                 </select>
                             </div>
                         </div>
@@ -66,24 +79,14 @@
                                 </select>
                             </div>
                         </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <select class="form-control dropdown-menu-arrow" name="steam_id" id="steam_id" required>
-                                            <option value="" selected disabled>Steam centras</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <select id="dropdown" width="200">Destytojas</select>
-                                        <script>
-                                            $('#dropdown').dropdown({
-                                                textField: 'newTextField',
-                                                dataSource: [ { value: 1, newTextField: 'One' }, { value: 2, newTextField: 'Two' }, { value: 3, newTextField: 'Three' } ]
-                                            });
-                                        </script>
-                                    </div>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control dropdown-menu-arrow" name="steam" id="steam" required>
+                                    <option value="" selected disabled>Steam centras</option>
+                                </select>
+                            </div>
+                        </div>
+ 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <div class="form-group">
@@ -92,19 +95,16 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                        </div>
-
-                        <div class="row">
+                                </div>                        <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <input id="datepicker" width="234" />
-                                    <script>
-                                        new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
-                                    </script>
                                 </div>
                             </div>
                         </div>
+                        </div>
+
+
 
                         <div class="row">
                             <div class="col-md-12">
@@ -118,6 +118,7 @@
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
                             </div>
                         </div>
+                        {{ csrf_field() }}
                     </form>
                 </div>
             </div>
@@ -127,6 +128,26 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript">
+    new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
+
+    $('.dynamic').change(function update_dropdown(){
+        if($(this).val() != ''){
+            var select = $(this).attr("id");
+            var value = $(this).val();
+            var dependent = $(this).data('dependent');
+            var _token = $('input[name="_token').val();
+            $.ajax({
+                url:"{{ route('eventcontroller.fetch') }}",
+                method: "POST",
+                data:{select:select, value:value, _token:_token, dependent:dependent},
+                success:function(result){
+                    $('#'+dependent).html(result);
+                }
+            })
+        }
+    })
+
+
     jQuery(document).ready(function ()
     {
             jQuery('select[name="city_id"]').on('change',function(){
@@ -181,7 +202,6 @@
                   $('select[name="room"]').empty();
                }
             });
-            JQuery('select[name=""]')
     });
     </script>
 

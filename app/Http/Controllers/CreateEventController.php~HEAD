@@ -1,13 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Course;
-use App\Room;
-use App\SteamCenter;
-use App\City;
-use Illuminate\Http\Request;
-use App\Http\Requests;
+
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD:app/Http/Controllers/CreateEventController.php~HEAD
 use DB;
 class CreateEventController extends Controller
 {
@@ -24,10 +20,15 @@ class CreateEventController extends Controller
     }
 =======
 
-    public function index(){
-        return view('paskaitos');
-    }
+=======
+use Illuminate\Http\Request;
 
+class EventController extends Controller
+{
+>>>>>>> 4e4b34947f81c70546ae4f007a5b8741fdde3745:app/Http/Controllers/EventController.php
+    public function index(){
+
+<<<<<<< HEAD:app/Http/Controllers/CreateEventController.php~HEAD
 >>>>>>> 9b15dcd4bf36713743abb3ce296e38d898bd92bb:app/Http/Controllers/EventController.php
     public function findSteamCenter ($id)
     {
@@ -46,7 +47,8 @@ class CreateEventController extends Controller
         $cities = City::all()->pluck("name","id");
         return view('eventu-kurimas',compact('cities','rooms'),['courses'=>$courses]);
 >>>>>>> 9b15dcd4bf36713743abb3ce296e38d898bd92bb:app/Http/Controllers/EventController.php
+=======
+        return view('paskaitos');
+>>>>>>> 4e4b34947f81c70546ae4f007a5b8741fdde3745:app/Http/Controllers/EventController.php
     }
-
-
 }

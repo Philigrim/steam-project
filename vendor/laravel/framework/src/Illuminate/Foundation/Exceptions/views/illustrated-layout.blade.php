@@ -120,10 +120,10 @@
                 height: auto;
             }
 
-            [type="search"] {
+            /* [type="search"] {
                 -webkit-appearance: textfield;
                 outline-offset: -2px;
-            }
+            } */
 
             [type="search"]::-webkit-search-cancel-button,
             [type="search"]::-webkit-search-decoration {
