@@ -25,8 +25,11 @@ Route::post('/home','CreateCourseController@insert');
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
-Route::get('eventai','EventController@getCities');
-Route::get('findSteamCenter/{id}','EventController@findSteamCenter');
+
+Route::get('eventai','CreateEventController@index');
+Route::post('eventai/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
+
+Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
 
 Route::get('/time','TimeController@index');
 
