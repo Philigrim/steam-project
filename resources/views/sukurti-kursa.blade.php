@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "/home" method="post">
+                    <form action = "sukurti-kursa" method="post">
                         @csrf<div class="col-md-12  ">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>

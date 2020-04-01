@@ -39,78 +39,63 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "/home" method="post">
-                        @csrf<div class="col-md-12  ">
+                    <form action = "/eventai" method="post">
+                        @csrf<div class="col-md-12">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="course_title" required>
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
                                 </div>
                             </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
-                            <div class="form-group">
-                                <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer" id="lecturer_id" data-dependent="course_id" required>
-                                    @if(Auth::user()->isRole()=="paskaitu_lektorius")
-                                        <option value="{{ Auth::user()->lecturer->id }}" selected>{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</option>
-                                    @else
-                                        <option value="" selected disabled>Pasirinkite dėstytoją</option>
-                                    @endif
-                                    @foreach($lecturer_has_courses as $lecturer_has_course)
-                                        <option value="{{ $lecturer_has_course[0]->lecturer->id }}">{{ $lecturer_has_course[0]->lecturer->user->firstname }}
-                                                                                                {{ $lecturer_has_course[0]->lecturer->user->lastname }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="city" id ="city" required>
-                                    <option value="" selected disabled>Miestas</option>
-                                    @foreach($cities as $key=> $value)
-                                        <option value="{{$key}}">{{ucfirst($value)}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="steam" id="steam" required>
-                                    <option value="" selected disabled>Steam centras</option>
-                                </select>
-                            </div>
-                        </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <select class="form-control dropdown-menu-arrow dynamic" name="course" id="course_id" data-dependent="lecturer" required>
-                                            <option value="" selected disabled>Pasirinkti kursą</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
-                                            <option value="" selected disabled></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <select class="form-control dropdown-menu-arrow" name="room" id="room" required>
-                                                <option value="" selected disabled>Kambarys </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
                                 <div class="form-group">
-                                    <input id="datepicker" width="234" />
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer_id" id="lecturer_id" data-dependent="course_id" required>
+                                        @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                            <option value="{{ Auth::user()->lecturer->id }}" selected>{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</option>
+                                        @else
+                                            <option value="" selected disabled>Dėstytojas</option>
+                                        @endif
+                                        @foreach($lecturer_has_courses as $lecturer_has_course)
+                                            <option value="{{ $lecturer_has_course[0]->lecturer->id }}">{{ $lecturer_has_course[0]->lecturer->user->firstname }}
+                                                                                                    {{ $lecturer_has_course[0]->lecturer->user->lastname }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer" required>
+                                        <option value="" selected disabled>Kursas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <select class="form-control dropdown-menu-arrow dynamic" name="city_id" id ="city_id" data-dependent="steam_id" required>
+                                        <option value="" selected disabled>Miestas</option>
+                                        @foreach($city_steam_room as $city)
+                                            <option value="{{ $city[0]->city->id}}">{{ $city[0]->city->city_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control dropdown-menu-arrow dynamic" name="steam_id" id="steam_id" data-dependent="room_id" required>
+                                        <option value="" selected disabled>STEAM centras</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control dropdown-menu-arrow" name="room_id" id="room_id"required>
+                                        <option value="" selected disabled>Kambarys</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input id="datepicker"/>
+                                </div>
+                                <span>uzpiso migratint tai laikinai ranka irasyti kiek uzima vietos(93 eilute)</span>
+                                <div class="form-group">
+                                    <input name="capacity_left"/>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -160,59 +145,59 @@
     })
 
 
-    jQuery(document).ready(function ()
-    {
-            jQuery('select[name="city"]').on('change',function(){
-               var cityID = jQuery(this).val();
-               if(cityID)
-               {
-                  jQuery.ajax({
-                     url : 'findSteamCenter/' +cityID,
-                     type : "GET",
-                     dataType : "json",
-                     success:function(data)
-                     {
-                        console.log(data);
-                        jQuery('select[name="steam"]').empty();
-                        jQuery('select[name="steam"]').append('<option value="">Steam centras</option>');
-
-                        jQuery.each(data, function(key,value){
-                           $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
-                        });
-                        }
-                  });
-               }
-               else
-               {
-                  $('select[name="steam"]').empty();
-               }
-            });
-            jQuery('select[name="steam"]').on('change',function(){
-               var steamID = jQuery(this).val();
-               if(steamID)
-               {
-                  jQuery.ajax({
-                     url : 'findSteamCenter/' +cityID,
-                     type : "GET",
-                     dataType : "json",
-                     success:function(data)
-                     {
-                        console.log(data);
-                        jQuery('select[name="room"]').empty();
-                        jQuery('select[name="room"]').append('<option value="">belekas</option>');
-
-                        jQuery.each(data, function(key,value){
-                           $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
-                        });
-                     }
-                  });
-               }
-               else
-               {
-                  $('select[name="room"]').empty();
-               }
-            });
-    });
+    // jQuery(document).ready(function ()
+    // {
+    //         jQuery('select[name="city"]').on('change',function(){
+    //            var cityID = jQuery(this).val();
+    //            if(cityID)
+    //            {
+    //               jQuery.ajax({
+    //                  url : 'findSteamCenter/' +cityID,
+    //                  type : "GET",
+    //                  dataType : "json",
+    //                  success:function(data)
+    //                  {
+    //                     console.log(data);
+    //                     jQuery('select[name="steam"]').empty();
+    //                     jQuery('select[name="steam"]').append('<option value="">Steam centras</option>');
+    //
+    //                     jQuery.each(data, function(key,value){
+    //                        $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
+    //                     });
+    //                     }
+    //               });
+    //            }
+    //            else
+    //            {
+    //               $('select[name="steam"]').empty();
+    //            }
+    //         });
+    //         jQuery('select[name="steam"]').on('change',function(){
+    //            var steamID = jQuery(this).val();
+    //            if(steamID)
+    //            {
+    //               jQuery.ajax({
+    //                  url : 'findSteamCenter/' +cityID,
+    //                  type : "GET",
+    //                  dataType : "json",
+    //                  success:function(data)
+    //                  {
+    //                     console.log(data);
+    //                     jQuery('select[name="room"]').empty();
+    //                     jQuery('select[name="room"]').append('<option value="">belekas</option>');
+    //
+    //                     jQuery.each(data, function(key,value){
+    //                        $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
+    //                     });
+    //                  }
+    //               });
+    //            }
+    //            else
+    //            {
+    //               $('select[name="room"]').empty();
+    //            }
+    //         });
+    // });
     </script>
 
 @endsection

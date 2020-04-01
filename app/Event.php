@@ -19,7 +19,4 @@ class Event extends Model
     public function lecturer(){
         return $this->belongsTo(Lecturer::class);
     }
-
-   
-
 }
