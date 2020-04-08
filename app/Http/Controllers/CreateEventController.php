@@ -79,12 +79,16 @@ class CreateEventController extends Controller
     }
 
     public function insert(Request $request){
+
+        $room = Room::where('id', '=', $request->room_id)->select('capacity')->get();
+
         Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
             'course_id' => $request->course_id,
+            'lecturer_id' => $request->lecturer_id,
             'description' => $request->description,
             'comments' => $request->comments,
-            'capacity_left' => $request->capacity_left]);
+            'capacity_left' => $room[0]->capacity]);
 
         return redirect()->back()->with('message', 'Paskaita pridėta. Ją galite matyti paskaitų puslapyje.');
     }

@@ -20,6 +20,8 @@ class CreateEventsTable extends Migration
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->unsignedBigInteger('lecturer_id');
+            $table->foreign('lecturer_id')->references('id')->on('lecturers');
             $table->unsignedBigInteger('capacity_left');
             $table->mediumText('description');
             $table->mediumText('comments')->nullable();

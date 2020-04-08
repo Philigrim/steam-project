@@ -88,11 +88,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input id="datepicker"/>
-                                </div>
-                                <span>uzpiso migratint tai laikinai ranka irasyti kiek uzima vietos(93 eilute)</span>
-                                <div class="form-group">
-                                    <input name="capacity_left"/>
+                                    <input placeholder="Data" id="datepicker"/>
                                 </div>
                             </div>
                         </div>
