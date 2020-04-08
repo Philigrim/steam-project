@@ -40,69 +40,13 @@
                 </div>
                 <div class="card-body">
                     <form action = "/eventai" method="post">
-<<<<<<< HEAD:resources/views/sukurti-paskaita.blade.php
-                        @csrf
-                        <div class="col-md-12  ">
-=======
                         @csrf<div class="col-md-12">
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8:resources/views/eventu-kurimas.blade.php
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
                                 </div>
                             </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
-<<<<<<< HEAD:resources/views/sukurti-paskaita.blade.php
-                            <div class="form-group">
-                                <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer" id="lecturer_id" data-dependent="course_id" required>
-                                    @if(Auth::user()->isRole()=="paskaitu_lektorius")
-                                        <option value="{{ Auth::user()->lecturer->id }}" selected>{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</option>
-                                    @else
-                                        <option value="" selected disabled>Pasirinkite dėstytoją</option>
-                                    @endif
-                                    @foreach($lecturer_has_courses as $lecturer_has_course)
-                                        <option value="{{ $lecturer_has_course[0]->lecturer->id }}">{{ $lecturer_has_course[0]->lecturer->user->firstname }}
-                                                                                                {{ $lecturer_has_course[0]->lecturer->user->lastname }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow dynamic" name="course" id="course_id" data-dependent="lecturer" required>
-                                    <option value="" selected disabled>Pasirinkti kursą</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="city_id" id ="city_id" required>
-                                    <option value="" selected disabled>Miestas</option>
-                                    @foreach($cities as $key=> $value)
-                                        <option value="{{$key}}">{{$value}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="steam" id="steam" required>
-                                    <option value="" selected disabled>Steam centras</option>
-                                </select>
-                            </div>
-                        </div>
- 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <select class="form-control dropdown-menu-arrow" name="room_id" id="room_id" required>
-                                                <option value="" selected disabled>Kambarys </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>                        <div class="row">
-                            <div class="col">
-=======
                                 <div class="form-group">
                                     <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer_id" id="lecturer_id" data-dependent="course_id" required>
                                         @if(Auth::user()->isRole()=="paskaitu_lektorius")
@@ -147,19 +91,11 @@
                                     <input id="datepicker"/>
                                 </div>
                                 <span>uzpiso migratint tai laikinai ranka irasyti kiek uzima vietos(93 eilute)</span>
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8:resources/views/eventu-kurimas.blade.php
                                 <div class="form-group">
                                     <input name="capacity_left"/>
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD:resources/views/sukurti-paskaita.blade.php
-                        </div>
-
-
-
-=======
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8:resources/views/eventu-kurimas.blade.php
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -202,63 +138,6 @@
     })
 
 
-<<<<<<< HEAD:resources/views/sukurti-paskaita.blade.php
-    jQuery(document).ready(function ()
-    {
-            jQuery('select[name="city_id"]').on('change',function(){
-               var cityID = jQuery(this).val();
-               if(cityID)
-               {
-                  jQuery.ajax({
-                     url : 'findSteamCenter/' +cityID,
-                     type : "GET",
-                     dataType : "json",
-                     success:function(data)
-                     {
-                        console.log(data);
-                        jQuery('select[name="steam_id"]').empty();
-                        jQuery('select[name="steam_id"]').append('<option value="">Steam centras</option>');
-
-                        jQuery.each(data, function(key,value){
-                           $('select[name="steam_id"]').append('<option value="'+ key +'">'+ value +'</option>');
-5                        });
-                        }
-                  });
-               }
-               else
-               {
-                  $('select[name="steam_id"]').empty();
-                  $('select[name="room"]').empty();
-                  jQuery('select[name="room"').append('<option value="">kambarys</option>'); 
-               }
-            });
-            jQuery('select[name="steam_id"]').on('change',function(){
-               var steamID = jQuery(this).val();
-               if(steamID)
-               {
-                  jQuery.ajax({ 
-                     url : 'findRoom/' +steamID,
-                     type : "GET",
-                     dataType : "json",
-                     success:function(data)
-                     {
-                        console.log(data);
-                        jQuery('select[name="room_id"]').empty();
-                        jQuery('select[name="room_id"').append('<option value="">Kambarys</option>'); 
-
-                        jQuery.each(data, function(key,value){
-                           $('select[name="room_id"]').append('<option value="'+ key +'">'+ value +'</option>');
-                        });
-                     }
-                  });
-               }
-               else
-               {
-                  $('select[name="room"]').empty();
-               }
-            });
-    });
-=======
     // jQuery(document).ready(function ()
     // {
     //         jQuery('select[name="city"]').on('change',function(){
@@ -312,7 +191,6 @@
     //            }
     //         });
     // });
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8:resources/views/eventu-kurimas.blade.php
     </script>
 
 @endsection

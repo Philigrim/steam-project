@@ -10,11 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
-<<<<<<< HEAD
-=======
 use App\Event;
 
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8
 class CreateEventController extends Controller
 {
 
@@ -35,12 +32,7 @@ class CreateEventController extends Controller
         $grouped = $city_steam_room->groupBy('city_id');
 
         $lecturer_has_courses = LecturerHasCourse::all()->groupBy('lecturer_id');
-<<<<<<< HEAD
-        $lecturer_has_courses->toArray();
-        return view('sukurti-paskaita', ['lecturer_has_courses'=>$lecturer_has_courses], compact('cities', 'rooms'));
-=======
         return view('eventu-kurimas', ['lecturer_has_courses'=>$lecturer_has_courses], ['city_steam_room'=>$grouped]);
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8
     }
 
     function fetch(Request $request){
@@ -73,9 +65,6 @@ class CreateEventController extends Controller
             }else if($dependent == 'room_id'){
                 $city_steam_room = SteamCenter::with('room')->get();
 
-<<<<<<< HEAD
-        return view('sukurti-paskaita',compact('cities','rooms'));
-=======
                 $data = $city_steam_room->where('id', $value);
 
                 $output = '<option value="" selected disabled>Kambarys</option>';
@@ -87,7 +76,6 @@ class CreateEventController extends Controller
                 echo $output;
             }
         }
->>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8
     }
 
     public function insert(Request $request){
