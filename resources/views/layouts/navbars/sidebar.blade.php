@@ -92,12 +92,18 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Kursai') }}">
-                                    {{ __('Kursai') }}
+                                    {{ __('Naujienos') }}
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('RouteToEvents') }}">
+                                    {{ __('Paskaitos') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToEvents') }}">
-                                    {{ __('Paskaitos') }}
+                                    {{ __('Sukurti paskaitą') }}
                                 </a>
                             </li>
                             <li class="nav-item">

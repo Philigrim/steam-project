@@ -19,9 +19,12 @@ class Event extends Model
     public function lecturer(){
         return $this->belongsTo(Lecturer::class);
     }
+<<<<<<< HEAD
     public function steam_center(){
         return $this->belongsTo(SteamCenter::class);
     }
    
 
+=======
+>>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8
 }

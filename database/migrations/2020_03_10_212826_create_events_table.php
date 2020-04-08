@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,6 +26,10 @@ class CreateEventTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->unsignedBigInteger('capacity_left');
             $table->mediumText('description');
+<<<<<<< HEAD:database/migrations/2020_03_10_212826_create_event_table.php
+=======
+            $table->mediumText('comments')->nullable();
+>>>>>>> 92f36c02cdce64fa1030a72ec3159dc4e83a98b8:database/migrations/2020_03_10_212826_create_events_table.php
             $table->timestamps();
         });
     }
@@ -37,6 +41,6 @@ class CreateEventTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event');
+        Schema::dropIfExists('events');
     }
 }

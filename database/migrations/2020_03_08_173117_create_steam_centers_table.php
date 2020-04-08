@@ -15,7 +15,7 @@ class CreateSteamCentersTable extends Migration
     {
         Schema::create('steam_centers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');   
+            $table->string('steam_name');
             $table->bigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->string('address');
