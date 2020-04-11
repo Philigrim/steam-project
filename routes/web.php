@@ -26,6 +26,8 @@ Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
 
+Route::get('/test', 'EventController@test');
+
 Route::get('eventai','CreateEventController@index');
 Route::post('eventai/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
 

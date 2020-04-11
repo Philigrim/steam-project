@@ -17,4 +17,8 @@ class EventController extends Controller
 //        , ['address'=>$address]
         return view('paskaitos', ['events'=>$events]);
     }
+
+    public function test(){
+        return view('test');
+    }
 }
