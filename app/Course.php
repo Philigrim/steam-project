@@ -11,6 +11,9 @@ class Course extends Model
     ];
 
     public function lecturer_has_course(){
-        return $this->hasOne(LecturerHasCourse::class);
+        return $this->hasMany(LecturerHasCourse::class);
+    }
+    public function event(){
+        return $this->hasMany(Event::class);
     }
 }

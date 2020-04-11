@@ -19,19 +19,51 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home', 'HomeController@store')->name('home.store');
+Route::get('/announcements/{announcement_id}/edit', 'HomeController@edit')->name('announcement.edit');
+Route::patch('/announcements/{announcement_id}', 'HomeController@update')->name('announcement.update');
+Route::delete('/announcements/{announcement_id}', 'HomeController@destroy')->name('home.destroy');
 
-Route::post('/home','CreateCourseController@insert');
+Route::get('/home/action', 'HomeController@action')->name('home.action');
+
+Route::get('/about', 'AboutController@index')->name('about');
+
+Route::get('/faq', 'FAQController@index')->name('faq');
+Route::post('/faq', 'FAQController@storeQuestion')->name('faq.store.question');
+Route::patch('/faq', 'FAQController@storeAnswer')->name('faq.store.answer');
+Route::delete('/faq/{faq_id}', 'FAQController@destroyById')->name('faq.destroy');
+Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
+
+Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
+//Route::post('/home', 'HomeController@delete')->name('home');
+
+//Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
+
+Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+
+Route::get('sukurti-paskaita','CreateEventController@index');
+Route::post('sukurti-paskaita/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
+
+Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
+
+Route::get('/time','TimeController@index');
 
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
 });
 
+Route::group(['prefix' => 'sukurti-paskaita'], function(){
+    Route::get('/', 'CreateEventController@index')->name('RouteToCreateEvent');
+    Route::post('/','CreateEventController@insert');
+});
+
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'UserController@index')->name('RouteToUserManagement');
 });
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);

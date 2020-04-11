@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 2d85427eaf6fbf87ff3f0c32637c7e5534b82e9d
+=======
+>>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
     <list default="true" id="7a3c0456-515d-49bc-b202-a96414c25eae" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/app/Http/Controllers/UserManagementController.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/resources/views/vartotoju-valdymas.blade.php" afterDir="false" />
@@ -17,12 +20,34 @@
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
 <<<<<<< HEAD
 =======
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2d85427eaf6fbf87ff3f0c32637c7e5534b82e9d
+    <list default="true" id="7a3c0456-515d-49bc-b202-a96414c25eae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/UserManagementController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/vartotoju-valdymas.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/AdminMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/AdminMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/navbars/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/navbars/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+>>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
+<<<<<<< HEAD
+=======
     <list default="true" id="6d181b7a-7bf2-4589-b144-1926d46a1039" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CreateCourseController.php" afterDir="false" />
 >>>>>>> d6fc77798181a189137ccc598d4e84dba497163a
 =======
 >>>>>>> 2d85427eaf6fbf87ff3f0c32637c7e5534b82e9d
+<<<<<<< HEAD
+=======
+>>>>>>> f0fb2d9b7a155fd161b5256d8a6f2f427236bd35
+>>>>>>> bbda21defa364711d983b6b872fa1f9d845d6389
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

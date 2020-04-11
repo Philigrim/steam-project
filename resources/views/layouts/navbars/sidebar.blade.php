@@ -1,4 +1,5 @@
 
+
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -68,22 +69,11 @@
                     </div>
                 </div>
             </div>
-            <!-- Form -->
-            <form class="mt-4 mb-3 d-md-none">
-                <div class="input-group input-group-rounded input-group-merge">
-                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <span class="fa fa-search"></span>
-                        </div>
-                    </div>
-                </div>
-            </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                        <i class="text-primary"></i> {{ __('Naujienos') }}
                     </a>
                 </li>
                 {{-- <li class="nav-item">
@@ -104,6 +94,16 @@
                                     {{ __('Vartotojo paskyra') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('faq') }}">
+                                    {{ __('D.U.K.') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('about') }}">
+                                    {{ __('Apie') }}
+                                </a>
+                            </li>
                             @if(Auth::user()->isRole()=="admin")
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
@@ -120,9 +120,67 @@
                     </div>
 
             </ul>
+
             <!-- Divider -->
             <hr class="my-3">
-            <!-- Heading -->
+
+            <!-- Filters -->
+            <p class="d-flex justify-content-center" style="font-size:150%;">Filtrai</p>
+
+            <!-- Divider -->
+            <hr class="my-0">
+
+            @if (isset($title))
+            @if ($title == __('Naujienos'))
+            <form action="/filter/events" method="get">
+
+            Kategorija:
+            <select class="mdb-select md-form mb-2">
+                <option disabled selected>Pasirinkite kategorija</option>
+                <option value="1">Science</option>
+                <option value="2">Technologijos</option>
+                <option value="3">Engineering</option>
+                <option value="4">Arts</option>
+                <option value="5">Mathematics</option>
+            </select>
+
+            Laisvų vietų skaičius:
+            <div class="row d-flex justify-content-center mb-2">
+                <input class="col-5" type="number" placeholder="Nuo" min="0">
+                <input class="col-5" type="number" placeholder="Iki" min="0">
+            </div>
+
+            Miestas:
+            <select class="mdb-select md-form mb-3">
+                <option disabled selected>Nurodykite miestą</option>
+                <option value="1">Vilnius</option>
+                <option value="2">Kaunas</option>
+                <option value="3">Klaipėda</option>
+                <option disabled="disabled">-------------------------------</option>
+                <option value="4">Alytus</option>
+                <option value="5">Marijapmolė</option>
+                <option value="6">Panevėžys</option>
+                <option value="7">Šiauliai</option>
+                <option value="8">Tauragė</option>
+                <option value="9">Telšiai</option>
+                <option value="10">Utena</option>
+            </select>
+
+            <row class="d-flex justify-content-center mt-1">
+                <button type = "submit" class = "btn btn-success">
+                    Rodyti rezultatus
+                </button>
+            </row>
+
+            </form>
+
+            <!-- Divider -->
+            <hr class="my-3">
+
+            @endif
+            @endif
+            <!-- /Filters -->
+
                         <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
 
