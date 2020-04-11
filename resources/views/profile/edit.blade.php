@@ -2,7 +2,7 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Hello') . ' '. auth()->user()->name,
+        'title' => __('Hello') . ' '. auth()->user()->firstname,
         'description' => __('This is your profile page. You can see the progress you\'ve made with your work and manage your projects or assigned tasks'),
         'class' => 'col-lg-7'
     ])
@@ -60,7 +60,7 @@
                             </div>
                             <hr class="my-4" />
                             <p>{{ __('Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.') }}</p>
-                            <a href="#">{{ __('Show more') }}</a>Ctrl+Shift+Z
+                            <a href="#">{{ __('Rodyti daugiau') }}</a>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
-                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required autofocus>
+                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->firstname) }}" required autofocus>
 
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
@@ -111,7 +111,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Išsaugoti') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -120,7 +120,7 @@
                             @csrf
                             @method('put')
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Password') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Slaptažodis') }}</h6>
 
                             @if (session('password_status'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -133,8 +133,8 @@
 
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-current-password">{{ __('Current Password') }}</label>
-                                    <input type="password" name="old_password" id="input-current-password" class="form-control form-control-alternative{{ $errors->has('old_password') ? ' is-invalid' : '' }}" placeholder="{{ __('Current Password') }}" value="" required>
+                                    <label class="form-control-label" for="input-current-password">{{ __('Dabartinis Slaptažodis') }}</label>
+                                    <input type="password" name="old_password" id="input-current-password" class="form-control form-control-alternative{{ $errors->has('old_password') ? ' is-invalid' : '' }}" placeholder="{{ __('Dabartinis Slaptažodis') }}" value="" required>
 
                                     @if ($errors->has('old_password'))
                                         <span class="invalid-feedback" role="alert">
@@ -143,8 +143,8 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-password">{{ __('New Password') }}</label>
-                                    <input type="password" name="password" id="input-password" class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('New Password') }}" value="" required>
+                                    <label class="form-control-label" for="input-password">{{ __('Naujas Slaptažodis') }}</label>
+                                    <input type="password" name="password" id="input-password" class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Naujas Slaptažodis') }}" value="" required>
 
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">
@@ -153,17 +153,107 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-password-confirmation">{{ __('Confirm New Password') }}</label>
-                                    <input type="password" name="password_confirmation" id="input-password-confirmation" class="form-control form-control-alternative" placeholder="{{ __('Confirm New Password') }}" value="" required>
+                                    <label class="form-control-label" for="input-password-confirmation">{{ __('Patvirtinti Naują Slaptažodį') }}</label>
+                                    <input type="password" name="password_confirmation" id="input-password-confirmation" class="form-control form-control-alternative" placeholder="{{ __('Patvirtinti Naują Slaptažodį') }}" value="" required>
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Change password') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Pakeisti slaptažodį') }}</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-3" style="left:0">
+        <div class="col-xl-13 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <h3 class="col-12 mb-0">{{ __('Kursai') }}</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h6 class="heading-small text-muted mb-4">{{ __('Ateinantys renginiai') }}</h6>
+
+                    <div class="column pl-lg-4">
+                        <table style="width:100%">
+                            <tr>
+                                <th>Kurso pavadinimas:</th>
+                                <th>Destytojas:</th>
+                                <th>Data ir laikas:</th>
+                                <th>Miestas:</th>
+                                <th>Adresas:</th>
+                                <th>Centeras:</th>
+                                <th>Kabinetas:</th>
+                            </tr>
+                            <tr style="font-weight:normal">
+                                <th style="font-weight:normal">CourseTitle#1</th>
+                                <th style="font-weight:normal">LecturerFirstName LecturerLastName</th>
+                                <th style="font-weight:normal">2020-06-20 20:20</th>
+                                <th style="font-weight:normal">Vilnius</th>
+                                <th style="font-weight:normal">Naugarduko g. 24</th>
+                                <th style="font-weight:normal">MIF</th>
+                                <th style="font-weight:normal">101</th>
+                            </tr>
+                            <tr style="font-weight:normal">
+                                <th style="font-weight:normal">CourseTitle#2</th>
+                                <th style="font-weight:normal">Vardenis Pavardenis, LecturerFirstName LecturerLastName</th>
+                                <th style="font-weight:normal">2020-07-20 20:20</th>
+                                <th style="font-weight:normal">Plunge</th>
+                                <th style="font-weight:normal">Birutės g. 25B</th>
+                                <th style="font-weight:normal">Plungės ,,Saulės" gimnazija</th>
+                                <th style="font-weight:normal">20</th>
+                            </tr>
+                            <tr style="font-weight:normal">
+                                <th style="font-weight:normal">CourseTitle#3</th>
+                                <th style="font-weight:normal">Test Test</th>
+                                <th style="font-weight:normal">2020-08-20 20:20</th>
+                                <th style="font-weight:normal">Klaipėda</th>
+                                <th style="font-weight:normal">Taikos pr. 16</th>
+                                <th style="font-weight:normal">KVK</th>
+                                <th style="font-weight:normal">420</th>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h6 class="heading-small text-muted mb-4">{{ __('Praėję renginiai') }}</h6>
+                    <div class="column pl-lg-4">
+                        <table style="width:100%">
+                            <tr>
+                                <th>Kurso pavadinimas:</th>
+                                <th>Destytojas:</th>
+                                <th>Data ir laikas:</th>
+                                <th>Miestas:</th>
+                                <th>Adresas:</th>
+                                <th>Centeras:</th>
+                                <th>Kabinetas:</th>
+                            </tr>
+                            <tr>
+                                <th style="font-weight:normal">CourseTitle#4</th>
+                                <th style="font-weight:normal">Lecturer Lecturer</th>
+                                <th style="font-weight:normal">2020-01-01 20:20</th>
+                                <th style="font-weight:normal">Vilnius</th>
+                                <th style="font-weight:normal">Islandijos g. 4</th>
+                                <th style="font-weight:normal">OPM</th>
+                                <th style="font-weight:normal">101</th>
+                            </tr>
+                            <tr style="font-weight:normal">
+                                <th style="font-weight:normal">CourseTitle#2</th>
+                                <th style="font-weight:normal">LecturerFirstName LecturerLastName, Vardenis Pavardenis</th>
+                                <th style="font-weight:normal">2020-07-20 20:20</th>
+                                <th style="font-weight:normal">Klaipėda</th>
+                                <th style="font-weight:normal">Naugarduko g. 24</th>
+                                <th style="font-weight:normal">Klaipėdos ,,AK" pagrindinė</th>
+                                <th style="font-weight:normal">200</th>
+                            </tr>
+                        </table>
+                    </div>
             </div>
         </div>
 

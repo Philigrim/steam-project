@@ -19,6 +19,23 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home', 'HomeController@store')->name('home.store');
+Route::get('/announcements/{announcement_id}/edit', 'HomeController@edit')->name('announcement.edit');
+Route::patch('/announcements/{announcement_id}', 'HomeController@update')->name('announcement.update');
+Route::delete('/announcements/{announcement_id}', 'HomeController@destroy')->name('home.destroy');
+
+Route::get('/home/action', 'HomeController@action')->name('home.action');
+
+Route::get('/about', 'AboutController@index')->name('about');
+
+Route::get('/faq', 'FAQController@index')->name('faq');
+Route::post('/faq', 'FAQController@storeQuestion')->name('faq.store.question');
+Route::patch('/faq', 'FAQController@storeAnswer')->name('faq.store.answer');
+Route::delete('/faq/{faq_id}', 'FAQController@destroyById')->name('faq.destroy');
+Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
+
+Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
+//Route::post('/home', 'HomeController@delete')->name('home');
 
 //Route::post('/home','CreateCourseController@insert');
 
