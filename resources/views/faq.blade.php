@@ -1,17 +1,8 @@
-@extends('layouts.app', ['title' => __('Naujienos')])
-
-@section('additional_header_content')
-
-{{--Search--}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-@endsection
+@extends('layouts.app', ['title' => __('Dažniausiai užduodami klausimai')])
 
 @section('content')
-@include('users.partials.header', ['title' => __('Naujienos'),
-         'description' => __('Šiame puslapyje skelbiama informacija apie STEAM centrus bei kitos naujienos.')])
+@include('users.partials.header', ['title' => __('Dažniausiai užduodami klausimai'),
+         'description' => __('Šiame puslapyje galite rasti atsakymus į dažniausiai vartotojų užduodamus klausimus.')])
 
 @if (session('status'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,45 +16,47 @@
 
 <div class="row">
 
-    <div class="col-xl-7 ml-5 mt-3">
 
-    <div clas="row">
+    <!-- Questions and Answers -->
 
-    <!-- Search form -->
-    <div class="container box">
-        <h3 align="center">Live search in laravel using AJAX</h3><br />
-        <div class="panel panel-default">
-         <div class="panel-heading">Search Customer Data</div>
-         <div class="panel-body">
-          <div class="form-group">
-           <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
-          </div>
-          <div class="table-responsive">
-           <h3 align="center">Total Data : <span id="total_records"></span></h3>
-           <table class="table table-striped table-bordered">
-            <thead>
-             <tr>
-              <th>Title</th>
-              <th>Text</th>
-             </tr>
-            </thead>
-            <tbody>
-     
-            </tbody>
-           </table>
-          </div>
-         </div>    
+    <div class="col-xl-7">
+
+        @foreach ($questions_and_answers as $question_and_answer)
+
+        <div class="card card-stats ml-5 mt-3 xl-7">
+            <div class="card-body border border-primary rounded">
+                    
+                <div class="row d-flex float-right">
+                <form action="{{ route('announcement.edit', [$question_and_answer->faq_id]) }}" method="get">
+                    <input class="btn btn-success ml-3" type="submit" value="Redaguoti" />
+                </form> 
+
+                <form action="{{ url('/faq', [$question_and_answer->faq_id]) }}" method="post">
+                    <input class="btn btn-danger ml-3" type="submit" value="Ištrinti" />
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                </form> 
+                </div>
+
+                <br>
+                <br>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <p class="font-weight-bold ml-2">K: {{ $question_and_answer->question }}</p>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <p class="ml-2">A: {{ $question_and_answer->answer }}</p>
+
+                <div class="border-top mt-2 mb-2"></div>
+                
+            </div>
         </div>
+        @endforeach
     </div>
-
-    </div>
-
     <!-- /Announcements -->
-    
-    </div>
-
     <div class="border-right mt-3 ml-5 mb-2 d-flex justify-content-center"></div>
-
     <!-- Promoted Courses (right side)-->
     <div class="col-xl-4 ml-5">
         <div class="card card-stats mt-3 d-flex justify-content-center">
@@ -124,9 +117,6 @@
                 <div class="border-top mt-2 mb-2"></div>
 
                 <div class="ml-2"> TEST Promoted course text/info </div>
-
-                
-
                 <div class="border-top mt-2 mb-2"></div>
                 <span class="ml-2">Lecturer:</span>
                 <span class="ml-2"> TEST TEST </span>
@@ -142,31 +132,6 @@
 
 </div>
 
-<script>
-$(document).ready(function(){
-
-    fetch_customer_data();
-   
-    function fetch_customer_data(query = '')
-    {
-     $.ajax({
-      url:"{{ route('home.action') }}",
-      method:'GET',
-      data:{query:query},
-      dataType:'json',
-      success:function(data)
-      {
-       $('tbody').html(data.table_data);
-       $('#total_records').text(data.total_data);
-      }
-     })
-    }
-   
-    $(document).on('keyup', '#search', function(){
-     var query = $(this).val();
-     fetch_customer_data(query);
-    });
-   }); 
-</script>  
 @include('layouts.footers.auth')
+
 @endsection

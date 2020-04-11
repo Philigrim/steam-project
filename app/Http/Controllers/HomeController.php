@@ -24,8 +24,118 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $announcements = DB::select('select * from announcements order by announcement_id desc');
-        return view('mainwindow',['announcements'=>$announcements]);
+        //$announcements = DB::select('select * from announcements order by announcement_id desc');
+        //return view('mainwindow',['announcements'=>$announcements]);
+        return view('mainwindow');
+    }
+
+    /*
+    function action(Request $request)
+    {
+     return view('faq');
+     if($request->ajax())
+     {
+      $output = '';
+      $query = $request->get('query');
+
+      if($query != '')
+      {
+       $data = DB::table('announcements')
+         ->where('announcement_title', 'like', '%'.$query.'%')
+         ->orWhere('announcement_text', 'like', '%'.$query.'%')
+         ->orderBy('announcement_id', 'desc')
+         ->get();
+         
+      }
+      else
+      {
+       $data = DB::table('announcements')
+         ->orderBy('announcement_id', 'desc')
+         ->get();
+      }
+
+      $total_row = $data->count();
+
+      if($total_row > 0)
+      {
+              foreach($data as $row)
+       {
+        $output .= '
+        <tr>
+         <td>'.$row->announcement_title.'</td>
+         <td>'.$row->announcement_text.'</td>
+         <td>'.$row->announcement_author.'</td>
+        </tr>
+        ';
+       }
+      }
+      else
+      {
+       $output = '
+       <tr>
+        <td align="center" colspan="3">No Data Found</td>
+       </tr>
+       ';
+      }
+      $data = array(
+       'table_data'  => $output,
+       'total_data'  => $total_row
+      );
+
+     }
+    }
+*/
+ 
+
+    function action(Request $request)
+    {
+    if($request->ajax())
+    {
+    $output = '';
+    $query = $request->get('query');
+    if($query != '')
+    {
+    $data = DB::table('announcements')
+        ->where('announcement_title', 'like', '%'.$query.'%')
+        ->orWhere('announcement_text', 'like', '%'.$query.'%')
+        ->orderBy('announcement_id', 'desc')
+        ->get();
+        
+    }
+    else
+    {
+    $data = DB::table('announcements')
+        ->orderBy('announcement_id', 'desc')
+        ->get();
+    }
+    $total_row = $data->count();
+    if($total_row > 0)
+    {
+    foreach($data as $row)
+    {
+        $output .= '
+        <tr>
+        <td>'.$row->announcement_title.'</td>
+        <td>'.$row->announcement_text.'</td>
+        </tr>
+        ';
+    }
+    }
+    else
+    {
+    $output = '
+    <tr>
+        <td align="center" colspan="2">No Data Found</td>
+    </tr>
+    ';
+    }
+    $data = array(
+    'table_data'  => $output,
+    'total_data'  => $total_row
+    );
+
+    echo json_encode($data);
+    }
     }
 
     public function store(Request $request)
@@ -45,46 +155,39 @@ class HomeController extends Controller
 
         DB::table('announcements')->insert($data);
 
-        return redirect()->route('home')->withStatus(__('Pranesimas sukurtas.'));
+        return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai sukurtas.'));
     }
 
-    public function returnAnnouncement($announcement_id)
+    public function edit($announcement_id)
     {
-        $an=$announcement_id;
         $announcement = DB::select('select * from announcements where announcement_id=' . $announcement_id);
-        $announcements = DB::select('select * from announcements order by announcement_id desc');
-        return view('mainwindow', ['announcements'=>$announcements], compact($an));
+        return view('announcements.edit',['announcement'=>$announcement]);
     }
 
-    public function update($announcement_id)
+    public function update(Request $request)
     {
-      
-        $announcements = DB::select('select * from announcements order by announcement_id desc');
-        $announcement = DB::select('select * from announcements where announcement_id=' . $announcement_id);
-        return view('announcements.edit',['announcements'=>$announcements])->with('announcement', $announcement);
-        #$announcement_id = $request->input('announcement_id');
-        #$announcement_title = $request->input('announcement_author');
-        #$announcement_author = $request->input('announcement_title');
-        #$announcement_text = $request->input('announcement_text');
+        $announcement_id = $request->input('announcement_id');
+        $announcement_title = $request->input('announcement_title');
+        $announcement_author = $request->input('announcement_author');
+        $announcement_text = $request->input('announcement_text');
   
-        #date_default_timezone_set('Europe/Vilnius');
-        #$modification_date = date('Y/m/d H:i', time());
+        date_default_timezone_set('Europe/Vilnius');
+        $modification_date = date('Y/m/d H:i', time());
 
-        #$data = array(
-        #    'announcement_author' => $announcement_author,
-        #    'announcement_title' => $announcement_title,
-        #    'announcement_text' => $announcement_text,
-        #    'updated_at' => $modification_date);
-            
-        #DB::table('announcements')->where('announcement_id', $announcement_id)->update($data);
+        $data = array(
+            'announcement_author' => "$announcement_author",
+            'announcement_title' => $announcement_title,
+            'announcement_text' => $announcement_text,
+            'updated_at' => $modification_date);
+
+        DB::table('announcements')->where('announcement_id', $announcement_id)->update($data);
+        return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai redaguotas.'));
     }
 
     public function destroy($announcement_id)
     {
         DB::table('announcements')->where('announcement_id', $announcement_id)->delete();
 
-        return redirect()->route('home')->withStatus(__('Pranesimas istrintas.'));
+        return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai ištrintas.'));
     }
-   
 }
-
