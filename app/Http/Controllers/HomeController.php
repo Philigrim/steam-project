@@ -29,64 +29,6 @@ class HomeController extends Controller
         return view('mainwindow');
     }
 
-    /*
-    function action(Request $request)
-    {
-     return view('faq');
-     if($request->ajax())
-     {
-      $output = '';
-      $query = $request->get('query');
-
-      if($query != '')
-      {
-       $data = DB::table('announcements')
-         ->where('announcement_title', 'like', '%'.$query.'%')
-         ->orWhere('announcement_text', 'like', '%'.$query.'%')
-         ->orderBy('announcement_id', 'desc')
-         ->get();
-         
-      }
-      else
-      {
-       $data = DB::table('announcements')
-         ->orderBy('announcement_id', 'desc')
-         ->get();
-      }
-
-      $total_row = $data->count();
-
-      if($total_row > 0)
-      {
-              foreach($data as $row)
-       {
-        $output .= '
-        <tr>
-         <td>'.$row->announcement_title.'</td>
-         <td>'.$row->announcement_text.'</td>
-         <td>'.$row->announcement_author.'</td>
-        </tr>
-        ';
-       }
-      }
-      else
-      {
-       $output = '
-       <tr>
-        <td align="center" colspan="3">No Data Found</td>
-       </tr>
-       ';
-      }
-      $data = array(
-       'table_data'  => $output,
-       'total_data'  => $total_row
-      );
-
-     }
-    }
-*/
- 
-
     function action(Request $request)
     {
     if($request->ajax())
