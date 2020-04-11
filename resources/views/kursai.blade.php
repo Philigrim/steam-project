@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.headers.cards')
     <div class="container-fluid">
-    @foreach ($courses->split($courses->count()/2)->reverse() as $row)
+    @foreach ($courses->split($count)->reverse() as $row)
             <div class="row">
                 @foreach($row as $info)
                     <div class="col-md-6">
@@ -36,7 +36,6 @@
                     </div>
                 @endforeach
             </div>
-
     @endforeach
     </div>
 @endsection

@@ -19,7 +19,12 @@ class CourseController extends Controller
     public function index()
     {
         $courses = LecturerHasCourse::all();
+        $count = $courses->count()/2;
 
-        return view('kursai',['courses'=>$courses]);
+        if($count == 0){
+            $count = 2;
+        }
+
+        return view('kursai',['courses'=>$courses], ['count'=>$count]);
     }
 }

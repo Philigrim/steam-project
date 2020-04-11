@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.headers.cards')
     <div class="container-fluid mt-1 ml--5">
-        @foreach($events->split($events->count()/2)->reverse() as $row)
+        @foreach($events->split($count)->reverse() as $row)
             <div class="flex-row d-inline-flex">
                 @foreach($row as $event)
                     <div class="ml-4 bg-gradient-secondary p-2 border-bottom shadow rounded mt-2 col-md-6">
