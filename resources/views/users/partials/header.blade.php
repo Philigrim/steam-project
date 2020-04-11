@@ -18,67 +18,67 @@
                 </button>
                 <!-- Announcemenet Creation Modal -->
                 <div class = "modal fade" id = "createAnnouncementModal" tabindex = "-1" role = "dialog" aria-labelledby = "createAnnouncementLabel" aria-hidden = "true">
-                
+
                     <div class = "modal-dialog modal-lg">
                         <div class = "modal-content">
-                            
+
                             <div class = "modal-header">
                                 <h2 class = "modal-title" id = "createAnnouncementLabel">
                                     Naujo pranešimo kūrimas
                                 </h2>
-                
+
                                 <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
                                     &times;
                                 </button>
                             </div>
                             <form action = "/home" method="post">
                             @csrf
-                
+
                             <div class = "modal-body">
                                 <label>Autorius:</label>
                                 <input class="form-control" placeholder="Įveskite pranešimo autorių" name="announcement_author" value="{{ auth()->user()->firstname}} {{auth()->user()->lastname}}" required
                                 oninvalid="this.setCustomValidity('Pranešimo autoriaus langelis negali būti tuščias.')">
-                
+
                                 <label class="mt-3">Pranešimo pavadinimas:</label>
                                 <input class="form-control" placeholder="Įveskite pranešimo pavadinimą" name="announcement_title" required
                                 oninvalid="this.setCustomValidity('Pranešimo pavadinimo langelis  negali būti tuščias.')">
-                
+
                                 <label class="mt-3">Pranešimas:</label>
                                 <textarea class="form-control" rows="5" placeholder="Įveskite pranešimą kitiems vartotojams" name="announcement_text" required
                                 oninvalid="this.setCustomValidity('Pranešimo langelis negali būti tuščias.')"></textarea>
                             </div>
-                
+
                             <div class = "modal-footer">
                                 <button type = "button" class = "btn btn-danger" data-dismiss = "modal">
                                     Atšaukti
                                 </button>
-                                
+
                                 <button type = "submit" class = "btn btn-success">
                                     Paskelbti naujieną
                                 </button>
-                
+
                             </div>
-                            
+
                             </form>
-                
+
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
-                    
+
                 </div>
                 <!-- /.modal -->
                 @endif
 
-                @if ($title == __('Dažniausiai užduodami klausimai'))       
+                @if ($title == __('Dažniausiai užduodami klausimai'))
                 <!-- Button trigger Question Asking modal -->
                 <button class = "btn btn-success" data-toggle = "modal" data-target = "#askQuestionModal">
                     Pateikti naują klausimą
                 </button>
                 <!-- Question Asking Modal -->
                 <div class = "modal fade" id = "askQuestionModal" tabindex = "-1" role = "dialog" aria-labelledby = "askQuestionLabel" aria-hidden = "true">
-                    
+
                     <div class = "modal-dialog modal-lg mt-9">
                         <div class = "modal-content">
-                            
+
                             <div class = "modal-header">
                                 <h2 class = "modal-title" id = "askQuestionLabel">
                                     Naujo klausimo kūrimas
@@ -103,18 +103,18 @@
                                 <button type = "button" class = "btn btn-danger" data-dismiss = "modal">
                                     Atšaukti
                                 </button>
-                                
+
                                 <button type = "submit" class = "btn btn-success">
                                     Pateikti klausimą
                                 </button>
 
                             </div>
-                            
+
                             </form>
 
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
-                    
+
                 </div>
                 <!-- /.modal -->
 
@@ -125,10 +125,10 @@
                 </button>
                 <!-- Question Answering Modal -->
                 <div class = "modal fade" id = "answerQuestionModal" tabindex = "-1" role = "dialog" aria-labelledby = "answerQuestionLabel" aria-hidden = "true">
-                
+
                     <div class = "modal-dialog modal-lg mt-9">
                         <div class = "modal-content">
-                            
+
                             <div class = "modal-header">
                                 <h2 class = "modal-title" id = "answerQuestionLabel">
                                     Atsakymo į klausimą pateikimas
@@ -137,16 +137,16 @@
                                     &times;
                                 </button>
                             </div>
-                
+
                             <form action="{{ route('faq.store.answer') }}" method="post">
                             <input type="hidden" name="_method" value="patch" />
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                
+
                             <div class = "modal-body">
                                 <label class="mt-2">Klausimas:</label>
-                                
+
                                 <br>
-                                
+
                                 <div class="row">
 
                                     <div class="col">
@@ -158,30 +158,30 @@
                                     </div>
 
                                 </div>
-                                
-                            
+
+
                                 <label class="mt-2">Atsakymas:</label>
                                 <textarea class="form-control" rows="3" placeholder="Atsakykite į pasirinktą klausimą" name="answer" required
                                 oninvalid="this.setCustomValidity('Klausimo langelis negali būti tuščias.')"></textarea>
                             </div>
-                
+
                             <div class = "modal-footer">
 
                                 <button type = "button" class = "btn btn-danger" data-dismiss = "modal">
                                     Atšaukti
                                 </button>
-                                
+
                                 <button type = "submit" class = "btn btn-success">
                                     Pateikti klausimą
                                 </button>
-                
+
                             </div>
-                            
+
                             </form>
-                
+
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
-                    
+
                 </div>
                 <!-- /.modal -->
                 @endif
@@ -190,5 +190,5 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 

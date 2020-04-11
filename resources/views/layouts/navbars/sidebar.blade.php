@@ -73,7 +73,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Naujienos') }}
+                        <i class="text-primary"></i> {{ __('Naujienos') }}
                     </a>
                 </li>
                 {{-- <li class="nav-item">
@@ -133,7 +133,7 @@
             @if (isset($title))
             @if ($title == __('Naujienos'))
             <form action="/filter/events" method="get">
-            
+
             Kategorija:
             <select class="mdb-select md-form mb-2">
                 <option disabled selected>Pasirinkite kategorija</option>
@@ -143,7 +143,7 @@
                 <option value="4">Arts</option>
                 <option value="5">Mathematics</option>
             </select>
-            
+
             Laisvų vietų skaičius:
             <div class="row d-flex justify-content-center mb-2">
                 <input class="col-5" type="number" placeholder="Nuo" min="0">
@@ -173,7 +173,7 @@
             </row>
 
             </form>
-            
+
             <!-- Divider -->
             <hr class="my-3">
 

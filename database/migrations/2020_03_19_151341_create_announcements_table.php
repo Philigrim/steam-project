@@ -14,7 +14,7 @@ class CreateAnnouncementsTable extends Migration
     public function up()
     {
         Schema::create('announcements', function (Blueprint $table) {
-            $table->bigIncrements('announcement_id');
+            $table->bigIncrements('id');
             $table->string('announcement_author');
             $table->mediumText('announcement_title');
             $table->mediumText('announcement_text');

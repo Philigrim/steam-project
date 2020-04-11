@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Teacher;
+use App\Lecturer;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -44,15 +46,15 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'firstname' => ['required','string', 'max:255'],
-            'lastname' => ['required','string', 'max:255'],
-            'usertype' =>['required','string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'usertype' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -61,17 +63,26 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      */
+
     protected function create(array $data)
     {
-        return User::create([
+        $users = User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'usertype' => $data['usertype'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if($users->usertype == 'mokytojas'){
+            Teacher::create(['user_id' => $users->id]);
+        }elseif ($users->usertype == 'paskaitu_lektorius'){
+            Lecturer::create(['user_id' => $users->id]);
+        }
+
+        return $users;
     }
 }

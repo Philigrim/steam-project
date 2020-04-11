@@ -24,8 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$announcements = DB::select('select * from announcements order by announcement_id desc');
-        //return view('mainwindow',['announcements'=>$announcements]);
         return view('mainwindow');
     }
 
@@ -42,7 +40,7 @@ class HomeController extends Controller
         ->orWhere('announcement_text', 'like', '%'.$query.'%')
         ->orderBy('announcement_id', 'desc')
         ->get();
-        
+
     }
     else
     {
@@ -88,7 +86,7 @@ class HomeController extends Controller
 
         date_default_timezone_set('Europe/Vilnius');
         $announcement_date = date('Y/m/d H:i', time());
-        
+
         $data = array(
         'announcement_author' => $announcement_author,
         'announcement_title' => $announcement_title,
@@ -112,7 +110,7 @@ class HomeController extends Controller
         $announcement_title = $request->input('announcement_title');
         $announcement_author = $request->input('announcement_author');
         $announcement_text = $request->input('announcement_text');
-  
+
         date_default_timezone_set('Europe/Vilnius');
         $modification_date = date('Y/m/d H:i', time());
 

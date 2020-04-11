@@ -41,15 +41,29 @@ Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->n
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
+Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+
+Route::get('sukurti-paskaita','CreateEventController@index');
+Route::post('sukurti-paskaita/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
+
+Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
+
+Route::get('/time','TimeController@index');
+
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
 });
 
-Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
-    Route::get('/', 'UserManagementController@index')->name('RouteToUserManagement');
-    //Route::post('/','CreateCourseController@insert');
+Route::group(['prefix' => 'sukurti-paskaita'], function(){
+    Route::get('/', 'CreateEventController@index')->name('RouteToCreateEvent');
+    Route::post('/','CreateEventController@insert');
 });
+
+Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
+    Route::get('/', 'UserController@index')->name('RouteToUserManagement');
+});
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
