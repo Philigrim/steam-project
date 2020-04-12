@@ -35,9 +35,6 @@ Route::delete('/faq/{faq_id}', 'FAQController@destroyById')->name('faq.destroy')
 Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
 
 Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
-//Route::post('/home', 'HomeController@delete')->name('home');
-
-//Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 

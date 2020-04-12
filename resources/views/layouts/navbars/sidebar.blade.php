@@ -71,22 +71,21 @@
             </div>
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="text-primary"></i> {{ __('Naujienos') }}
-                    </a>
-                </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
-                    </a> --}}
-
                     <div class="collapse show" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">
+                                    {{ __('Naujienos') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Kursai') }}">
                                     {{ __('Kursai') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('Kursai') }}">
+                                    {{ __('Paskaitos') }}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -104,17 +103,24 @@
                                     {{ __('Apie') }}
                                 </a>
                             </li>
-                            @if(Auth::user()->isRole()=="admin")
+                            @if(Auth::user()->isRole()=="admin" || Auth::user()->isRole()=="paskaitu_lektorius")
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
-                                    {{ __('Sukurti kursą') }}
+                                    {{ __('Sukurti paskaitą') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('RouteToUserManagement') }}">
-                                    {{ __('Vartotojų valdymas') }}
-                                </a>
-                            </li>
+                            @endif
+                            @if(Auth::user()->isRole()=="admin")
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
+                                        {{ __('Sukurti kursą') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('RouteToUserManagement') }}">
+                                        {{ __('Vartotojų valdymas') }}
+                                    </a>
+                                </li>
                             @endif
                         </ul>
                     </div>
