@@ -24,7 +24,6 @@ class CreateEventsTable extends Migration
             $table->foreign('lecturer_id')->references('id')->on('lecturers');
             $table->unsignedBigInteger('capacity_left');
             $table->mediumText('description');
-            $table->mediumText('comments')->nullable();
             $table->timestamps();
         });
     }

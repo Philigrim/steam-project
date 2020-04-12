@@ -464,6 +464,7 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         'App\\Inventory' => __DIR__ . '/../..' . '/app/Inventory.php',
         'App\\Lecturer' => __DIR__ . '/../..' . '/app/Lecturer.php',
         'App\\LecturerHasCourse' => __DIR__ . '/../..' . '/app/LecturerHasCourse.php',
+        'App\\LecturerHasSubject' => __DIR__ . '/../..' . '/app/LecturerHasSubject.php',
         'App\\Observers\\UserObserver' => __DIR__ . '/../..' . '/app/Observers/UserObserver.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

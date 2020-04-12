@@ -44,6 +44,7 @@ return array(
     'App\\Inventory' => $baseDir . '/app/Inventory.php',
     'App\\Lecturer' => $baseDir . '/app/Lecturer.php',
     'App\\LecturerHasCourse' => $baseDir . '/app/LecturerHasCourse.php',
+    'App\\LecturerHasSubject' => $baseDir . '/app/LecturerHasSubject.php',
     'App\\Observers\\UserObserver' => $baseDir . '/app/Observers/UserObserver.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
