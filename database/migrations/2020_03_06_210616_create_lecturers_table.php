@@ -17,6 +17,9 @@ class CreateLecturersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->string('city');
             $table->timestamps();
         });
     }

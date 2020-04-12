@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInventoryTable extends Migration
+class CreateQuestionsAndAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateInventoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('questions_and_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->integer('quantity');
-            $table->timestamps();
+            $table->mediumText('question');
+            $table->mediumText('answer');
+            $table->boolean('isAnswered');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateInventoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('questions_and_answers');
     }
 }
