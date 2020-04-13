@@ -3,9 +3,10 @@
 @section('additional_header_content')
 
 {{--Gijgo--}}
-{{--Date pickeris--}}
     <script src="/gijgo/dist/modular/js/core.js" type="text/javascript"></script>
     <link href="/gijgo/dist/modular/css/core.css" rel="stylesheet" type="text/css">
+
+{{--Date pickeris--}}
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
 
@@ -39,12 +40,13 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "/eventai" method="post">
-                        @csrf<div class="col-md-12">
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
-                                </div>
+                    <form action = "/sukurti-paskaita" method="post">
+                        @csrf
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
                             </div>
+                        </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -130,7 +132,7 @@
             var dependent = $(this).data('dependent');
             var _token = $('input[name="_token').val();
             $.ajax({
-                url:"{{ route('eventcontroller.fetch') }}",
+                url:"{{ route('createeventcontroller.fetch') }}",
                 method: "POST",
                 data:{select:select, value:value, _token:_token, dependent:dependent},
                 success:function(result){

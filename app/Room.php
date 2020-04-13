@@ -11,15 +11,15 @@ class Room extends Model
     ];
 
 
-    public function steam_center_has_room(){
-        return $this->hasOne(SteamCenterHasRoom::class);
+    public function find_steam_center(){
+        return $this->belongsTo(SteamCenterHasRoom::class);
     }
 
     public function room_has_inventory(){
-        return $this->hasMany(RoomHasInventory::class);
+        return $this->belongsTo(RoomHasInventory::class);
     }
     public function event(){
-        return $this->hasMany(Event::class);
+        return $this->belongsTo(Event::class);
     }
 
 }

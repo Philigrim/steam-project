@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+@section('additional_header_content')
+{{-- JQUERY --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+@endsection
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti kursą'),
              'description' => __('Kursų kurimo puslapis. Sukurti kursai bus naudojami kuriant paskaitas.')])
@@ -22,33 +26,34 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "sukurti-kursa" method="post">
-                        @csrf<div class="col-md-12  ">
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
-                                </div>
-                            </div>
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-md-4">
+                    <form action = "/sukurti-kursa" method="post">
+                        @csrf
+                        <div class="col-md-12  ">
                             <div class="form-group">
-                                <select class="form-control dropdown-menu-arrow" name="lecturer_id" required>
-                                    <option value="" selected disabled>Kurso vadovas</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{$user->lecturer->id}}">{{$user->firstname}} {{$user->lastname}}</option>
-                                    @endforeach
-                                </select>
+                                <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
                             </div>
                         </div>
+                        <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow" name="subject" required>
-                                        <option value="" selected disabled>Dalykas</option>
-                                        <option value="Physics">z</option>
-                                        <option value="Biology">Biologija</option>
-                                        <option value="Engineering">Inžinerija</option>
-                                        <option value="Informatics">Informatika</option>
-                                        <option value="Chemistry">Chemija</option>
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id" required>
+                                        <option value="" selected disabled>{{ "Dalykai" }}</option>
+                                        @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
+                                        @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @if ($errors->has('lecturers'))
+                                    <div class="ml-4">
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ "Pasirinkite bent 1 dėstytoją." }}</strong>
+                                        </span>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <table class="table table-sm align-items-center" id="lecturer_id"></table>
                                 </div>
                             </div>
                         </div>
@@ -71,10 +76,30 @@
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
                             </div>
                         </div>
+                        {{ csrf_field() }}
                     </form>
                 </div>
             </div>
             @include('layouts.footers.auth')
         </div>
     </div>
+
+    <script type="text/javascript">
+        $('.dynamic').change(function update_dropdown(){
+            if($(this).val() != ''){
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                var _token = $('input[name="_token').val();
+                $.ajax({
+                    url:"{{ route('createcoursecontroller.fetch') }}",
+                    method: "POST",
+                    data:{select:select, value:value, _token:_token, dependent:dependent},
+                    success:function(result){
+                        $('#'+dependent).html(result);
+                    }
+                })
+            }
+        })
+    </script>
 @endsection

@@ -38,11 +38,11 @@ class User extends Authenticatable
     ];
 
     public function lecturer(){
-        return $this->hasOne(Lecturer::class);
+        return $this->belongsTo(Lecturer::class);
     }
 
     public function teacher(){
-        return $this->hasOne(Teacher::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     public function isRole(){

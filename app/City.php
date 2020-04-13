@@ -10,7 +10,6 @@ class City extends Model
         'name'
     ];
     public function steam_center(){
-        return $this->hasMany(SteamCenter::class);
+        return $this->belongsTo(SteamCenter::class);
     }
-    
 }
