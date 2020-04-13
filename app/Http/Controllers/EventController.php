@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\EventHasTeacher;
 use App\Http\Controllers\Controller;
 use App\SteamCenter;
 use App\SteamCenterHasRoom;
@@ -23,4 +24,16 @@ class EventController extends Controller
 
         return view('paskaitos', ['events'=>$events], ['count'=>$count]);
     }
+    
+    public function insert(Request $request){
+
+
+        EventHasTeacher::create([
+            'teacher_id' => $request->name,
+            'event_id' => $request->event_id,
+            'pupil_count' => $request->pupil_count]);
+
+        return redirect()->back()->with('message', 'Tu saunuolis');
+    }
+
 }

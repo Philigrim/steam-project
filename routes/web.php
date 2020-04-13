@@ -39,6 +39,8 @@ Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->n
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+Route::post('/paskaitos','EventController@insert');
+Route::get('/paskaitos/{id}/edit/','EventController@edit');
 
 Route::get('sukurti-paskaita','CreateEventController@index');
 Route::post('sukurti-paskaita/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
