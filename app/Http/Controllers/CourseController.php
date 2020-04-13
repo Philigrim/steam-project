@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Lecturer;
 use App\LecturerHasCourse;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Course;
-use DB;
 
 class CourseController extends Controller
 {
@@ -18,13 +19,24 @@ class CourseController extends Controller
 
     public function index()
     {
-        $courses = LecturerHasCourse::all();
-        $count = $courses->count()/2;
+        if(\Auth::user()->isRole() === 'admin'){
+            $courses = Course::all();
+            $count = $courses->count()/2;
+        }else if(\Auth::user()->isRole() === 'paskaitu_lektorius'){
+            $lecturer_id = Lecturer::all()->where('user_id', '=', \Auth::user()->id)->first()->id;
 
-        if($count == 0){
+            $course_ids = LecturerHasCourse::all()->where('lecturer_id', $lecturer_id)->pluck('id');
+            $courses = Course::all()->whereIn('id', $course_ids)->collect();
+
+            $count = sizeof($courses)/2;
+        }else{
+            return view('home');
+        }
+
+        if($count < 1){
             $count = 2;
         }
 
-        return view('kursai',['courses'=>$courses], ['count'=>$count]);
+        return view('kursai',['courses'=>$courses, 'count'=>$count]);
     }
 }

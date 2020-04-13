@@ -53,7 +53,7 @@
                                     </div>
                                 @endif
                                 <div class="form-group">
-                                    <table class="table table-sm align-items-center" id="lecturer_id"></table>
+                                    <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +100,10 @@
                     }
                 })
             }
+        })
+        $('.table-scroll').DataTable({
+            "scrollY": "200px",
+            "scrollCollapse": true,
         })
     </script>
 @endsection

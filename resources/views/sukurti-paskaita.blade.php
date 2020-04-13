@@ -36,7 +36,7 @@
                                 </div>
                             @endif
                         </div>
-                        <h2 class="col-12 mb-0">{{ __('Informacija apie kursą') }}</h2>
+                        <h2 class="col-12 mb-0">{{ __('Informacija apie paskaitą') }}</h2>
                     </div>
                 </div>
                 <div class="card-body">
@@ -50,18 +50,12 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="lecturer_id" id="lecturer_id" data-dependent="course_id" required>
-                                        @if(Auth::user()->isRole()=="paskaitu_lektorius")
-                                            <option value="{{ Auth::user()->lecturer->id }}" selected>{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</option>
-                                        @else
-                                            <option value="" selected disabled>Dėstytojas</option>
-                                        @endif
-                                        @foreach($lecturer_has_courses as $lecturer_has_course)
-                                            <option value="{{ $lecturer_has_course[0]->lecturer->id }}">{{ $lecturer_has_course[0]->lecturer->user->firstname }}
-                                                                                                    {{ $lecturer_has_course[0]->lecturer->user->lastname }}</option>
-                                        @endforeach
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer_id" required>
+
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer" required>
                                         <option value="" selected disabled>Kursas</option>
@@ -77,18 +71,24 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow dynamic" name="steam_id" id="steam_id" data-dependent="room_id" required>
                                         <option value="" selected disabled>STEAM centras</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow" name="room_id" id="room_id"required>
                                         <option value="" selected disabled>Kambarys</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input placeholder="Data" id="datepicker"/>
                                 </div>
