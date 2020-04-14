@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolHasTeacherTable extends Migration
+class CreateEventHasTeachersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSchoolHasTeacherTable extends Migration
      */
     public function up()
     {
-        Schema::create('school_has_teacher', function (Blueprint $table) {
-            $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
+        Schema::create('event_has_teachers', function (Blueprint $table) {
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->integer('pupil_count');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateSchoolHasTeacherTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('school_has_teacher');
+        Schema::dropIfExists('event_has_teachers');
     }
 }

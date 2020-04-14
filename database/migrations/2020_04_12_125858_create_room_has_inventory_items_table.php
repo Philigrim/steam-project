@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomHasInventoryItemTable extends Migration
+class CreateRoomHasInventoryItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRoomHasInventoryItemTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_has_inventory_item', function (Blueprint $table) {
+        Schema::create('room_has_inventory_items', function (Blueprint $table) {
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->unsignedBigInteger('inventory_item_id');
@@ -30,6 +30,6 @@ class CreateRoomHasInventoryItemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_has_inventory_item');
+        Schema::dropIfExists('room_has_inventory_items');
     }
 }

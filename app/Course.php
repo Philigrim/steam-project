@@ -10,10 +10,7 @@ class Course extends Model
         'course_title', 'subject', 'description', 'comments'
     ];
 
-    public function lecturer_has_course(){
-        return $this->hasMany(LecturerHasCourse::class);
-    }
-    public function event(){
-        return $this->hasMany(Event::class);
+    public function find_lecturer(){
+        return $this->belongsTo(LecturerHasCourse::class);
     }
 }

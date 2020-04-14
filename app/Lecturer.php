@@ -14,10 +14,11 @@ class Lecturer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function lecturer_has_course(){
-        return $this->hasMany(LecturerHasCourse::class);
+    public function find_course(){
+        return $this->belongsTo(LecturerHasCourse::class);
     }
-    public function event(){
-        return $this->hasMany(Event::class);
+
+    public function find_subject(){
+        return $this->belongsTo(LecturerHasSubject::class);
     }
 }
