@@ -12,7 +12,7 @@ $(document).ready(function(){
    dataType:'json',
    success:function(data)
    {
-    $('tbody').html(data.table_data);
+    $('#here').html(data.table_data);
     $('#total_records').text(data.total_data);
    }
   })

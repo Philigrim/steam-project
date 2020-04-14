@@ -23,4 +23,38 @@ class EventController extends Controller
 
         return view('paskaitos', ['events'=>$events], ['count'=>$count]);
     }
+
+    public function filter(Request $request)
+    {
+        $capacity = $request->get('filterCapacityInput');
+        $category = $request->get('filterCategoryInput');
+        $city = $request->get('filterCityInput');
+
+        $events = Event::join('rooms', 'rooms.id', '=', 'events.room_id')
+                        ->join('steam_centers', 'steam_centers.id', '=', 'rooms.id')
+                        ->join('cities', 'cities.id', '=', 'steam_centers.id')
+                        ->join('courses', 'courses.id', '=', 'events.course_id');
+
+        if($category != ''){          
+            $events = $events->where('subject', '=', $category);
+        }
+
+        if($capacity != ''){          
+            $events = $events->where('capacity_left', '>=', $capacity);
+        }
+        
+        if($city != ''){
+            $events = $events->where('city_name', '=', $city);
+        }
+
+        $events = $events->get();
+        
+        $count = $events->count()/2;
+
+        if($count == 0){
+            $count = 2;
+        }
+
+        return view('paskaitos', ['events'=>$events], ['count'=>$count]);
+    }
 }

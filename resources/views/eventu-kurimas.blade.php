@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action = "/eventai" method="post">
+                    <form action = "/sukurti-paskaita" method="post">
                         @csrf<div class="col-md-12">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>

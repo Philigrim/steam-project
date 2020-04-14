@@ -4,8 +4,6 @@
 
 {{--Search--}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 @endsection
 
@@ -23,49 +21,30 @@
 </div>
 @endif
 
-<div class="row">
+<div class="row d-flex justify-content-center">
 
-    <div class="col-xl-7 ml-5 mt-3">
+    <div class="col-xl-6 mt-3">
 
     <div clas="row">
 
-    <!-- Search form -->
-    <div class="container box">
-        <h3 align="center">Live search in laravel using AJAX</h3><br />
-        <div class="panel panel-default">
-         <div class="panel-heading">Search Customer Data</div>
-         <div class="panel-body">
-          <div class="form-group">
-           <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
-          </div>
-          <div class="table-responsive">
-           <h3 align="center">Total Data : <span id="total_records"></span></h3>
-           <table class="table table-striped table-bordered">
-            <thead>
-             <tr>
-              <th>Title</th>
-              <th>Text</th>
-             </tr>
-            </thead>
-            <tbody>
-     
-            </tbody>
-           </table>
-          </div>
-         </div>    
+        <!-- Search form -->
+        <input type="text" name="search" id="search" class="form-control" placeholder="Raskite norima pranesima">
+        
+        <h3 align="center">Total Data : <span id="total_records"></span></h3>
+
+        <!-- /Announcements -->
+        <div id="announcements">
         </div>
-    </div>
+        <!-- /Announcements -->
 
     </div>
-
-    <!-- /Announcements -->
     
     </div>
 
-    <div class="border-right mt-3 ml-5 mb-2 d-flex justify-content-center"></div>
+    <div class="border-right mt-3 ml-4 mr-4 mb-2 d-flex justify-content-center"></div>
 
     <!-- Promoted Courses (right side)-->
-    <div class="col-xl-4 ml-5">
+    <div class="col-xl-5">
         <div class="card card-stats mt-3 d-flex justify-content-center">
             <div class="card-body border border-primary rounded">
                 
@@ -150,13 +129,13 @@ $(document).ready(function(){
     function fetch_customer_data(query = '')
     {
      $.ajax({
-      url:"{{ route('home.action') }}",
-      method:'GET',
+      url:'{{ route('home.action') }}',
+      method:'get',
       data:{query:query},
       dataType:'json',
       success:function(data)
       {
-       $('tbody').html(data.table_data);
+       $('#announcements').html(data.table_data);
        $('#total_records').text(data.total_data);
       }
      })
@@ -168,5 +147,6 @@ $(document).ready(function(){
     });
    }); 
 </script>  
+  
 @include('layouts.footers.auth')
 @endsection

@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -115,6 +113,11 @@
                                     {{ __('Vartotojų valdymas') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('iterpimas') }}">
+                                    {{ __('Duomenų įterpimas') }}
+                                </a>
+                            </li>
                             @endif
                         </ul>
                     </div>
@@ -124,46 +127,50 @@
             <!-- Divider -->
             <hr class="my-3">
 
+            @if (isset($title) && $title == __('Paskaitos'))
+
             <!-- Filters -->
+            
             <p class="d-flex justify-content-center" style="font-size:150%;">Filtrai</p>
 
             <!-- Divider -->
-            <hr class="my-0">
+            <hr class="my-2">
 
-            @if (isset($title))
-            @if ($title == __('Naujienos'))
-            <form action="/filter/events" method="get">
+            <div>
+
+            <form action="{{ route('events.filter')}} " method="get">
 
             Kategorija:
-            <select class="mdb-select md-form mb-2">
+            <select class="mdb-select md-form mb-2" style="width:100%;" name="filterCategoryInput">
                 <option disabled selected>Pasirinkite kategorija</option>
-                <option value="1">Science</option>
-                <option value="2">Technologijos</option>
-                <option value="3">Engineering</option>
-                <option value="4">Arts</option>
-                <option value="5">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="Technologijos">Technologijos</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Arts">Arts</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Biology">Biologija</option>
+                <option value="Engineering">Inžinerija</option>
+                <option value="Informatics">Informatika</option>
+                <option value="Chemistry">Chemija</option>
             </select>
 
             Laisvų vietų skaičius:
-            <div class="row d-flex justify-content-center mb-2">
-                <input class="col-5" type="number" placeholder="Nuo" min="0">
-                <input class="col-5" type="number" placeholder="Iki" min="0">
-            </div>
+            <input class="mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
 
             Miestas:
-            <select class="mdb-select md-form mb-3">
+            <select class="mdb-select md-form mb-2"  style="width:100%;" name="filterCityInput">
                 <option disabled selected>Nurodykite miestą</option>
-                <option value="1">Vilnius</option>
-                <option value="2">Kaunas</option>
-                <option value="3">Klaipėda</option>
+                <option value="vilnius">Vilnius</option>
+                <option value="kaunas">Kaunas</option>
+                <option value="klaipėda">Klaipėda</option>
                 <option disabled="disabled">-------------------------------</option>
-                <option value="4">Alytus</option>
-                <option value="5">Marijapmolė</option>
-                <option value="6">Panevėžys</option>
-                <option value="7">Šiauliai</option>
-                <option value="8">Tauragė</option>
-                <option value="9">Telšiai</option>
-                <option value="10">Utena</option>
+                <option value="alytus">Alytus</option>
+                <option value="marijapmolė">Marijapmolė</option>
+                <option value="panevėžys">Panevėžys</option>
+                <option value="Šiauliai">Šiauliai</option>
+                <option value="tauragė">Tauragė</option>
+                <option value="telšiai">Telšiai</option>
+                <option value="utena">Utena</option>
             </select>
 
             <row class="d-flex justify-content-center mt-1">
@@ -172,13 +179,14 @@
                 </button>
             </row>
 
+
             </form>
 
+            </div>
             <!-- Divider -->
             <hr class="my-3">
+            @endif
 
-            @endif
-            @endif
             <!-- /Filters -->
 
                         <!-- Navigation -->

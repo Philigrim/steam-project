@@ -19,12 +19,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/action', 'HomeController@action')->name('home.action');
 Route::post('/home', 'HomeController@store')->name('home.store');
 Route::get('/announcements/{announcement_id}/edit', 'HomeController@edit')->name('announcement.edit');
 Route::patch('/announcements/{announcement_id}', 'HomeController@update')->name('announcement.update');
 Route::delete('/announcements/{announcement_id}', 'HomeController@destroy')->name('home.destroy');
-
-Route::get('/home/action', 'HomeController@action')->name('home.action');
 
 Route::get('/about', 'AboutController@index')->name('about');
 
@@ -42,6 +41,7 @@ Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->n
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+Route::get('/paskaitos/filter','EventController@filter')->name('events.filter');
 
 Route::get('sukurti-paskaita','CreateEventController@index');
 Route::post('sukurti-paskaita/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
@@ -72,3 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 });
 
+Route::get('/insertion', 'InsertionController@index')->name('iterpimas');
+Route::post('/insertion/city', 'InsertionController@insertCity')->name('iterpimas.city');
+Route::post('/insertion/steam-center', 'InsertionController@insertSteamCenter')->name('iterpimas.steamCenter');
+Route::post('/insertion/room', 'InsertionController@insertRoom')->name('iterpimas.room');
+Route::post('/insertion/fetch', 'InsertionController@fetch')->name('iterpimas.fetch');
