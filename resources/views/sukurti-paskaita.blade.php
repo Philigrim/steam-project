@@ -22,7 +22,7 @@
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
     <div class="container-fluid mt--7 row d-flex justify-content-center">
-        <div class="col-xl-6 order-xl-1">
+        <div class="col-xl-10 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
@@ -42,29 +42,39 @@
                 <div class="card-body">
                     <form action = "/sukurti-paskaita" method="post">
                         @csrf
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id" required>
+                                        <option value="" selected disabled>{{ "Kursai" }}</option>
+                                        @foreach($courses as $course)
+                                            <option value="{{ $course->id }}">{{ $course->course_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @if ($errors->has('lecturers'))
+                                    <div class="ml-4">
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ "Pasirinkite bent 1 dėstytoją." }}</strong>
+                                        </span>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
+                                </div>
                             </div>
                         </div>
-                        <div class="row d-flex justify-content-center">
+                        <div class="row d-flex justify-content-start">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer_id" required>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer" required>
-                                        <option value="" selected disabled>Destytojas</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow dynamic" name="city_id" id ="city_id" data-dependent="steam_id" required>
+                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="city_id" id ="city_id" data-dependent="steam_id" required>
                                         <option value="" selected disabled>Miestas</option>
                                         @foreach($city_steam_room as $city)
                                             <option value="{{ $city[0]->city->id}}">{{ $city[0]->city->city_name }}</option>
@@ -72,15 +82,15 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow dynamic" name="steam_id" id="steam_id" data-dependent="room_id" required>
+                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="steam_id" id="steam_id" data-dependent="room_id" required>
                                         <option value="" selected disabled>STEAM centras</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row d-flex justify-content-start">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow" name="room_id" id="room_id"required>
@@ -125,7 +135,24 @@
 <script type="text/javascript">
     new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
 
-    $('.dynamic').change(function update_dropdown(){
+    $('.dynamic-lecturers').change(function update_dropdown(){
+        if($(this).val() != ''){
+            var select = $(this).attr("id");
+            var value = $(this).val();
+            var dependent = $(this).data('dependent');
+            var _token = $('input[name="_token').val();
+            $.ajax({
+                url:"{{ route('createeventcontroller.fetch_lecturers') }}",
+                method: "POST",
+                data:{select:select, value:value, _token:_token, dependent:dependent},
+                success:function(result){
+                    $('#'+dependent).html(result);
+                }
+            })
+        }
+    })
+
+    $('.dynamic-ccr').change(function update_dropdown(){
         if($(this).val() != ''){
             var select = $(this).attr("id");
             var value = $(this).val();

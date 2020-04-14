@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Course;
 use App\LecturerHasCourse;
+use App\LecturerHasSubject;
 use App\Room;
 use App\Lecturer;
 use App\SteamCenter;
@@ -27,7 +28,7 @@ class CreateEventController extends Controller
 
         $grouped = $city_steam_room->groupBy('city_id');
 
-        $courses = Course::all()->pluck('course_title', 'id');
+        $courses = Course::all();
         $lecturers = Lecturer::all();
 
         return view('sukurti-paskaita', ['courses'=>$courses, 'lecturers'=>$lecturers, 'city_steam_room'=>$grouped]);
@@ -74,6 +75,43 @@ class CreateEventController extends Controller
                 echo $output;
             }
         }
+    }
+
+    public function fetch_lecturers(Request $request){
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+
+        if($select === 'subject_id'){
+            $output = $this->lecturer_table(LecturerHasSubject::all()->where($select, $value));
+        }else if($select === 'course_id'){
+            $output = $this->lecturer_table(LecturerHasCourse::all()->where($select, $value));
+        }else{
+            $output = '';
+        }
+
+        echo $output;
+    }
+
+    private function lecturer_table($data){
+        $output = '<thead></thead>';
+
+        $table_data = '';
+
+        foreach ($data as $row) {
+            $table_data .= '<tr data-role="row" data-position="1" class="">
+                                <td>
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input class="custom-control-input" name="lecturers[]" id="'. $row->lecturer->id .'" value="'. $row->lecturer->id .'" type="checkbox">
+                                        <label class="custom-control-label" for="'. $row->lecturer->id .'">
+                                            <span class="text-muted">'. $row->lecturer->user->firstname . ' ' . $row->lecturer->user->lastname .'</span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>';
+        }
+        $output = '<tbody>'. $table_data .'</tbody>';
+        return $output;
     }
 
     public function insert(Request $request){
