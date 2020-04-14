@@ -58,7 +58,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control dropdown-menu-arrow dynamic" name="course_id" id="course_id" data-dependent="lecturer" required>
-                                        <option value="" selected disabled>Kursas</option>
+                                        <option value="" selected disabled>Destytojas</option>
                                     </select>
                                 </div>
                             </div>
@@ -141,61 +141,6 @@
             })
         }
     })
-
-
-    // jQuery(document).ready(function ()
-    // {
-    //         jQuery('select[name="city"]').on('change',function(){
-    //            var cityID = jQuery(this).val();
-    //            if(cityID)
-    //            {
-    //               jQuery.ajax({
-    //                  url : 'findSteamCenter/' +cityID,
-    //                  type : "GET",
-    //                  dataType : "json",
-    //                  success:function(data)
-    //                  {
-    //                     console.log(data);
-    //                     jQuery('select[name="steam"]').empty();
-    //                     jQuery('select[name="steam"]').append('<option value="">Steam centras</option>');
-    //
-    //                     jQuery.each(data, function(key,value){
-    //                        $('select[name="steam"]').append('<option value="'+ key +'">'+ value +'</option>');
-    //                     });
-    //                     }
-    //               });
-    //            }
-    //            else
-    //            {
-    //               $('select[name="steam"]').empty();
-    //            }
-    //         });
-    //         jQuery('select[name="steam"]').on('change',function(){
-    //            var steamID = jQuery(this).val();
-    //            if(steamID)
-    //            {
-    //               jQuery.ajax({
-    //                  url : 'findSteamCenter/' +cityID,
-    //                  type : "GET",
-    //                  dataType : "json",
-    //                  success:function(data)
-    //                  {
-    //                     console.log(data);
-    //                     jQuery('select[name="room"]').empty();
-    //                     jQuery('select[name="room"]').append('<option value="">belekas</option>');
-    //
-    //                     jQuery.each(data, function(key,value){
-    //                        $('select[name="room"]').append('<option value="'+ key +'">'+ value +'</option>');
-    //                     });
-    //                  }
-    //               });
-    //            }
-    //            else
-    //            {
-    //               $('select[name="room"]').empty();
-    //            }
-    //         });
-    // });
-    </script>
+</script>
 
 @endsection
