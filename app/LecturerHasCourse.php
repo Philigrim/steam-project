@@ -18,5 +18,6 @@ class LecturerHasCourse extends Model
         return $this->belongsTo(Course::class);
     }
 
-    protected $table = 'lecturer_has_courses';
+    protected $primaryKey = ['course_id', 'lecturer_id'];
+    public $incrementing = false;
 }

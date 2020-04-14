@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Course;
 use App\LecturerHasCourse;
 use App\Room;
+use App\Lecturer;
 use App\SteamCenter;
 use App\City;
 use App\SteamCenterHasRoom;
@@ -21,18 +23,14 @@ class CreateEventController extends Controller
     }
 
     public function index(){
-//        $rooms = Room::all()->pluck("");
-//        $cities = City::all()->pluck("name","id");
-
-        //select * from city inner join steam on city.id = steam.city_id inner join room on steam_id=room.steam_id
-
         $city_steam_room = SteamCenter::with('city', 'room')->get();
-
 
         $grouped = $city_steam_room->groupBy('city_id');
 
-        $lecturer_has_courses = LecturerHasCourse::all()->groupBy('lecturer_id');
-        return view('sukurti-paskaita', ['lecturer_has_courses'=>$lecturer_has_courses], ['city_steam_room'=>$grouped]);
+        $courses = Course::all()->pluck('course_title', 'id');
+        $lecturers = Lecturer::all();
+
+        return view('sukurti-paskaita', ['courses'=>$courses, 'lecturers'=>$lecturers, 'city_steam_room'=>$grouped]);
     }
 
     function fetch(Request $request){
