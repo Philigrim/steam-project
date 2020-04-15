@@ -14,6 +14,7 @@ class CreateEventHasTeachersTable extends Migration
     public function up()
     {
         Schema::create('event_has_teachers', function (Blueprint $table) {
+            $table->primary('event_id', 'teacher_id');
             $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events');
             $table->unsignedBigInteger('teacher_id');

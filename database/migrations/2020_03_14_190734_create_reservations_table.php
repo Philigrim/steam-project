@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSteamCenterHasRoomsTable extends Migration
+class CreateReservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateSteamCenterHasRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('steam_center_has_rooms', function (Blueprint $table) {
-            $table->primary('steam_id', 'room_id');
-            $table->unsignedBigInteger('steam_id');
-            $table->foreign('steam_id')->references('id')->on('steam_centers');
+        Schema::create('reservations', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->date('date');
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateSteamCenterHasRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('steam_center_has_rooms');
+        Schema::dropIfExists('reservations');
     }
 }

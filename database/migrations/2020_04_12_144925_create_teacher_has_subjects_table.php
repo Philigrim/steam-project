@@ -14,6 +14,7 @@ class CreateTeacherHasSubjectsTable extends Migration
     public function up()
     {
         Schema::create('teacher_has_subjects', function (Blueprint $table) {
+            $table->primary('teacher_id', 'subject_id');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
             $table->unsignedBigInteger('subject_id');
