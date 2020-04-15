@@ -49,12 +49,12 @@ Route::get('/time','TimeController@index');
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
-    Route::post('/fetch', 'CreateCourseController@fetch')->name('createcoursecontroller.fetch');
 });
 
 Route::group(['prefix' => 'sukurti-paskaita', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateEventController@index')->name('RouteToCreateEvent');
     Route::post('/','CreateEventController@insert');
+    Route::post('/fetch_lecturers', 'CreateEventController@fetch_lecturers')->name('createeventcontroller.fetch_lecturers');
     Route::post('/fetch', 'CreateEventController@fetch')->name('createeventcontroller.fetch');
 });
 

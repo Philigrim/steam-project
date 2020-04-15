@@ -22,7 +22,8 @@ class CreateEventsTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->unsignedBigInteger('lecturer_id');
             $table->foreign('lecturer_id')->references('id')->on('lecturers');
-            $table->unsignedBigInteger('capacity_left');
+            $table->integer('capacity_left');
+            $table->integer('max_capacity');
             $table->mediumText('description');
             $table->timestamps();
         });
