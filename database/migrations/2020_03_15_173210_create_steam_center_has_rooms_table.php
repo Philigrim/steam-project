@@ -14,7 +14,7 @@ class CreateSteamCenterHasRoomsTable extends Migration
     public function up()
     {
         Schema::create('steam_center_has_rooms', function (Blueprint $table) {
-            $table->primary('steam_id', 'room_id');
+            $table->primary(['steam_id', 'room_id']);
             $table->unsignedBigInteger('steam_id');
             $table->foreign('steam_id')->references('id')->on('steam_centers');
             $table->unsignedBigInteger('room_id');
