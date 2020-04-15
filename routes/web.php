@@ -39,7 +39,7 @@ Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->n
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
 Route::get('/paskaitos','EventController@index')->name('Paskaitos');
-Route::post('/paskaitos','EventController@insert');
+Route::post('/paskaitos','EventController@insert')->name('eventcontroller.insert');
 
 
 Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');

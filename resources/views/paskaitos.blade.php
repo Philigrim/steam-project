@@ -48,16 +48,18 @@
            
             <form action = "/paskaitos" method="post">
             @csrf
-            <div class="form-group">
+          <div class="form-group">
               <label for="">Title :</label>
-              <b id="name"/>
-  
-             </div>                 
+              <b name ="event_id"/>
+             </div>           
+             <div class="form-group">
+              <input  type="hidden"type="text" name="event_id" id="id">
+              </div>  
              <input name ="pupil_count" class="col-5" type="number" placeholder="Nuo" min="0">
             </form>
           <div class="modal-footer">
             <div class="form-group">
-              <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
+              <button type="submit"  class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
           </div>
           </div>
         </div>
@@ -93,8 +95,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript">
   $(document).on('click', '.show-modal', function() {
-    console.log("sasdsadasd");
   $('#show').modal('show');
-  $('#id').text($(this).data('id'));
+  $('#id').val($(this).data('id'));
   $('#name').text($(this).data('name'));})
-  </script>
+    
+  
+    </script>

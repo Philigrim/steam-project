@@ -18,5 +18,6 @@ class EventHasTeacher extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-
+    protected $primaryKey = ['event_id', 'teacher_id'];
+    public $incrementing = false;
 }

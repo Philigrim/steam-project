@@ -73,7 +73,7 @@
                         </div>
                         <div class="text-center">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
+                                <button type="submit"  id="priimk" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
                             </div>
                         </div>
                         {{ csrf_field() }}
@@ -91,6 +91,7 @@
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token').val();
+                    
                 $.ajax({
                     url:"{{ route('createcoursecontroller.fetch') }}",
                     method: "POST",
