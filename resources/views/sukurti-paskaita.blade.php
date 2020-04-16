@@ -10,14 +10,6 @@
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
 
-{{--Time pickeris--}}
-    <link href="gijgo/dist/modular/css/timepicker.css" rel="stylesheet" type="text/css">
-    <script src="gijgo/dist/modular/js/timepicker.js"></script>
-
-{{--Drop downas--}}
-    <link href="/gijgo/dist/modular/css/dropdown.css" rel="stylesheet" type="text/css">
-    <script src="/gijgo/dist/modular/js/dropdown.js"></script>
-
 {{--Nedulio skriptai--}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -25,7 +17,7 @@
 
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
-        <form class="mt--7 d-flex justify-content-center" action = "/sukurti-paskaita" method="post">
+        <form class="mt--5 d-flex justify-content-center" action = "/sukurti-paskaita" method="post">
             @csrf
             <div class="col-xl-6 order-xl-1">
                 <div class="card bg-secondary shadow">
@@ -148,7 +140,7 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript">
-    new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
+    new GijgoDatePicker(document.getElementById('datepicker'), { uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
 
     $('.dynamic-lecturers').change(function update_lecturers(){
         if($(this).val() != ''){

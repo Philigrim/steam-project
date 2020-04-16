@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    @if(Auth::user()->isRole() === 'mokytojas')
+    @if(Auth::user()->isRole() === 'mokytojas' && $reservations->count() != 0)
         <div class="container-fluid mt-3" style="left:0">
             <div class="col-xl-13 order-xl-1">
                 <div class="card bg-secondary shadow">
