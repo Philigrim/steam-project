@@ -69,7 +69,7 @@
               <br>
               <div class="form-group">
                 <b>Mokinių skaičius</b>
-             <input name ="pupil_count" class="col-5" type="number" placeholder="0" min="0">
+             <input name ="pupil_count" class="col-5" min="1" type="number" placeholder="0" min="0">
               </div>
             </form>
           <div class="modal-footer">
