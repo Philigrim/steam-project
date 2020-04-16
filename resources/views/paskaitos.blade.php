@@ -23,7 +23,7 @@
                             <div class="row d-flex justify-content-between">
                                 <h3 class="ml-3 pt-3">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</h3>
                                 <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
-                                <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$event->name}}">Registruotis</button>
+                                <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
                             </div>
                             {{-- <a href="#" class="show-modal btn btn-info btn-sm"  data-name="{{$event->name}}">
                               <i class="fa fa-eye"></i>

@@ -15,6 +15,7 @@ class Room extends Model
     public function steam_center(){
         return $this->belongsTo(SteamCenter::class);
     }
+    
     public function find_steam(){
         return $this->belongsTo(SteamCenterHasRoom::class, 'id', 'room_id');
     }

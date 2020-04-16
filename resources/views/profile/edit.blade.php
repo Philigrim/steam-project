@@ -190,15 +190,15 @@
                                 <th>Centras:</th>
                                 <th>Kabinetas:</th>
                             </tr> 
-                            @foreach($events as $event)
+                            @foreach($reservations as $reservation)
                             <tr style="font-weight:normal">
-                                <th style="font-weight:normal">{{$event->name}}</th>
-                                <th style="font-weight:normal">{{ $event->lecturer->user->firstname }} {{ $event->lecturer->user->lastname }}</th>
-                                <th style="font-weight:normal">2020-06-20 20:20</th>
-                                <th style="font-weight:normal">{{ $event->room->steam_center->city->city_name}}</th>
-                                <th style="font-weight:normal">{{ $event->room->steam_center->address}}</th>
-                                <th style="font-weight:normal">{{ $event->room->steam_center->steam_name}}</th>
-                                <th style="font-weight:normal">{{ $event->room->room_number}}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->name}}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</th>
+                                <th style="font-weight:normal">{{ $reservation->date }}, {{ $reservation->start_time }} - {{ $reservation->end_time }}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->room->find_steam->steam->city->city_name}}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->room->find_steam->steam->address}}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->room->find_steam->steam->steam_name}}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->room->room_number}}</th>
                             </tr>
                             @endforeach
                         </table>

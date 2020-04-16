@@ -9,7 +9,7 @@ use App\Teacher;
 use App\User;
 use App\Event;
 use App\EventHasTeacher;
-
+use App\Reservation;
 class ProfileController extends Controller
 {
     /**
@@ -21,10 +21,8 @@ class ProfileController extends Controller
     {   $teacher_id=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
         $event_ids=EventHasTeacher::all()->where('teacher_id',$teacher_id)->pluck('event_id');
         $events = Event::all()->whereIn('id',$event_ids)->collect();
-    
-
-        
-        return view('profile.edit',['events'=>$events]);
+        $reservations = Reservation::all()->whereIn('event_id',$event_ids)->collect();
+        return view('profile.edit',['events'=>$events],['reservations'=>$reservations]);
     }
 
     public function index()
