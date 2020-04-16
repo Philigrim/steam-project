@@ -43,11 +43,12 @@ Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
-Route::get('/paskaitos','EventController@index')->name('Paskaitos');
-Route::get('/paskaitos/filter','EventController@filter')->name('events.filter');
-
-Route::get('sukurti-paskaita','CreateEventController@index');
-Route::post('sukurti-paskaita/fetch', 'CreateEventController@fetch')->name('eventcontroller.fetch');
+Route::group(['prefix' => 'paskaitos'], function(){
+    Route::get('/','EventController@index')->name('Paskaitos');
+    Route::get('/filter', 'EventController@filter')->name('events.filter');
+    Route::post('/','EventController@insert')->name('eventcontroller.insert');
+    Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
+});
 
 Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
 
@@ -63,6 +64,7 @@ Route::group(['prefix' => 'sukurti-paskaita', 'middleware' => ['auth' => 'admin'
     Route::post('/','CreateEventController@insert');
     Route::post('/fetch_lecturers', 'CreateEventController@fetch_lecturers')->name('createeventcontroller.fetch_lecturers');
     Route::post('/fetch', 'CreateEventController@fetch')->name('createeventcontroller.fetch');
+    Route::post('/fetch_time', 'CreateEventController@fetch_time')->name('createeventcontroller.fetch_time');
 });
 
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){
@@ -71,10 +73,12 @@ Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admi
 
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
+    Route::resource('user', 'UserController', ['except' => ['show']]);
+    // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+
 });
 
 // Data insertation page

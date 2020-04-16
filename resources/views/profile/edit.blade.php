@@ -168,95 +168,83 @@
         </div>
     </div>
 
-    <div class="container-fluid mt-3" style="left:0">
-        <div class="col-xl-13 order-xl-1">
-            <div class="card bg-secondary shadow">
-                <div class="card-header bg-white border-0">
-                    <div class="row align-items-center">
-                        <h3 class="col-12 mb-0">{{ __('Kursai') }}</h3>
+    @if(Auth::user()->isRole() === 'mokytojas')
+        <div class="container-fluid mt-3" style="left:0">
+            <div class="col-xl-13 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <h3 class="col-12 mb-0">{{ __('Kursai') }}</h3>
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <h6 class="heading-small text-muted mb-4">{{ __('Ateinantys renginiai') }}</h6>
+
+                        <div class="column pl-lg-4">
+                            <table style="width:100%">
+                                <tr>
+                                    <th>Paskaitos pavadinimas:</th>
+                                    <th>Destytojas:</th>
+                                    <th>Data ir laikas:</th>
+                                    <th>Užregistruota dalyvių:</th>
+                                    <th>Visų dalyvių skaičius:</th>
+                                    <th>Miestas:</th>
+                                    <th>Adresas:</th>
+                                    <th>Centras:</th>
+                                    <th>Kabinetas:</th>
+                                </tr>
+                                @foreach($reservations as $reservation)
+                                <tr style="font-weight:normal">
+                                    <th style="font-weight:normal">{{ $reservation->event->name}}</th>
+                                    <th style="font-weight:normal">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</th>
+                                    <th style="font-weight:normal">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</th>
+                                    <th style="...">{{ $reservation->event->teacher->pupil_count }}</th>
+                                    <th style="...">{{ $reservation->event->capacity_left }} / {{ $reservation->event->max_capacity }}</th>
+                                    <th style="font-weight:normal">{{ $reservation->event->room->steam->city->city_name}}</th>
+                                    <th style="font-weight:normal">{{ $reservation->event->room->steam->address}}</th>
+                                    <th style="font-weight:normal">{{ $reservation->event->room->steam->steam_name}}</th>
+                                    <th style="font-weight:normal">{{ $reservation->event->room->room_number}}</th>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h6 class="heading-small text-muted mb-4">{{ __('Praėję renginiai') }}</h6>
+                        <div class="column pl-lg-4">
+                            <table style="width:100%">
+                                <tr>
+                                    <th>Kurso pavadinimas:</th>
+                                    <th>Destytojas:</th>
+                                    <th>Data ir laikas:</th>
+                                    <th>Miestas:</th>
+                                    <th>Adresas:</th>
+                                    <th>Centeras:</th>
+                                    <th>Kabinetas:</th>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight:normal">CourseTitle#4</th>
+                                    <th style="font-weight:normal">Lecturer Lecturer</th>
+                                    <th style="font-weight:normal">2020-01-01 20:20</th>
+                                    <th style="font-weight:normal">Vilnius</th>
+                                    <th style="font-weight:normal">Islandijos g. 4</th>
+                                    <th style="font-weight:normal">OPM</th>
+                                    <th style="font-weight:normal">101</th>
+                                </tr>
+                                <tr style="font-weight:normal">
+                                    <th style="font-weight:normal">CourseTitle#2</th>
+                                    <th style="font-weight:normal">LecturerFirstName LecturerLastName, Vardenis Pavardenis</th>
+                                    <th style="font-weight:normal">2020-07-20 20:20</th>
+                                    <th style="font-weight:normal">Klaipėda</th>
+                                    <th style="font-weight:normal">Naugarduko g. 24</th>
+                                    <th style="font-weight:normal">Klaipėdos ,,AK" pagrindinė</th>
+                                    <th style="font-weight:normal">200</th>
+                                </tr>
+                            </table>
+                        </div>
                 </div>
-                <div class="card-body">
-                    <h6 class="heading-small text-muted mb-4">{{ __('Ateinantys renginiai') }}</h6>
-
-                    <div class="column pl-lg-4">
-                        <table style="width:100%">
-                            <tr>
-                                <th>Kurso pavadinimas:</th>
-                                <th>Destytojas:</th>
-                                <th>Data ir laikas:</th>
-                                <th>Miestas:</th>
-                                <th>Adresas:</th>
-                                <th>Centeras:</th>
-                                <th>Kabinetas:</th>
-                            </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#1</th>
-                                <th style="font-weight:normal">LecturerFirstName LecturerLastName</th>
-                                <th style="font-weight:normal">2020-06-20 20:20</th>
-                                <th style="font-weight:normal">Vilnius</th>
-                                <th style="font-weight:normal">Naugarduko g. 24</th>
-                                <th style="font-weight:normal">MIF</th>
-                                <th style="font-weight:normal">101</th>
-                            </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#2</th>
-                                <th style="font-weight:normal">Vardenis Pavardenis, LecturerFirstName LecturerLastName</th>
-                                <th style="font-weight:normal">2020-07-20 20:20</th>
-                                <th style="font-weight:normal">Plunge</th>
-                                <th style="font-weight:normal">Birutės g. 25B</th>
-                                <th style="font-weight:normal">Plungės ,,Saulės" gimnazija</th>
-                                <th style="font-weight:normal">20</th>
-                            </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#3</th>
-                                <th style="font-weight:normal">Test Test</th>
-                                <th style="font-weight:normal">2020-08-20 20:20</th>
-                                <th style="font-weight:normal">Klaipėda</th>
-                                <th style="font-weight:normal">Taikos pr. 16</th>
-                                <th style="font-weight:normal">KVK</th>
-                                <th style="font-weight:normal">420</th>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <hr class="my-4">
-
-                    <h6 class="heading-small text-muted mb-4">{{ __('Praėję renginiai') }}</h6>
-                    <div class="column pl-lg-4">
-                        <table style="width:100%">
-                            <tr>
-                                <th>Kurso pavadinimas:</th>
-                                <th>Destytojas:</th>
-                                <th>Data ir laikas:</th>
-                                <th>Miestas:</th>
-                                <th>Adresas:</th>
-                                <th>Centeras:</th>
-                                <th>Kabinetas:</th>
-                            </tr>
-                            <tr>
-                                <th style="font-weight:normal">CourseTitle#4</th>
-                                <th style="font-weight:normal">Lecturer Lecturer</th>
-                                <th style="font-weight:normal">2020-01-01 20:20</th>
-                                <th style="font-weight:normal">Vilnius</th>
-                                <th style="font-weight:normal">Islandijos g. 4</th>
-                                <th style="font-weight:normal">OPM</th>
-                                <th style="font-weight:normal">101</th>
-                            </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#2</th>
-                                <th style="font-weight:normal">LecturerFirstName LecturerLastName, Vardenis Pavardenis</th>
-                                <th style="font-weight:normal">2020-07-20 20:20</th>
-                                <th style="font-weight:normal">Klaipėda</th>
-                                <th style="font-weight:normal">Naugarduko g. 24</th>
-                                <th style="font-weight:normal">Klaipėdos ,,AK" pagrindinė</th>
-                                <th style="font-weight:normal">200</th>
-                            </tr>
-                        </table>
-                    </div>
             </div>
-        </div>
-
-        @include('layouts.footers.auth')
+        @endif
     </div>
 @endsection

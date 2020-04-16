@@ -473,6 +473,7 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Reservation' => __DIR__ . '/../..' . '/app/Reservation.php',
         'App\\Room' => __DIR__ . '/../..' . '/app/Room.php',
         'App\\Rules\\CurrentPasswordCheckRule' => __DIR__ . '/../..' . '/app/Rules/CurrentPasswordCheckRule.php',
         'App\\SteamCenter' => __DIR__ . '/../..' . '/app/SteamCenter.php',

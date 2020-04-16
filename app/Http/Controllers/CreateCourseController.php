@@ -34,10 +34,10 @@ class CreateCourseController extends Controller
             'lecturers' => 'required'
         ]);
 
-        $subject = Subject::all('subject')->where('id', '=', $request->subject_id);
+        $subject = Subject::all()->where('id', '=', $request->subject_id)->collect();
 
         $course = Course::create(['course_title' => $request->course_title,
-            'subject' => $subject,
+            'subject_id' => $request->subject_id,
             'description' => $request->description,
             'comments' => $request->comments]);
 

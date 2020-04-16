@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="d-flex flex-r ml-2 mt-3 mt">
                                     <div class="mb-0 text-muted text-sm ">
-                                        <h3>Aprašymas:</h3>
+                                        <h3>Papildoma info:</h3>
                                     </div>
                                     <div class="ml-3">{{ $course->comments }}</div>
                                 </div>

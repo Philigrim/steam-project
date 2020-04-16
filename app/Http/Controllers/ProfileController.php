@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
-
+use App\Teacher;
+use App\User;
+use App\Event;
+use App\EventHasTeacher;
+use App\Reservation;
 class ProfileController extends Controller
 {
     /**
@@ -15,9 +19,21 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        return view('profile.edit');
+        if(\Auth::user()->isRole() === 'mokytojas'){
+            $teacher_id=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
+            $event_ids=EventHasTeacher::all()->where('teacher_id',$teacher_id)->pluck('event_id');
+            $events = Event::all()->whereIn('id',$event_ids)->collect();
+            $reservations = Reservation::all()->whereIn('event_id',$event_ids)->collect();
+            return view('profile.edit',['events'=>$events],['reservations'=>$reservations]);
+        }else{
+            return view('profile.edit');
+        }
+
     }
 
+    public function index()
+    {
+    }
     /**
      * Update the profile
      *

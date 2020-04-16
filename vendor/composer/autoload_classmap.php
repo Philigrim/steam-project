@@ -53,6 +53,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Reservation' => $baseDir . '/app/Reservation.php',
     'App\\Room' => $baseDir . '/app/Room.php',
     'App\\Rules\\CurrentPasswordCheckRule' => $baseDir . '/app/Rules/CurrentPasswordCheckRule.php',
     'App\\SteamCenter' => $baseDir . '/app/SteamCenter.php',
