@@ -30,7 +30,7 @@ class CourseController extends Controller
 
             $count = sizeof($courses)/2;
         }else{
-            return view('paskaitos');
+            return view('/about');
         }
 
         if($count < 1){

@@ -18,6 +18,6 @@ class LecturerMiddleware
             return $next($request);
         }
 
-        return redirect('paskaitos');
+        return redirect('about');
     }
 }

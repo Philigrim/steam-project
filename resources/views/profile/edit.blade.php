@@ -199,7 +199,7 @@
                                     <th style="font-weight:normal">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</th>
                                     <th style="font-weight:normal">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</th>
                                     <th style="...">{{ $reservation->event->teacher->pupil_count }}</th>
-                                    <th style="...">{{ $reservation->event->capacity_left }} / {{ $reservation->event->max_capacity }}</th>
+                                    <th style="...">{{ $reservation->event->capacity_left }} / {{ $reservation->event->max_capacity - $reservation->event->capacity_left }}</th>
                                     <th style="font-weight:normal">{{ $reservation->event->room->steam->city->city_name}}</th>
                                     <th style="font-weight:normal">{{ $reservation->event->room->steam->address}}</th>
                                     <th style="font-weight:normal">{{ $reservation->event->room->steam->steam_name}}</th>

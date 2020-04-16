@@ -79,11 +79,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('Kursai') }}">
-                                    {{ __('Kursai') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Paskaitos') }}">
                                     {{ __('Paskaitos') }}
                                 </a>
@@ -104,6 +99,11 @@
                                 </a>
                             </li>
                             @if(Auth::user()->isRole()=="admin" || Auth::user()->isRole()=="paskaitu_lektorius")
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('Kursai') }}">
+                                    {{ __('Kursai') }}
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateEvent') }}">
                                     {{ __('Sukurti paskaitą') }}
