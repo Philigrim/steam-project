@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     protected $fillable = [
-        'room_number', 'capacity','course_category'
+        'room_number','steam_center_id', 'capacity','course_category'
     ];
 
     public function steam(){
