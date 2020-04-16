@@ -17,8 +17,6 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->string('room_number');
             $table->integer('capacity');
-            $table->integer('steam_center_id');
-            $table->foreign('steam_center_id')->references('id')->on('steam_centers');
             $table->string('subject');
             $table->timestamps();
         });

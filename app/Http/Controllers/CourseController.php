@@ -25,7 +25,7 @@ class CourseController extends Controller
         }else if(\Auth::user()->isRole() === 'paskaitu_lektorius'){
             $lecturer_id = Lecturer::all()->where('user_id', '=', \Auth::user()->id)->first()->id;
 
-            $course_ids = LecturerHasCourse::all()->where('lecturer_id', $lecturer_id)->pluck('id');
+            $course_ids = LecturerHasCourse::all()->where('lecturer_id', $lecturer_id)->pluck('course_id');
             $courses = Course::all()->whereIn('id', $course_ids)->collect();
 
             $count = sizeof($courses)/2;

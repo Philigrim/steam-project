@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Course;
 use App\LecturerHasCourse;
+use App\LecturerHasEvent;
 use App\LecturerHasSubject;
+use App\Reservation;
 use App\Room;
 use App\Lecturer;
 use App\SteamCenter;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use DateTime;
 use App\Event;
 
 class CreateEventController extends Controller
@@ -24,14 +27,15 @@ class CreateEventController extends Controller
     }
 
     public function index(){
-        $city_steam_room = SteamCenter::with('city', 'room')->get();
-
-        $grouped = $city_steam_room->groupBy('city_id');
+        $cities = City::all();
+//        $steam_centers = SteamCenter::all();
+//        $rooms = Room::all();
+        // 'steam_centers'=>$steam_centers, 'rooms'=>$rooms]
 
         $courses = Course::all();
         $lecturers = Lecturer::all();
 
-        return view('sukurti-paskaita', ['courses'=>$courses, 'lecturers'=>$lecturers, 'city_steam_room'=>$grouped]);
+        return view('sukurti-paskaita', ['courses'=>$courses, 'lecturers'=>$lecturers, 'cities'=>$cities]);
     }
 
     function fetch(Request $request){
@@ -39,48 +43,28 @@ class CreateEventController extends Controller
         $value = $request->get('value');
         $dependent = $request->get('dependent');
 
-        if($dependent == 'course_id') {
-            $data = LecturerHasCourse::all()->where($select, $value);
-            $output = '<option value="" selected disabled>Kursas</option>';
-            foreach ($data as $row) {
-                $output .= '<option value="' . $row->course_id . '">' . $row->course->course_title . '</option>';
+        if($dependent == 'steam_id'){
+            $steam_centers = SteamCenter::all()->where($select, '=', $value);
+
+            $output = '<option value="" selected disabled>STEAM Centras</option>';
+            foreach ($steam_centers as $steam_center) {
+                $output .= '<option value="' . $steam_center->id . '">' . $steam_center->steam_name . '</option>';
             }
             echo $output;
-        }else{
-            $city_steam_room = SteamCenter::with('city', 'room')->get();
+        }else if($dependent == 'room_id'){
+            $rooms = SteamCenterHasRoom::all()->where($select,'=', $value);
 
-            $data = $city_steam_room->where($select, $value);
-
-            if($dependent == 'steam_id'){
-                $city_steam_room = SteamCenter::with('city', 'room')->get();
-
-                $data = $city_steam_room->where($select, $value);
-
-                $output = '<option value="" selected disabled>STEAM Centras</option>';
-                foreach ($data as $row) {
-                    $output .= '<option value="' . $row->id . '">' . $row->steam_name . '</option>';
-                }
-                echo $output;
-            }else if($dependent == 'room_id'){
-                $city_steam_room = SteamCenter::with('room')->get();
-
-                $data = $city_steam_room->where('id', $value);
-
-                $output = '<option value="" selected disabled>Kambarys</option>';
-                foreach ($data as $row) {
-                    foreach($row->room as $single_room){
-                        $output .= '<option value="' . $single_room->id . '">' . $single_room->room_number . '</option>';
-                    }
-                }
-                echo $output;
+            $output = '<option value="" selected disabled>Kambarys</option>';
+            foreach ($rooms as $room) {
+                $output .= '<option value="' . $room->room->id . '">' . $room->room->room_number .'('. $room->room->capacity .')'.' '. $room->room->subject .'</option>';
             }
+            echo $output;
         }
     }
 
     public function fetch_lecturers(Request $request){
         $select = $request->get('select');
         $value = $request->get('value');
-        $dependent = $request->get('dependent');
 
         if($select === 'subject_id'){
             $output = $this->lecturer_table(LecturerHasSubject::all()->where($select, $value));
@@ -114,17 +98,60 @@ class CreateEventController extends Controller
         return $output;
     }
 
+    public function fetch_time(Request $request){
+        $date_value = $request->get('date_value');
+        $room_value = $request->get('room_value');
+
+        $start_times = array();
+        $start_times['08:30:00'] = '10:00:00';
+        $start_times['10:15:00'] = '11:45:00';
+        $start_times['12:00:00'] = '13:30:00';
+        $start_times['14:00:00'] = '15:30:00';
+
+        $reservations = Reservation::all()->where('date', '=', $date_value)->where('room_id', '=', $room_value);
+
+        if($reservations != null){
+            foreach($reservations as $res){
+                unset($start_times[$res->start_time]);
+            }
+        }
+
+        $output = '<option value="" selected disabled>Laikas</option>';
+        foreach($start_times as $start_time => $end_time){
+            $output .= '<option value="'. $start_time .'-'. $end_time .'">'. substr($start_time, 0, 5) .'-'. substr($end_time, 0, 5) .'</option>';
+        }
+
+        echo $output;
+    }
+
     public function insert(Request $request){
+        $request->validate([
+            'lecturers' => 'required'
+        ]);
 
-        $room = Room::where('id', '=', $request->room_id)->select('capacity')->get();
-
-        Event::create(['name' => $request->name,
+        $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
             'course_id' => $request->course_id,
-            'lecturer_id' => $request->lecturer_id,
             'description' => $request->description,
-            'comments' => $request->comments,
-            'capacity_left' => $room[0]->capacity]);
+            'capacity_left' => $request->capacity,
+            'max_capacity' => $request->capacity]);
+
+        foreach($request->lecturers as $lecturer){
+            LecturerHasEvent::create(['lecturer_id' => $lecturer,
+                'event_id'=>$event->id]);
+        }
+
+        $arr = explode("-", $request->time, 2);
+        $start_time = $arr[0];
+        $end_time = $arr[1];
+
+        $date = $request->date;
+
+        Reservation::create(['room_id' => $request->room_id,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'date' => $date,
+            'event_id' => $event->id]);
 
         return redirect()->back()->with('message', 'Paskaita pridėta. Ją galite matyti paskaitų puslapyje.');
     }

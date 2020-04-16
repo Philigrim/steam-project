@@ -4,18 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SteamCenterHasRoom extends Model
+class Reservation extends Model
 {
     protected $fillable = [
-    'steam_id', 'room_id'
+        'room_id','start_time','end_time','date','event_id'
     ];
-
-    public function steam(){
-        return $this->belongsTo(SteamCenter::class);
-    }
 
     public function room(){
         return $this->belongsTo(Room::class);
     }
 
+    public function event(){
+        return $this->belongsTo(Event::class);
+    }
 }

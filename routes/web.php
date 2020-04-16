@@ -56,6 +56,7 @@ Route::group(['prefix' => 'sukurti-paskaita', 'middleware' => ['auth' => 'admin'
     Route::post('/','CreateEventController@insert');
     Route::post('/fetch_lecturers', 'CreateEventController@fetch_lecturers')->name('createeventcontroller.fetch_lecturers');
     Route::post('/fetch', 'CreateEventController@fetch')->name('createeventcontroller.fetch');
+    Route::post('/fetch_time', 'CreateEventController@fetch_time')->name('createeventcontroller.fetch_time');
 });
 
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){

@@ -18,6 +18,7 @@ class CreateQuestionsAndAnswersTable extends Migration
             $table->mediumText('question');
             $table->mediumText('answer');
             $table->boolean('isAnswered');
+            $table->timestamps();
         });
     }
 
