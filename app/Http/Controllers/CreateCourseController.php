@@ -37,7 +37,7 @@ class CreateCourseController extends Controller
         $subject = Subject::all()->where('id', '=', $request->subject_id)->collect();
 
         $course = Course::create(['course_title' => $request->course_title,
-            'subject' => $request->subject_id,
+            'subject_id' => $request->subject_id,
             'description' => $request->description,
             'comments' => $request->comments]);
 

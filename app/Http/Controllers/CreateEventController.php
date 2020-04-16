@@ -52,11 +52,11 @@ class CreateEventController extends Controller
             }
             echo $output;
         }else if($dependent == 'room_id'){
-            $rooms = SteamCenterHasRoom::all()->where($select,'=', $value);
+            $rooms = Room::all()->where('steam_center_id','=', $value);
 
             $output = '<option value="" selected disabled>Kambarys</option>';
             foreach ($rooms as $room) {
-                $output .= '<option value="' . $room->room->id . '">' . $room->room->room_number .'('. $room->room->capacity .')'.' '. $room->room->subject .'</option>';
+                $output .= '<option value="' . $room->id . '">' . $room->room_number .'('. $room->capacity .')'.' '. $room->subject->subject .'</option>';
             }
             echo $output;
         }

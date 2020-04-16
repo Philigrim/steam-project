@@ -38,8 +38,13 @@ Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->n
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
-Route::get('/paskaitos','EventController@index')->name('Paskaitos');
-Route::post('/paskaitos','EventController@insert')->name('eventcontroller.insert');
+Route::group(['prefix' => 'paskaitos'], function(){
+    Route::get('/','EventController@index')->name('Paskaitos');
+    Route::post('/','EventController@insert')->name('eventcontroller.insert');
+    Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
+});
+
+
 
 
 Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
@@ -65,11 +70,11 @@ Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admi
 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('user', 'UserController', ['except' => ['show']]); 
+    Route::resource('user', 'UserController', ['except' => ['show']]);
     // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-   
+
 });
 
