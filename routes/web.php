@@ -34,13 +34,10 @@ Route::delete('/faq/{faq_id}', 'FAQController@destroyById')->name('faq.destroy')
 Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
 
 Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
-//Route::post('/home', 'HomeController@delete')->name('home');
-
-//Route::post('/home','CreateCourseController@insert');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
 
-Route::get('/paskaitos','EventController@index')->name('RouteToEvents');
+Route::get('/paskaitos','EventController@index')->name('Paskaitos');
 Route::get('/paskaitos/filter','EventController@filter')->name('events.filter');
 
 Route::get('sukurti-paskaita','CreateEventController@index');
@@ -53,11 +50,13 @@ Route::get('/time','TimeController@index');
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
     Route::post('/','CreateCourseController@insert');
+    Route::post('/fetch', 'CreateCourseController@fetch')->name('createcoursecontroller.fetch');
 });
 
-Route::group(['prefix' => 'sukurti-paskaita'], function(){
+Route::group(['prefix' => 'sukurti-paskaita', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateEventController@index')->name('RouteToCreateEvent');
     Route::post('/','CreateEventController@insert');
+    Route::post('/fetch', 'CreateEventController@fetch')->name('createeventcontroller.fetch');
 });
 
 Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admin']], function(){

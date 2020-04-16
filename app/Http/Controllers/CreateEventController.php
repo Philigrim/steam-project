@@ -32,7 +32,7 @@ class CreateEventController extends Controller
         $grouped = $city_steam_room->groupBy('city_id');
 
         $lecturer_has_courses = LecturerHasCourse::all()->groupBy('lecturer_id');
-        return view('eventu-kurimas', ['lecturer_has_courses'=>$lecturer_has_courses], ['city_steam_room'=>$grouped]);
+        return view('sukurti-paskaita', ['lecturer_has_courses'=>$lecturer_has_courses], ['city_steam_room'=>$grouped]);
     }
 
     function fetch(Request $request){

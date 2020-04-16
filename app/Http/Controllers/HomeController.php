@@ -99,9 +99,8 @@ class HomeController extends Controller
     else
     {
     $output = '
-    <tr>
-        <td align="center" colspan="2">No Data Found</td>
-    </tr>
+    <br>
+    <h3 align="center">Pranesimų pagal pateiktą užklausą nerasta.</h3>
     ';
     }
     $data = array(

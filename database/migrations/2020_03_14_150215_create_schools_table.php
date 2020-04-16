@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class QuestionsAndAnswers extends Migration
+class CreateSchoolsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class QuestionsAndAnswers extends Migration
      */
     public function up()
     {
-        Schema::create('questions_and_answers', function (Blueprint $table) {
-            $table->bigIncrements('faq_id');
-            $table->mediumText('question');
-            $table->mediumText('answer');
-            $table->boolean('isAnswered');
+        Schema::create('schools', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->string('name');
         });
     }
 
@@ -28,6 +28,6 @@ class QuestionsAndAnswers extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('schools');
     }
 }

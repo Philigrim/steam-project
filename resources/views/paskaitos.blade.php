@@ -1,5 +1,15 @@
 @extends('layouts.app', ['title' => __('Paskaitos')])
 
+@section('additional_header_content')
+{{--Gijgo--}}
+    <script src="/gijgo/dist/modular/js/core.js" type="text/javascript"></script>
+    <link href="/gijgo/dist/modular/css/core.css" rel="stylesheet" type="text/css">
+
+{{--Date pickeris--}}
+    <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
+    <script src="/gijgo/dist/modular/js/datepicker.js"></script>
+@endsection
+
 @section('content')
     @include('layouts.headers.cards')
     <div class="container-fluid mt-1 ml--5">
@@ -31,4 +41,29 @@
             </div>
         @endforeach
     </div>
+
+<script type="text/javascript">
+    new GijgoDatePicker(document.getElementById('dateFrom'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
+    new GijgoDatePicker(document.getElementById('dateTo'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
+    
+    window.onload=function()
+    {
+    //get the divs to show/hide
+    dateFiltersDivs = document.getElementById("dateFilters").getElementsByTagName('div');
+    }
+     
+    function showHide(elem) {
+    if(elem.value == "oneDay") {
+        //unhide the divs
+        dateFiltersDivs[0].style.display = 'flex';
+        dateFiltersDivs[2].style.display = 'none';
+    } else if(elem.value == "interval"){
+        //unhide the divs
+        dateFiltersDivs[0].style.display = 'flex';
+        dateFiltersDivs[2].style.display = 'flex';
+     }
+ }
+  
+ </script>
 @endsection
+

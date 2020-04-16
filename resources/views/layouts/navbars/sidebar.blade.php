@@ -69,27 +69,21 @@
             </div>
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="text-primary"></i> {{ __('Naujienos') }}
-                    </a>
-                </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
-                    </a> --}}
-
                     <div class="collapse show" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">
+                                    {{ __('Naujienos') }}
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Kursai') }}">
                                     {{ __('Kursai') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('Vartotojo paskyra') }}
+                                <a class="nav-link" href="{{ route('Paskaitos') }}">
+                                    {{ __('Paskaitos') }}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -102,42 +96,55 @@
                                     {{ __('Apie') }}
                                 </a>
                             </li>
+                            @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('RouteToCreateEvent') }}">
+                                    {{ __('Sukurti paskaitą') }}
+                                </a>
+                            </li>
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
+                            @endif
                             @if(Auth::user()->isRole()=="admin")
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
-                                    {{ __('Sukurti kursą') }}
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
+                            <!-- Other functions -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="media align-items-center">{{ __('Kitos funkcijos') }}</div>
                                 </a>
+                                <div class="dropdown-menu dropdown-menu-arrow" style="width:100%">
+                                    <a href="{{ route('RouteToCreateCourse') }}" class="dropdown-item">
+                                        {{ __('Sukurti kursą') }}
+                                    </a>
+                                    <a href="{{ route('RouteToCreateEvent') }}" class="dropdown-item">
+                                        {{ __('Sukurti paskaitą') }}
+                                    </a>
+                                    <a href="{{ route('RouteToUserManagement') }}" class="dropdown-item">
+                                        {{ __('Vartotojų valdymas') }}
+                                    </a>
+                                    <a href="{{ route('iterpimas') }}" class="dropdown-item">
+                                        {{ __('Duomenų įterpimas') }}
+                                    </a>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('RouteToUserManagement') }}">
-                                    {{ __('Vartotojų valdymas') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('iterpimas') }}">
-                                    {{ __('Duomenų įterpimas') }}
-                                </a>
-                            </li>
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
                             @endif
                         </ul>
                     </div>
 
             </ul>
 
-            <!-- Divider -->
-            <hr class="my-3">
-
-            @if (isset($title) && $title == __('Paskaitos'))
 
             <!-- Filters -->
-            
-            <p class="d-flex justify-content-center" style="font-size:150%;">Filtrai</p>
+            @if (isset($title) && $title == __('Paskaitos'))
 
-            <!-- Divider -->
-            <hr class="my-2">
+            <p class="d-flex justify-content-center mt-6 mb-2" style="font-size:150%;">Filtrai</p>
 
             <div>
-
             <form action="{{ route('events.filter')}} " method="get">
 
             Kategorija:
@@ -173,18 +180,34 @@
                 <option value="utena">Utena</option>
             </select>
 
+
+            Data:
+            <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
+                <option disabled selected>Įvesties tipas</option>
+                <option value="oneDay">Diena</option>
+                <option value="interval">Intervalas</option>
+            </select>
+
+            <div id="dateFilters">
+
+            <div class="form-group" style="width:100%; display:none;">
+                <input placeholder="Data nuo" id="dateFrom"/>
+            </div>
+            <div class="form-group" style="width:100%; display:none;">
+                <input placeholder="Data iki" id="dateTo"/>
+            </div>
+
+            </div>
+
             <row class="d-flex justify-content-center mt-1">
                 <button type = "submit" class = "btn btn-success">
                     Rodyti rezultatus
                 </button>
             </row>
 
-
             </form>
-
             </div>
-            <!-- Divider -->
-            <hr class="my-3">
+
             @endif
 
             <!-- /Filters -->

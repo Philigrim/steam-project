@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSteamCenterHasRoomTable extends Migration
+class CreateRoomHasInventoryItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSteamCenterHasRoomTable extends Migration
      */
     public function up()
     {
-        Schema::create('steam_center_has_room', function (Blueprint $table) {
-            $table->unsignedBigInteger('steam_id');
-            $table->foreign('steam_id')->references('id')->on('steam_centers');
+        Schema::create('room_has_inventory_items', function (Blueprint $table) {
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
+            $table->unsignedBigInteger('inventory_item_id');
+            $table->foreign('inventory_item_id')->references('id')->on('inventory_items');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateSteamCenterHasRoomTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('steam_center_has_room');
+        Schema::dropIfExists('room_has_inventory_items');
     }
 }

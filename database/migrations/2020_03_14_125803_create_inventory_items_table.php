@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimeTable extends Migration
+class CreateInventoryItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateTimeTable extends Migration
      */
     public function up()
     {
-        Schema::create('time', function (Blueprint $table) {
+        Schema::create('inventory_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->integer('quantity_left');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateTimeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('time');
+        Schema::dropIfExists('inventory_items');
     }
 }

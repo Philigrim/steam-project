@@ -10,13 +10,11 @@ class SteamCenter extends Model
         'name','city_id'
     ];
 
-    public function room(){
-        return $this->hasMany(Room::class);
-    }
-
     public function city(){
         return $this->belongsTo(City::class);
     }
 
-
+    public function find_room(){
+        return $this->belongsTo(SteamCenterHasRoom::class);
+    }
 }

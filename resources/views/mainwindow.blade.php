@@ -28,10 +28,7 @@
     <div clas="row">
 
         <!-- Search form -->
-        <input type="text" name="search" id="search" class="form-control" placeholder="Raskite norima pranesima">
-        
-        <h3 align="center">Total Data : <span id="total_records"></span></h3>
-
+        <input type="text" name="search" id="search" class="form-control" placeholder="Raskite norimą pranešimą">
         <!-- /Announcements -->
         <div id="announcements">
         </div>
