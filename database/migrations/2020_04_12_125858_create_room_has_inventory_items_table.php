@@ -14,6 +14,7 @@ class CreateRoomHasInventoryItemsTable extends Migration
     public function up()
     {
         Schema::create('room_has_inventory_items', function (Blueprint $table) {
+            $table->primary(['room_id', 'inventory_item_id']);
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->unsignedBigInteger('inventory_item_id');
