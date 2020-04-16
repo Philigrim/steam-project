@@ -15,19 +15,19 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                                 <h5 class="pt-3 pr-2">04.26, 12:00 - 14:00</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $event->capacity_left }}/{{ $event->room->capacity }}</h5>
+                                <h5 class="pt-3 pr-2">{{ $event->capacity_left }}/{{ $event->max_capacity }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $event->course->subject }}</h5>
                             </div>
                             <p>{{ $event->description }}</p>
-                            {{-- <div class="row d-flex justify-content-between">
+                            <div class="row d-flex justify-content-between">
                                 <h3 class="ml-3 pt-3">{{ $event->lecturer->user->firstname }} {{ $event->lecturer->user->lastname }}</h3>
                                 <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
-                                <button href ="#" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$event->name}}">Registruotis</button>
-                            </div> --}}
-                            <a href="#" class="show-modal btn btn-info btn-sm" data-id="{{$event->id}}" data-name="{{$event->name}}">
+                                <button href ="#" data-id="{{$event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$event->name}}">Registruotis</button>
+                            </div>
+                            {{-- <a href="#" class="show-modal btn btn-info btn-sm"  data-name="{{$event->name}}">
                               <i class="fa fa-eye"></i>
-                            </a>
+                            </a> --}}
                           </div>
                     </div>
                 @endforeach
@@ -39,7 +39,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalCenterTitle">Regitracija į paskaitą</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -49,13 +49,17 @@
             <form action = "/paskaitos" method="post">
             @csrf
           <div class="form-group">
-              <label for="">Title :</label>
-              <b name ="event_id"/>
+              <label for="">Paskaitos pavadinimas :</label>
+              <b id ="name"/>
              </div>           
              <div class="form-group">
               <input  type="hidden"type="text" name="event_id" id="id">
-              </div>  
-             <input name ="pupil_count" class="col-5" type="number" placeholder="Nuo" min="0">
+              </div>
+              <br>
+              <div class="form-group">
+                <b>Mokinių skaičius</b>
+             <input name ="pupil_count" class="col-5" type="number" placeholder="0" min="0">
+              </div>
             </form>
           <div class="modal-footer">
             <div class="form-group">
