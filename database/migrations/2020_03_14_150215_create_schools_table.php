@@ -18,6 +18,7 @@ class CreateSchoolsTable extends Migration
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->string('name');
+            $table->timestamps();
         });
     }
 

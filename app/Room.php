@@ -10,9 +10,8 @@ class Room extends Model
         'room_number', 'capacity','course_category'
     ];
 
-
-    public function find_steam_center(){
-        return $this->belongsTo(SteamCenterHasRoom::class);
+    public function find_steam(){
+        return $this->belongsTo(SteamCenterHasRoom::class, 'id', 'room_id');
     }
 
     public function room_has_inventory(){

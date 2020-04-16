@@ -19,6 +19,7 @@ class CreateSchoolHasTeachersTable extends Migration
             $table->foreign('school_id')->references('id')->on('schools');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->timestamps();
         });
     }
 

@@ -94,7 +94,7 @@
                 $.ajax({
                     url:"{{ route('createeventcontroller.fetch_lecturers') }}",
                     method: "POST",
-                    data:{select:select, value:value, _token:_token, dependent:dependent},
+                    data:{select:select, value:value, _token:_token},
                     success:function(result){
                         $('#'+dependent).html(result);
                     }

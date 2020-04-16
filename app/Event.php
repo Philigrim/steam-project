@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable = [
-        'name', 'room_id','course_id','lecturer_id','capacity_left','description'
+        'name', 'room_id','course_id','lecturer_id','capacity_left','description','max_capacity'
     ];
 
     public function room(){
@@ -17,6 +17,9 @@ class Event extends Model
         return $this->belongsTo(Course::class);
     }
     public function lecturer(){
-        return $this->belongsTo(Lecturer::class);
+        return $this->belongsTo(LecturerHasEvent::class, 'id', 'event_id', '');
+    }
+    public function reservation(){
+        return $this->belongsTo(Reservation::class);
     }
 }
