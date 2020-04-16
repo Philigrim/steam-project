@@ -20,7 +20,7 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                             </div>
-                            <p>{{ "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." }}</p>
+                            <p>{{ $reservation->event->description }}</p>
                             <div class="flex-row d-inline-flex ml--2 mt--3" id="lecturers">
                                 @foreach($lecturers[$reservation->event->id] as $lecturer)
                                     <button class="ml-3 mt-3 p-1 btn btn-dark my-2">
@@ -113,22 +113,4 @@
     $('#show').modal('show');
     $('#id').val($(this).data('id'));
     $('#name').text($(this).data('name'));})
-
-    $('.dynamic').change(function update_dropdown(){
-        if($(this).val() != ''){
-            var select = $(this).attr("id");
-            var value = $(this).val();
-            var dependent = $(this).data('dependent');
-            var _token = $('input[name="_token').val();
-
-            $.ajax({
-                url:"{{ route('createeventcontroller.fetch_lecturers') }}",
-                method: "POST",
-                data:{select:select, value:value, _token:_token},
-                success:function(result){
-                    $('#'+dependent).html(result);
-                }
-            })
-        }
-    })
 </script>
