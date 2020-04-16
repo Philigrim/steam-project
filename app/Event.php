@@ -19,6 +19,9 @@ class Event extends Model
     public function lecturer(){
         return $this->belongsTo(LecturerHasEvent::class, 'id', 'event_id', '');
     }
+    public function teacher(){
+        return $this->belongsTo(EventHasTeacher::class, 'id', 'event_id', '');
+    }
     public function reservation(){
         return $this->belongsTo(Reservation::class);
     }
