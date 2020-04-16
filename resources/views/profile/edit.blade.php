@@ -182,23 +182,23 @@
                     <div class="column pl-lg-4">
                         <table style="width:100%">
                             <tr>
-                                <th>Kurso pavadinimas:</th>
+                                <th>Paskaitos pavadinimas:</th>
                                 <th>Destytojas:</th>
                                 <th>Data ir laikas:</th>
                                 <th>Miestas:</th>
                                 <th>Adresas:</th>
-                                <th>Centeras:</th>
+                                <th>Centras:</th>
                                 <th>Kabinetas:</th>
                             </tr> 
                             @foreach($events as $event)
                             <tr style="font-weight:normal">
                                 <th style="font-weight:normal">{{$event->name}}</th>
-                                <th style="font-weight:normal">LecturerFirstName LecturerLastName</th>
+                                <th style="font-weight:normal">{{ $event->lecturer->user->firstname }} {{ $event->lecturer->user->lastname }}</th>
                                 <th style="font-weight:normal">2020-06-20 20:20</th>
-                                <th style="font-weight:normal">Vilnius</th>
-                                <th style="font-weight:normal">Naugarduko g. 24</th>
-                                <th style="font-weight:normal">MIF</th>
-                                <th style="font-weight:normal">101</th>
+                                <th style="font-weight:normal">{{ $event->room->steam_center->city->city_name}}</th>
+                                <th style="font-weight:normal">{{ $event->room->steam_center->address}}</th>
+                                <th style="font-weight:normal">{{ $event->room->steam_center->steam_name}}</th>
+                                <th style="font-weight:normal">{{ $event->room->room_number}}</th>
                             </tr>
                             @endforeach
                         </table>
