@@ -27,11 +27,11 @@
             <div class="card-body border border-primary rounded">
                     
                 <div class="row d-flex float-right">
-                <form action="{{ route('announcement.edit', [$question_and_answer->faq_id]) }}" method="get">
+                <form action="{{ route('announcement.edit', [$question_and_answer->id]) }}" method="get">
                     <input class="btn btn-success ml-3" type="submit" value="Redaguoti" />
                 </form> 
 
-                <form action="{{ url('/faq', [$question_and_answer->faq_id]) }}" method="post">
+                <form action="{{ url('/faq', [$question_and_answer->id]) }}" method="post">
                     <input class="btn btn-danger ml-3" type="submit" value="Ištrinti" />
                     <input type="hidden" name="_method" value="delete" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

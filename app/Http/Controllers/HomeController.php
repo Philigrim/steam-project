@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use DB;
+use App\Announcement;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 class HomeController extends Controller
@@ -35,18 +35,15 @@ class HomeController extends Controller
     $query = $request->get('query');
     if($query != '')
     {
-    $data = DB::table('announcements')
-        ->where('announcement_title', 'like', '%'.$query.'%')
-        ->orWhere('announcement_text', 'like', '%'.$query.'%')
-        ->orderBy('id', 'desc')
-        ->get();
+    $data = Announcement::where('title', 'like', '%'.$query.'%')
+                         ->orWhere('text', 'like', '%'.$query.'%')
+                         ->orderBy('id', 'desc')
+                         ->get();
 
     }
     else
     {
-    $data = DB::table('announcements')
-        ->orderBy('id', 'desc')
-        ->get();
+    $data = Announcement::orderBy('id', 'desc')->get();
     }
     $total_row = $data->count();
     if($total_row > 0)
@@ -75,20 +72,20 @@ class HomeController extends Controller
         <div class="border-top mt-2 mb-2"></div>
 
         <div class="row d-flex justify-content-center">
-        <h1 class="card-title font-weight-bold">'.$row->announcement_title.'</h1>
+        <h1 class="card-title font-weight-bold">'.$row->title.'</h1>
         </div>
 
         <div class="border-top mt-2 mb-2"></div>
 
         <div>
         <span class="ml-2">Autorius:</span>
-        <span class="ml-2">'.$row->announcement_author.'</span>
+        <span class="ml-2">'.$row->author.'</span>
         <div class="ml-2 float-right">'.$row->created_at.'</div>
         </div>
 
         <div class="border-top mt-2 mb-2"></div>
 
-        <div class="ml-2">'.$row->announcement_text.'</div>
+        <div class="ml-2">'.$row->text.'</div>
 
         <div class="border-top mt-2 mb-2"></div>
         </div>
@@ -114,54 +111,55 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
-        $announcement_author = $request->input('announcement_author');
-        $announcement_title = $request->input('announcement_title');
-        $announcement_text = $request->input('announcement_text');
+        $author_id = \Auth::user()->id;
+        $author = $request->input('announcement_author');
+        $title = $request->input('announcement_title');
+        $text = $request->input('announcement_text');
 
         date_default_timezone_set('Europe/Vilnius');
         $announcement_date = date('Y/m/d H:i', time());
 
         $data = array(
-        'announcement_author' => $announcement_author,
-        'announcement_title' => $announcement_title,
-        'announcement_text' => $announcement_text,
+        'author_id' => $author_id,
+        'author' => $author,
+        'title' => $title,
+        'text' => $text,
         'created_at' => $announcement_date);
 
-        DB::table('announcements')->insert($data);
+        Announcement::insert($data);
 
         return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai sukurtas.'));
     }
 
     public function edit($id)
     {
-        $announcement = DB::select('select * from announcements where id=' . $id);
+        $announcement = Announcement::select('select * from announcements where id=' . $id);
         return view('announcements.edit',['announcement'=>$announcement]);
     }
 
     public function update(Request $request)
     {
         $id = $request->input('id');
-        $announcement_title = $request->input('announcement_title');
-        $announcement_author = $request->input('announcement_author');
-        $announcement_text = $request->input('announcement_text');
+        $title = $request->input('title');
+        $author = $request->input('author');
+        $text = $request->input('text');
 
         date_default_timezone_set('Europe/Vilnius');
         $modification_date = date('Y/m/d H:i', time());
 
         $data = array(
-            'announcement_author' => "$announcement_author",
-            'announcement_title' => $announcement_title,
-            'announcement_text' => $announcement_text,
+            'author' => "$author",
+            'title' => $title,
+            'text' => $text,
             'updated_at' => $modification_date);
 
-        DB::table('announcements')->where('id', $id)->update($data);
+        Announcement::where('id', $id)->update($data);
         return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai redaguotas.'));
     }
 
     public function destroy($id)
     {
-        DB::table('announcements')->where('id', $id)->delete();
-
+        Announcement::where('id', $id)->delete();
         return redirect()->route('home')->withStatus(__('Pranešimas sėkmingai ištrintas.'));
     }
 }
