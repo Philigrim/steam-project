@@ -37,7 +37,10 @@ Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
 Route::get('/announcements/edit/{announcement_id}', 'EditAnnouncement@index')->name('editannouncement');
 
 Route::get('/kursai','CourseController@index')->name('Kursai');
+
 Route::get('/paskaitos','EventController@index')->name('Paskaitos');
+Route::post('/paskaitos','EventController@insert')->name('eventcontroller.insert');
+
 
 Route::get('findSteamCenter/{id}','CreateEventController@findSteamCenter');
 
@@ -62,9 +65,11 @@ Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admi
 
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
+    Route::resource('user', 'UserController', ['except' => ['show']]); 
+    // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+   
 });
 

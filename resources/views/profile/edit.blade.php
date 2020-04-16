@@ -178,7 +178,7 @@
                 </div>
                 <div class="card-body">
                     <h6 class="heading-small text-muted mb-4">{{ __('Ateinantys renginiai') }}</h6>
-
+                   
                     <div class="column pl-lg-4">
                         <table style="width:100%">
                             <tr>
@@ -189,9 +189,10 @@
                                 <th>Adresas:</th>
                                 <th>Centeras:</th>
                                 <th>Kabinetas:</th>
-                            </tr>
+                            </tr> 
+                            @foreach($events as $event)
                             <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#1</th>
+                                <th style="font-weight:normal">{{$event->name}}</th>
                                 <th style="font-weight:normal">LecturerFirstName LecturerLastName</th>
                                 <th style="font-weight:normal">2020-06-20 20:20</th>
                                 <th style="font-weight:normal">Vilnius</th>
@@ -199,27 +200,10 @@
                                 <th style="font-weight:normal">MIF</th>
                                 <th style="font-weight:normal">101</th>
                             </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#2</th>
-                                <th style="font-weight:normal">Vardenis Pavardenis, LecturerFirstName LecturerLastName</th>
-                                <th style="font-weight:normal">2020-07-20 20:20</th>
-                                <th style="font-weight:normal">Plunge</th>
-                                <th style="font-weight:normal">Birutės g. 25B</th>
-                                <th style="font-weight:normal">Plungės ,,Saulės" gimnazija</th>
-                                <th style="font-weight:normal">20</th>
-                            </tr>
-                            <tr style="font-weight:normal">
-                                <th style="font-weight:normal">CourseTitle#3</th>
-                                <th style="font-weight:normal">Test Test</th>
-                                <th style="font-weight:normal">2020-08-20 20:20</th>
-                                <th style="font-weight:normal">Klaipėda</th>
-                                <th style="font-weight:normal">Taikos pr. 16</th>
-                                <th style="font-weight:normal">KVK</th>
-                                <th style="font-weight:normal">420</th>
-                            </tr>
+                            @endforeach
                         </table>
                     </div>
-
+               
                     <hr class="my-4">
 
                     <h6 class="heading-small text-muted mb-4">{{ __('Praėję renginiai') }}</h6>
