@@ -17,4 +17,7 @@ class LecturerHasSubject extends Model
     public function subject(){
         return $this->belongsTo(Subject::class);
     }
+
+    protected $primaryKey = ['lecturer_id', 'subject_id'];
+    public $incrementing = false;
 }

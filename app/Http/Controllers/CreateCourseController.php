@@ -28,32 +28,6 @@ class CreateCourseController extends Controller
         return view('sukurti-kursa',['lecturers'=>$lecturers], ['subjects'=>$subjects]);
     }
 
-    public function fetch(Request $request){
-        $select = $request->get('select');
-        $value = $request->get('value');
-        $dependent = $request->get('dependent');
-
-        $data = LecturerHasSubject::all()->where($select, $value);
-
-        $output = '<thead></thead>';
-        $table_data = '';
-
-        foreach ($data as $row) {
-            $table_data .= '<tr data-role="row" data-position="1" class="">
-                                <td>
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input class="custom-control-input" name="lecturers[]" id="'. $row->lecturer->id .'" value="'. $row->lecturer->id .'" type="checkbox">
-                                        <label class="custom-control-label" for="'. $row->lecturer->id .'">
-                                            <span class="text-muted">'. $row->lecturer->user->firstname . ' ' . $row->lecturer->user->lastname .'</span>
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>';
-        }
-        $output = '<tbody>'. $table_data .'</tbody>';
-        echo $output;
-    }
-
     public function insert(Request $request)
     {
         $request->validate([
