@@ -21,7 +21,7 @@ class ProfileController extends Controller
     {   $teacher_id=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
         $event_ids=EventHasTeacher::all()->where('teacher_id',$teacher_id)->pluck('event_id');
         $events = Event::all()->whereIn('event_id',$event_ids)->collect();
-        dd($events);
+       
 
         
         return view('profile.edit',['events'=>$events]);
