@@ -112,6 +112,28 @@
                       </div>
                     </div>
   </div> --}}
+  <script type="text/javascript">
+    new GijgoDatePicker(document.getElementById('dateFrom'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
+    new GijgoDatePicker(document.getElementById('dateTo'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
+
+    window.onload=function()
+    {
+    //get the divs to show/hide
+    dateFiltersDivs = document.getElementById("dateFilters").getElementsByTagName('div');
+    }
+     
+    function showHide(elem) {
+    if(elem.value == "oneDay") {
+        //unhide the divs
+        dateFiltersDivs[0].style.display = 'flex';
+        dateFiltersDivs[2].style.display = 'none';
+    } else if(elem.value == "interval"){
+        //unhide the divs
+        dateFiltersDivs[0].style.display = 'flex';
+        dateFiltersDivs[2].style.display = 'flex';
+     }
+ }
+ </script>
 @endsection
 
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
@@ -142,25 +164,3 @@
         }
     })
 </script>
-<script type="text/javascript">
-    new GijgoDatePicker(document.getElementById('dateFrom'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
-    new GijgoDatePicker(document.getElementById('dateTo'), { calendarWeeks: true, uiLibrary: 'bootstrap4' });
-    
-    window.onload=function()
-    {
-    //get the divs to show/hide
-    dateFiltersDivs = document.getElementById("dateFilters").getElementsByTagName('div');
-    }
-     
-    function showHide(elem) {
-    if(elem.value == "oneDay") {
-        //unhide the divs
-        dateFiltersDivs[0].style.display = 'flex';
-        dateFiltersDivs[2].style.display = 'none';
-    } else if(elem.value == "interval"){
-        //unhide the divs
-        dateFiltersDivs[0].style.display = 'flex';
-        dateFiltersDivs[2].style.display = 'flex';
-     }
- }
- </script>

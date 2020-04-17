@@ -11,6 +11,8 @@ use App\Lecturer;
 use App\LecturerHasEvent;
 use App\Reservation;
 use App\SteamCenter;
+use App\Subject;
+use App\City;
 use App\SteamCenterHasRoom;
 use Illuminate\Http\Request;
 
@@ -25,8 +27,11 @@ class EventController extends Controller
         if($count == 0.5){
             $count = 2;
         }
+        
+        $subjects = Subject::all();
+        $cities = City::all();
 
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations]);
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
 
     public function fetch_lecturers(Request $request){
@@ -50,33 +55,50 @@ class EventController extends Controller
         $capacity = $request->get('filterCapacityInput');
         $category = $request->get('filterCategoryInput');
         $city = $request->get('filterCityInput');
+        $dateFrom = $request->get('filterDateFrom');
 
         $events = Event::join('rooms', 'rooms.id', '=', 'events.room_id')
-                        ->join('steam_centers', 'steam_centers.id', '=', 'rooms.id')
-                        ->join('cities', 'cities.id', '=', 'steam_centers.id')
-                        ->join('courses', 'courses.id', '=', 'events.course_id');
+                       ->join('steam_centers', 'steam_centers.id', '=', 'rooms.steam_center_id')
+                       ->join('cities', 'cities.id', '=', 'steam_centers.city_id')
+                       ->join('courses', 'courses.id', '=', 'events.course_id')
+                       ->join('subjects', 'subjects.id', '=', 'courses.subject_id');
+                       
+        $reservations = Reservation::all();
 
-        if($category != ''){          
-            $events = $events->where('subject', '=', $category);
+        if(isset($category)){
+            $events = $events->where('subjects.subject', '=', $category);
         }
 
-        if($capacity != ''){          
+        if(isset($capacity)){          
             $events = $events->where('capacity_left', '>=', $capacity);
         }
         
-        if($city != ''){
+        if(isset($city)){
             $events = $events->where('city_name', '=', $city);
         }
 
-        $events = $events->get();
+        if(isset($dateFrom)){
+            $dateTo = $request->get('filterDateTo');
+            if(isset($dateTo)){
+                $reservations = $reservations->whereBetween('date', [$dateFrom, $dateTo]);
+            } else {
+                $reservations = $reservations->where('date', '=', $dateFrom);
+            }
+        }
+
+        $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
         
         $count = $events->count()/2;
-
         if($count == 0){
             $count = 2;
         }
 
-        return view('paskaitos', ['events'=>$events], ['count'=>$count]);
+        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+        $events = $events->get();
+        $subjects = Subject::all();
+        $cities = City::all();
+        
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
     public function insert(Request $request){
 

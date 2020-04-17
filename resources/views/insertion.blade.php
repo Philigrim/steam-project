@@ -82,7 +82,7 @@
                     <select class="form-control dropdown-menu-arrow" name="steam_id" id="steam_id" required>
                         <option value="" selected disabled>STEAM centras</option>
                     </select>
-                <td><input class="form-control" placeholder="Kambario paskirtis" name="purposeForRoom" required></td>
+                <td><input class="form-control" placeholder="Subject_id" name="purposeForRoom" required></td>
                 <td><button type="submit" class="btn btn-success ml-5">{{ __('Patvirtinti') }}</button></td>
                 </form>
             </tr>

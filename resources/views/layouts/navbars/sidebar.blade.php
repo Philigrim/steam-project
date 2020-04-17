@@ -149,37 +149,23 @@
 
             Kategorija:
             <select class="mdb-select md-form mb-2" style="width:100%;" name="filterCategoryInput">
-                <option disabled selected>Pasirinkite kategorija</option>
-                <option value="Science">Science</option>
-                <option value="Technologijos">Technologijos</option>
-                <option value="Engineering">Engineering</option>
-                <option value="Arts">Arts</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Biology">Biologija</option>
-                <option value="Engineering">Inžinerija</option>
-                <option value="Informatics">Informatika</option>
-                <option value="Chemistry">Chemija</option>
+                <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
+                @foreach($subjects as $subject)
+                <option value="{{ $subject->subject }}">{{ $subject->subject }}</option>
+                @endforeach
             </select>
 
+            <br>
             Laisvų vietų skaičius:
             <input class="mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
 
             Miestas:
             <select class="mdb-select md-form mb-2"  style="width:100%;" name="filterCityInput">
-                <option disabled selected>Nurodykite miestą</option>
-                <option value="vilnius">Vilnius</option>
-                <option value="kaunas">Kaunas</option>
-                <option value="klaipėda">Klaipėda</option>
-                <option disabled="disabled">-------------------------------</option>
-                <option value="alytus">Alytus</option>
-                <option value="marijapmolė">Marijapmolė</option>
-                <option value="panevėžys">Panevėžys</option>
-                <option value="Šiauliai">Šiauliai</option>
-                <option value="tauragė">Tauragė</option>
-                <option value="telšiai">Telšiai</option>
-                <option value="utena">Utena</option>
+                <option selected disabled>{{ "Nurodykite miestą" }}</option>
+                @foreach($cities as $city)
+                <option value="{{ $city->city_name }}">{{ $city->city_name }}</option>
+                @endforeach
             </select>
-
 
             Data:
             <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
@@ -190,16 +176,16 @@
 
             <div id="dateFilters">
 
-            <div class="form-group" style="width:100%; display:none;">
-                <input placeholder="Data nuo" id="dateFrom"/>
+            <div class="form-group mb-2" style="width:100%; display:none;">
+                <input placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
             </div>
-            <div class="form-group" style="width:100%; display:none;">
-                <input placeholder="Data iki" id="dateTo"/>
-            </div>
-
+            <div class="form-group mb-2" style="width:100%; display:none;">
+                <input placeholder="Pasirinkite datą" id="dateTo" name="filterDateTo"/>
             </div>
 
-            <row class="d-flex justify-content-center mt-1">
+            </div>
+
+            <row class="d-flex justify-content-center">
                 <button type = "submit" class = "btn btn-success">
                     Rodyti rezultatus
                 </button>

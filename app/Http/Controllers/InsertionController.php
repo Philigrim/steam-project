@@ -49,7 +49,7 @@ class InsertionController extends Controller
         Room::insert(array('room_number' => $request->get('nameForRoom'),
                                   'capacity' => $request->get('seatsForRoom'),
                                   'steam_center_id' => $request->get('steam_id'),
-                                  'course_category' => $request->get('purposeForRoom')));
+                                  'subject_id' => $request->get('purposeForRoom')));
         return redirect()->back()->withStatus(__('Kambarys sėkmingai pridėtas.'));
     }
 
