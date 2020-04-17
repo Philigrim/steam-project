@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -84,11 +82,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('Vartotojo paskyra') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('faq') }}">
                                     {{ __('D.U.K.') }}
                                 </a>
@@ -98,7 +91,9 @@
                                     {{ __('Apie') }}
                                 </a>
                             </li>
-                            @if(Auth::user()->isRole()=="admin" || Auth::user()->isRole()=="paskaitu_lektorius")
+                            @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Kursai') }}">
                                     {{ __('Kursai') }}
@@ -109,82 +104,98 @@
                                     {{ __('Sukurti paskaitą') }}
                                 </a>
                             </li>
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
                             @endif
                             @if(Auth::user()->isRole()=="admin")
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('RouteToCreateCourse') }}">
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
+                            <!-- Other functions -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="media align-items-center">{{ __('Kitos funkcijos') }}</div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-arrow" style="width:100%">
+                                    <a href="{{ route('RouteToCreateCourse') }}" class="dropdown-item">
                                         {{ __('Sukurti kursą') }}
                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('RouteToUserManagement') }}">
+                                    <a href="{{ route('RouteToCreateEvent') }}" class="dropdown-item">
+                                        {{ __('Sukurti paskaitą') }}
+                                    </a>
+                                    <a href="{{ route('RouteToUserManagement') }}" class="dropdown-item">
                                         {{ __('Vartotojų valdymas') }}
                                     </a>
-                                </li>
+                                    <a href="{{ route('iterpimas') }}" class="dropdown-item">
+                                        {{ __('Duomenų įterpimas') }}
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- Divider -->
+                            <li><hr class="my-0"></li>
                             @endif
                         </ul>
                     </div>
 
             </ul>
 
-            <!-- Divider -->
-            <hr class="my-3">
 
             <!-- Filters -->
-            <p class="d-flex justify-content-center" style="font-size:150%;">Filtrai</p>
+            @if (isset($title) && $title == __('Paskaitos'))
 
-            <!-- Divider -->
-            <hr class="my-0">
+            <p class="d-flex justify-content-center mt-6 mb-2" style="font-size:150%;">Filtrai</p>
 
-            @if (isset($title))
-            @if ($title == __('Naujienos'))
-            <form action="/filter/events" method="get">
+            <div>
+            <form action="{{ route('events.filter')}} " method="get">
 
             Kategorija:
-            <select class="mdb-select md-form mb-2">
-                <option disabled selected>Pasirinkite kategorija</option>
-                <option value="1">Science</option>
-                <option value="2">Technologijos</option>
-                <option value="3">Engineering</option>
-                <option value="4">Arts</option>
-                <option value="5">Mathematics</option>
+            <select class="mdb-select md-form mb-2" style="width:100%;" name="filterCategoryInput">
+                <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
+                @foreach($subjects as $subject)
+                <option value="{{ $subject->subject }}">{{ $subject->subject }}</option>
+                @endforeach
             </select>
 
+            <br>
             Laisvų vietų skaičius:
-            <div class="row d-flex justify-content-center mb-2">
-                <input class="col-5" type="number" placeholder="Nuo" min="0">
-                <input class="col-5" type="number" placeholder="Iki" min="0">
-            </div>
+            <input class="mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
 
             Miestas:
-            <select class="mdb-select md-form mb-3">
-                <option disabled selected>Nurodykite miestą</option>
-                <option value="1">Vilnius</option>
-                <option value="2">Kaunas</option>
-                <option value="3">Klaipėda</option>
-                <option disabled="disabled">-------------------------------</option>
-                <option value="4">Alytus</option>
-                <option value="5">Marijapmolė</option>
-                <option value="6">Panevėžys</option>
-                <option value="7">Šiauliai</option>
-                <option value="8">Tauragė</option>
-                <option value="9">Telšiai</option>
-                <option value="10">Utena</option>
+            <select class="mdb-select md-form mb-2"  style="width:100%;" name="filterCityInput">
+                <option selected disabled>{{ "Nurodykite miestą" }}</option>
+                @foreach($cities as $city)
+                <option value="{{ $city->city_name }}">{{ $city->city_name }}</option>
+                @endforeach
             </select>
 
-            <row class="d-flex justify-content-center mt-1">
+            Data:
+            <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
+                <option disabled selected>Įvesties tipas</option>
+                <option value="oneDay">Diena</option>
+                <option value="interval">Intervalas</option>
+            </select>
+
+            <div id="dateFilters">
+
+            <div class="form-group mb-2" style="width:100%; display:none;">
+                <input placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
+            </div>
+            <div class="form-group mb-2" style="width:100%; display:none;">
+                <input placeholder="Pasirinkite datą" id="dateTo" name="filterDateTo"/>
+            </div>
+
+            </div>
+
+            <row class="d-flex justify-content-center">
                 <button type = "submit" class = "btn btn-success">
                     Rodyti rezultatus
                 </button>
             </row>
 
             </form>
-
-            <!-- Divider -->
-            <hr class="my-3">
+            </div>
 
             @endif
-            @endif
+
             <!-- /Filters -->
 
                         <!-- Navigation -->

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestionsAndAnswersTable extends Migration
+class CreateQuestionAndAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateQuestionsAndAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions_and_answers', function (Blueprint $table) {
+        Schema::create('question_and_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->mediumText('question');
             $table->mediumText('answer');
@@ -29,6 +29,6 @@ class CreateQuestionsAndAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions_and_answers');
+        Schema::dropIfExists('question_and_answers');
     }
 }

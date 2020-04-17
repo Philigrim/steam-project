@@ -426,6 +426,8 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
     );
 
     public static $classMap = array (
+        'App\\Administrator' => __DIR__ . '/../..' . '/app/Administrator.php',
+        'App\\Announcement' => __DIR__ . '/../..' . '/app/Announcement.php',
         'App\\City' => __DIR__ . '/../..' . '/app/City.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Course' => __DIR__ . '/../..' . '/app/Course.php',
@@ -446,6 +448,7 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         'App\\Http\\Controllers\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/EventController.php',
         'App\\Http\\Controllers\\FAQController' => __DIR__ . '/../..' . '/app/Http/Controllers/FAQController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\InsertionController' => __DIR__ . '/../..' . '/app/Http/Controllers/InsertionController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\TimeController' => __DIR__ . '/../..' . '/app/Http/Controllers/TimeController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
