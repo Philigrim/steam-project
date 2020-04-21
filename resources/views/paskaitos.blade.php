@@ -2,17 +2,19 @@
 
 @section('content')
     @include('layouts.headers.cards')
-    <div class="container-fluid mt-1 ml--5">
+    <div class="container pt-2 ml-3">
         @foreach($reservations->split($count)->reverse() as $row)
             @csrf
-            <div class="flex-row d-inline-flex">
+            <table class="table">
                 @foreach($row as $reservation)
-                    <div class="ml-4 bg-gradient-secondary p-2 border-bottom shadow rounded mt-2 col-md-6 win-event" id="{{ $reservation->event->id }}">
-                        <div class="col">
-                            <h2>{{ $reservation->event->name }}</h2>
-                            <div class="flex-row d-inline-flex ml--2 mt--3">
+                    <tbody>
+                        <div class="col mr-2 mt-1 border shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
+                            <div class="">
+                                <h2>{{ $reservation->event->name }}</h2>
+                            </div>
+                            <div class="row mt--3 ml-1">
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->address }}</h5>
+                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                                 <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
@@ -20,29 +22,28 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                             </div>
-                            <p>{{ $reservation->event->description }}</p>
-                            <div class="flex-row d-inline-flex ml--2 mt--3" id="lecturers">
+                            <div class="">
+                                <p>{{ $reservation->event->description }}</p>
+                            </div>
+                            <div class="row mt--3" id="lecturers">
                                 @foreach($lecturers[$reservation->event->id] as $lecturer)
-                                    <button class="ml-3 mt-3 p-1 btn btn-dark my-2">
-                                        {{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}
+                                    <button class="ml-3 p-1 mt-3 btn btn-dark my-2">
+                                        <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
                                     </button>
                                 @endforeach
                             </div>
-                            <div class="row d-flex justify-content-center">
+                            <div class="row p-1 justify-content-center border-top">
                                 <div class="col-4">
                                     <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
                                     @if(Auth::user()->isRole() === 'mokytojas')
-                                        <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                                        <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}" data-capacity="{{ $reservation->event->capacity_left }}">Registruotis</button>
                                     @endif
                                 </div>
                             </div>
-                            {{-- <a href="#" class="show-modal btn btn-info btn-sm"  data-name="{{$event->name}}">
-                              <i class="fa fa-eye"></i>
-                            </a> --}}
-                          </div>
-                    </div>
+                        </div>
+                    </tbody>
                 @endforeach
-            </div>
+            </table>
             {{ csrf_field() }}
         @endforeach
     </div>
@@ -69,7 +70,7 @@
               <br>
               <div class="form-group">
                 <b>Mokinių skaičius</b>
-             <input name ="pupil_count" class="col-5" min="1" type="number" placeholder="0" min="0">
+             <input id="set-capacity" name ="pupil_count" class="col-5" min="1" max="hey" type="number" placeholder="0" min="0">
               </div>
             </form>
           <div class="modal-footer">
@@ -112,5 +113,6 @@
     $(document).on('click', '.show-modal', function() {
     $('#show').modal('show');
     $('#id').val($(this).data('id'));
-    $('#name').text($(this).data('name'));})
+    $('#name').text($(this).data('name'));
+    $('#set-capacity').attr("max", $(this).data('capacity'));})
 </script>

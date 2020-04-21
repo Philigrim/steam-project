@@ -60,7 +60,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="1500" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token').val();
-                    
+
                 $.ajax({
                     url:"{{ route('createeventcontroller.fetch_lecturers') }}",
                     method: "POST",
