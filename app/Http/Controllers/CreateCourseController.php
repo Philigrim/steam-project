@@ -31,7 +31,12 @@ class CreateCourseController extends Controller
     public function insert(Request $request)
     {
         $request->validate([
-            'lecturers' => 'required'
+            'lecturers' => 'required',
+            'course_title' =>'required',
+            'subject_id'=> 'required',
+            'description' => 'required',
+            'additional_info' => 'required'
+
         ]);
 
         $subject = Subject::all()->where('id', '=', $request->subject_id)->collect();

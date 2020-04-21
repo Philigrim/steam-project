@@ -28,21 +28,44 @@
                 <div class="card-body">
                     <form action = "/sukurti-kursa" method="post">
                         @csrf
+                        <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                         <div class="col-md-12  ">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" required>
+                                <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" >
+                             @if ($errors->has('course_title'))
+                            <div class="">
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ "Kurso pavadinimas yra privalomas" }}</strong>
+                                </span>
                             </div>
+                            @endif
+                            </div>
+                    
+                </div>
+                           
                         </div>
+                        
                         <div class="row d-flex justify-content-center">
-                            <div class="col-md-4">
+                            
+                            <div class="col-md-4"> 
+                                <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id" required>
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id">
                                         <option value="" selected disabled>{{ "Dalykai" }}</option>
                                         @foreach($subjects as $subject)
                                             <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
                                         @endforeach
                                     </select>
+                                    @if ($errors->has('subject_id'))
+                            <div class="">
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ "Pasirinkite dalyką" }}</strong>
+                                </span>
+                            </div>
+                            @endif
                                 </div>
+                            </div>
+                            
                             </div>
                             <div class="col-md-6">
                                 @if ($errors->has('lecturers'))
@@ -59,15 +82,32 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" ></textarea>
+                                @if ($errors->has('description'))
+                                <div class="">
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ "Aprašymas yra privalomas" }}</strong>
+                                    </span>
                                 </div>
+                                @endif</div>
                             </div>
+                                </div>
+                                
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments"></textarea>
+                                    @if ($errors->has('description'))
+                                    <div class="">
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ "Papildoma informacija yra privaloma" }}</strong>
+                                        </span>
+                                    </div>
+                                    @endif</div>
                                 </div>
                             </div>
                         </div>

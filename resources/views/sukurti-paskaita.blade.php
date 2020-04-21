@@ -40,12 +40,19 @@
                         <div class="row d-flex justify-content-start">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" >
                                 </div>
                             </div>
+                            @if ($errors->has('description'))
+                                <div class="">
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ "Aprašymas yra privalomas" }}</strong>
+                                    </span>
+                                </div>
+                                @endif
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id" required>
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id"  required>
                                         <option value="" selected disabled>{{ "Kursai" }}</option>
                                         @foreach($courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->course_title }}</option>
