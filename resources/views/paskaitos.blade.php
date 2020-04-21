@@ -50,7 +50,13 @@
                                 <div class="col-4">
                                     <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
                                     @if(Auth::user()->isRole() === 'mokytojas')
+                                      @if($reservation->event->capacity_left>"0")
                                         <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                                      @endif
+                                      @if($reservation->event->capacity_left=="0")
+                                      <button class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol"  disabled ">Registruotis</button>
+
+                                      @endif
                                     @endif
                                 </div>
                             </div>
