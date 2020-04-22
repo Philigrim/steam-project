@@ -35,7 +35,7 @@ class CreateCourseController extends Controller
             'course_title' =>'required',
             'subject_id'=> 'required',
             'description' => 'required',
-            'additional_info' => 'required'
+            'comments' => 'required'
 
         ]);
 
