@@ -56,7 +56,7 @@ class CreateEventController extends Controller
 
             $output = '<option value="" selected disabled>Kambarys</option>';
             foreach ($rooms as $room) {
-                $output .= '<option value="' . $room->id . '">' . $room->room_number .'('. $room->capacity .')'.' '. $room->subject->subject .'</option>';
+                $output .= '<option data-capacity="'. $room->capacity .'" value="' . $room->id . '">' . $room->room_number .'('. $room->capacity .')'.' '. $room->subject->subject .'</option>';
             }
             echo $output;
         }
@@ -123,12 +123,12 @@ class CreateEventController extends Controller
 
         echo $output;
     }
-    
+
     public function insert(Request $request){
 
         $request->validate([
             'lecturers' => 'required',
-            
+
         ]);
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,

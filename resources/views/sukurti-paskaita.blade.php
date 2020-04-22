@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input class="form-control input-group" type="number" min="1" name="capacity" value="1" placeholder="Žmonių skaičius">
+                                    <input class="form-control input-group" id="set-capacity" type="number" min="1" max="100" name="capacity" value="1" placeholder="Žmonių skaičius">
                                 </div>
                             </div>
                         </div>
@@ -191,6 +191,8 @@
             var date_value = $('#datepicker').val();
             if(room_value != null && date_value != ''){
                 var _token = $('input[name="_token').val();
+                var room_capacity = $('#'+room_value).data('capacity');
+                $('#set-capacity').attr("max", room_capacity);
                 $.ajax({
                     url:"{{ route('createeventcontroller.fetch_time') }}",
                     method: "POST",
@@ -199,6 +201,9 @@
                         $('#time').html(result);
                     }
                 })
+            }else if(room_value != null){
+                var room_capacity = $('#room_id').find(':selected').data('capacity');
+                $('#set-capacity').attr("max", room_capacity);
             }
         }else{
             $('#time').html('<option value="" selected disabled>Laikas</option>');
