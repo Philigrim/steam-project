@@ -37,22 +37,27 @@
                         </div>
                     </div>
                     <div class="card-body">
+        @if(count($errors))
+			<div class="alert alert-danger">
+				
+					@foreach($errors->all() as $error)
+					<li>{{ $error }}</li>
+					@endforeach
+				
+			</div>
+		@endif
                         <div class="row d-flex justify-content-start">
+                            
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" >
                                 </div>
+                                
                             </div>
-                            @if ($errors->has('description'))
-                                <div class="">
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ "Aprašymas yra privalomas" }}</strong>
-                                    </span>
-                                </div>
-                                @endif
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id"  required>
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id" >
                                         <option value="" selected disabled>{{ "Kursai" }}</option>
                                         @foreach($courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->course_title }}</option>
@@ -64,7 +69,7 @@
                         <div class="row d-flex justify-content-start">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="city_id" id ="city_id" data-dependent="steam_id" required>
+                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="city_id" id ="city_id" data-dependent="steam_id" >
                                         <option value="" selected disabled>Miestas</option>
                                         @foreach($cities as $city)
                                             <option value="{{ $city->id }}">{{ $city->city_name }}</option>
@@ -74,14 +79,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="steam_id" id="steam_id" data-dependent="room_id" required>
+                                    <select class="form-control dropdown-menu-arrow dynamic-ccr" name="steam_id" id="steam_id" data-dependent="room_id" >
                                         <option value="" selected disabled>STEAM centras</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select class="form-control dropdown-menu-arrow update-time" name="room_id" id="room_id"required>
+                                    <select class="form-control dropdown-menu-arrow update-time" name="room_id" id="room_id">
                                         <option selected disabled>Kambarys</option>
                                     </select>
                                 </div>
@@ -90,12 +95,12 @@
                         <div class="row d-flex justify-content-start">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input class=" form-group form-control input-group update-time" name="date" placeholder="Data" id="datepicker" required/>
+                                    <input class=" form-group form-control input-group update-time" name="date" placeholder="Data" id="datepicker" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="time" id="time" class="form-control dropdown-menu-arrow" required>
+                                    <select name="time" id="time" class="form-control dropdown-menu-arrow" >
                                         <option selected disabled>Laikas</option>
                                     </select>
                                 </div>
@@ -109,7 +114,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="200" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie paskaitą ..." name="description" maxlength="200" ></textarea>
                                 </div>
                             </div>
                         </div>
@@ -128,13 +133,7 @@
                     </div>
                     <div class="card-body">
                         <div class="col">
-                            @if ($errors->has('lecturers'))
-                                <div class="ml-4">
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ "Pasirinkite bent 1 dėstytoją." }}</strong>
-                                            </span>
-                                </div>
-                            @endif
+
                             <div class="form-group">
                                 <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
                             </div>

@@ -127,8 +127,31 @@ class CreateEventController extends Controller
     public function insert(Request $request){
 
         $request->validate([
+            'name' => 'required',
             'lecturers' => 'required',
+            'course_id' => 'required',
+            'city_id' => 'required',
+            'steam_id' => 'required',
+            'room_id' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'description' => 'required'
 
+        ],[
+            'name.required' => ' Paskaitos pavadinimas yra privalomas!',
+            'lecturers.required' => ' Pasirinkite bent vieną dėstytoją!',
+            'course_id.required' => ' Nepasirinkote kurso!',
+            'city_id.required' => ' Nepasirinkote miesto!',
+            'steam_id.required' => ' Nepasirinkote STEAM centro!',
+            'room_id.required' => ' Nepasirinkote kambario!',
+            'date.required' => ' Nepasirinkote datos!',
+            'time.required' => ' Nepasirinkote laiko!',
+
+            'description.required' => ' Paskaitos aprašymas yra privalomas!',
+
+
+
+           
         ]);
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,

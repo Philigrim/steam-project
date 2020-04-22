@@ -35,7 +35,14 @@ class CreateCourseController extends Controller
             'course_title' =>'required',
             'subject_id'=> 'required',
             'description' => 'required',
-            'additional_info' => 'required'
+            'comments' => 'required'
+
+        ],[
+            'lecturers.required' => ' Pasirinkite bent vieną dėstytoją!',
+            'course_title.required' => ' Kurso pavadinimas yra privalomas!',
+            'subject_id.required' => ' Nepasirinkote dalyko!',
+            'description.required' => ' Kurso aprašymas yra privalomas!',
+            'comments.required' => ' Kurso papildoma informacija yra privaloma!',
 
         ]);
 
