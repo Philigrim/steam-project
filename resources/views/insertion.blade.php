@@ -34,6 +34,18 @@
         @endif
         <table class="d-flex justify-content-center">
             <tr>
+                <form action = "/insertion/subject" method="post">
+                {{ csrf_field() }}
+                <td><p class="text-xl text-white font-weight-bold mr-5 mt-3 mb-3">Pridėti mokomąjį dalyką:</p></td>
+                <td><input class="form-control" placeholder="Dalyko pavadinimas" name="nameForSubject" required></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button type="submit" class="btn btn-success ml-5">{{ __('Patvirtinti') }}</button></td>
+                </form>
+            </tr>
+            <tr class="border-top">
                 <form action = "/insertion/city" method="post">
                 {{ csrf_field() }}
                 <td><p class="text-xl text-white font-weight-bold mr-5 mt-3 mb-3">Pridėti miestą:</p></td>
@@ -82,7 +94,14 @@
                     <select class="form-control dropdown-menu-arrow" name="steam_id" id="steam_id" required>
                         <option value="" selected disabled>STEAM centras</option>
                     </select>
-                <td><input class="form-control" placeholder="Subject_id" name="purposeForRoom" required></td>
+                <td>
+                    <select class="form-control dropdown-menu-arrow" name="purposeForRoom" required>
+                        <option value="" selected disabled>Kambario paskirtis</option>
+                        @foreach($subjects as $subject)
+                            <option value="{{ $subject->id}}">{{ $subject->subject }}</option>
+                        @endforeach
+                    </select>
+                </td>
                 <td><button type="submit" class="btn btn-success ml-5">{{ __('Patvirtinti') }}</button></td>
                 </form>
             </tr>

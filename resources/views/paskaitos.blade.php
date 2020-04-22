@@ -13,6 +13,7 @@
 @section('content')
     @include('layouts.headers.cards')
     <div class="container-fluid mt-1 ml--5">
+      
         @foreach($reservations->split($count)->reverse() as $row)
             @csrf
             <div class="flex-row d-inline-flex">

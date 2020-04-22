@@ -12,7 +12,7 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="{{ route('home') }}">
+                        <a href="{{ route('announcements') }}">
                             <img src="{{ asset('argon') }}/img/brand/steam1.jpeg">
                             <img src="{{ asset('argon') }}/img/brand/steam.png">
                         </a>

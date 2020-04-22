@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
+        <a class="navbar-brand pt-0" href="{{ route('announcements') }}">
             <img src="{{ asset('argon') }}/img/brand/steam1.jpeg" class="navbar-brand-img" alt = "...">
             <img src="{{ asset('argon') }}/img/brand/steam2.png" class="navbar-brand-img" alt="...">
         </a>
@@ -54,7 +54,7 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="{{ route('home') }}">
+                        <a href="{{ route('announcements') }}">
                             <img src="{{ asset('argon') }}/img/brand/steam1.jpeg">
                             <img src="{{ asset('argon') }}/img/brand/steam.png">
                         </a>
@@ -72,7 +72,7 @@
                     <div class="collapse show" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}">
+                                <a class="nav-link" href="{{ route('announcements') }}">
                                     {{ __('Naujienos') }}
                                 </a>
                             </li>
@@ -139,15 +139,24 @@
             </ul>
 
 
-            <!-- Filters -->
+            <!-- Search & Filters -->
             @if (isset($title) && $title == __('Paskaitos'))
 
-            <p class="d-flex justify-content-center mt-6 mb-2" style="font-size:150%;">Filtrai</p>
+            <!-- Search form -->
+            <form action="{{ route('events.search') }}" method="get">
+                <div class="input-group mt-3">
+                    <input class="form-control" name="search" type="text" @if (isset($search_value)) value="{{ $search_value }}" @endif placeholder="Raskite paskaitą">
+                    <div class="input-group-append">
+                    <button class="btn"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form> 
 
-            <div>
+
+            <!-- Filters -->
             <form action="{{ route('events.filter')}} " method="get">
 
-            Kategorija:
+            {{ __('Kategorija:') }}
             <select class="mdb-select md-form mb-2" style="width:100%;" name="filterCategoryInput">
                 <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
                 @foreach($subjects as $subject)
@@ -156,10 +165,11 @@
             </select>
 
             <br>
-            Laisvų vietų skaičius:
+
+            {{ __('Laisvų vietų skaičius:') }}
             <input class="mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
 
-            Miestas:
+            {{ __('Miestas:') }}
             <select class="mdb-select md-form mb-2"  style="width:100%;" name="filterCityInput">
                 <option selected disabled>{{ "Nurodykite miestą" }}</option>
                 @foreach($cities as $city)
@@ -167,7 +177,7 @@
                 @endforeach
             </select>
 
-            Data:
+            {{ __('Data:') }}
             <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
                 <option disabled selected>Įvesties tipas</option>
                 <option value="oneDay">Diena</option>
@@ -192,7 +202,6 @@
             </row>
 
             </form>
-            </div>
 
             @endif
 

@@ -6,10 +6,10 @@
             <div class="header-body text-center mt-7 mb-7">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-6">
-                        <h1 class="text-white">{{ __('About STEAM project') }}</h1>
+                        <h1 class="text-white">{{ __('Apie STEAM projektą') }}</h1>
                         <br>
-                        <h2 class="text-white">{{ __('The STEAM is fully-integrated learning environment where everything from the equipment and technology to curriculum and assessment work together to support hands-on, minds-on learning. The educational institution provides courses related to Science, Technology, Engineering, Arts and Mathematics to enhance pupils\' logical and critical thinking, problem solving, communication and adaptability skills.') }}</h2>
-                    </div>
+                        <h2 class="text-white">{{ __('STEAM tai pilnai integruota mokymosi sistema, kurioje viskas: nuo mokymosi įrangos ir naudojamų technologijų iki ugdymo plano ir vertinimo sistemos, dirba glaudžiai, kad sujungtų praktinį ir teorinį mokymą. Mokymosi institucijos suteikia galimybę mokytis, plėsti žinias, taip pat lavinti loginį ir krintinį mąstymą, problemų sprendimo, komunikacijos bei prisitaikymo įgudžius gamtos mokslų, technologijų, inžinerijos, menų bei matematikos srityse.') }}</h2>
+                        </div>
                 </div>
             </div>
         </div>

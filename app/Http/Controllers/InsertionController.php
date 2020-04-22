@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Subject;
 use App\City;
 use App\SteamCenter;
 use App\Room;
@@ -27,7 +28,14 @@ class InsertionController extends Controller
     public function index()
     {
         $cities = City::all();
-        return view('insertion', ['cities'=>$cities]);
+        $subjects = Subject::all();
+        return view('insertion', ['cities'=>$cities, 'subjects'=>$subjects]);
+    }
+
+    public function insertSubject(Request $request)
+    {
+        Subject::insert(array('subject' => $request->get('nameForSubject')));
+        return redirect()->back()->withStatus(__('Mokomasis dalykas sėkmingai pridėtas.'));
     }
 
     public function insertCity(Request $request)

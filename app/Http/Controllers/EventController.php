@@ -88,8 +88,8 @@ class EventController extends Controller
 
         $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
         
-        $count = $events->count()/2;
-        if($count == 0){
+        $count = $reservations->count()/2;
+        if($count == 0.5){
             $count = 2;
         }
 
@@ -100,6 +100,28 @@ class EventController extends Controller
         
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $events = Event::where('name', 'like', '%'.$query.'%')
+                       ->orWhere('description', 'like', '%'.$query.'%');
+
+        $reservations = Reservation::all()->whereIn('event_id', $events->pluck('events.id'));
+        
+        $count = $reservations->count()/2;
+        if($count == 0.5){
+            $count = 2;
+        }
+
+        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+        $events = $events->get();
+        $subjects = Subject::all();
+        $cities = City::all();
+
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
+    }
+
     public function insert(Request $request){
 
 
