@@ -47,26 +47,26 @@ class EventController extends Controller
 
     public function insert(Request $request){
 
-
-        if(\Auth::user()->isRole()=== 'mokytojas'){
-
-            $teacher=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
-        }
-
-
+    
+        $teacher=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
         $capacity = Event::select('capacity_left')->where(['id'=>$request->event_id])->first();
+        
+        try{
+           EventHasTeacher::create([
+            'teacher_id' => $teacher,
+            'event_id' => $request->event_id,
+            'pupil_count' => $request->pupil_count]);
         $subcapacity = ((int)($capacity ->capacity_left)-(int)($request->pupil_count));
         Event::where('id',$request->event_id)
                                                 ->update([
                                                         'capacity_left'=>$subcapacity
                                                     ]);
+         }catch(\Illuminate\Database\QueryException $e){
+                return \redirect()->back()->with('message','Jūs jau užsiregistravę į šią paskaitą!');         
+        }
+        
 
-        EventHasTeacher::create([
-            'teacher_id' => $teacher,
-            'event_id' => $request->event_id,
-            'pupil_count' => $request->pupil_count]);
-
-        return redirect()->back()->with('message', 'Tu saunuolis');
+        return redirect()->back()->with('message', 'Jūs sėkmingai užsiregistravote į paskaitą');
     }
 
 }

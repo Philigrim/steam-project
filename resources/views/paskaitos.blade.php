@@ -2,6 +2,24 @@
 
 @section('content')
     @include('layouts.headers.cards')
+    @if (session()->has('message'))
+            @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ session()->get('message') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+            @endif
+            @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session()->get('message') }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+            @endif
+    @endif
     <div class="container pt-2 ml-3">
         @foreach($reservations->split($count)->reverse() as $row)
             @csrf
@@ -36,7 +54,7 @@
                                 <div class="col-4">
                                     <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
                                     @if(Auth::user()->isRole() === 'mokytojas')
-                                        <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}" data-capacity="{{ $reservation->event->capacity_left }}">Registruotis</button>
+                                        <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
                                     @endif
                                 </div>
                             </div>
@@ -70,7 +88,7 @@
               <br>
               <div class="form-group">
                 <b>Mokinių skaičius</b>
-             <input id="set-capacity" name ="pupil_count" class="col-5" min="1" max="hey" type="number" placeholder="0" min="0">
+             <input id='set-capacity'name ="pupil_count" class="col-5" value ="1" min="1" type="number" placeholder="0" min="0">
               </div>
             </form>
           <div class="modal-footer">
@@ -78,6 +96,7 @@
               <button type="submit"  class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
           </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -109,10 +128,13 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 <script type="text/javascript">
     $(document).on('click', '.show-modal', function() {
     $('#show').modal('show');
     $('#id').val($(this).data('id'));
     $('#name').text($(this).data('name'));
-    $('#set-capacity').attr("max", $(this).data('capacity'));})
+    $('#set-capacity').attr("max",$(this).data('capacity'));
+    })
 </script>
