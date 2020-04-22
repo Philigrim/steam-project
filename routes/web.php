@@ -69,7 +69,6 @@ Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admi
     Route::get('/', 'UserController@index')->name('RouteToUserManagement');
 });
 
-
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
     // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);

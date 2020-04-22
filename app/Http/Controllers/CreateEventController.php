@@ -135,8 +135,8 @@ class CreateEventController extends Controller
             'room_id' => 'required',
             'date' => 'required',
             'time' => 'required',
+            'capacity' => 'required',
             'description' => 'required'
-
         ],[
             'name.required' => ' Paskaitos pavadinimas yra privalomas!',
             'lecturers.required' => ' Pasirinkite bent vieną dėstytoją!',
@@ -146,12 +146,8 @@ class CreateEventController extends Controller
             'room_id.required' => ' Nepasirinkote kambario!',
             'date.required' => ' Nepasirinkote datos!',
             'time.required' => ' Nepasirinkote laiko!',
-
-            'description.required' => ' Paskaitos aprašymas yra privalomas!',
-
-
-
-           
+            'capacity.required' => ' Nepasirinkto žmonių skaičiaus!',
+            'description.required' => ' Paskaitos aprašymas yra privalomas!'
         ]);
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,

@@ -33,13 +33,10 @@
     <div class="container pt-2 ml-3 w-50">
         <table class="table">
             <tbody>
-            @foreach($reservations->reverse() as $reservation)
+            @foreach($reservations as $reservation)
                 @csrf
                 <tr>
                     <div class="row mr-2 mt-1 border shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
-{{--                            <div class="col-md-2 rounded p-0 pr--3 mr-0">--}}
-{{--                                <img class="p-0 m-0 rounded" src="argon/img/brand/steam1-lectures.png" width=200 height=200 alt="">--}}
-{{--                            </div>--}}
                         <div class="col-md-12 pl--7 ml-0">
                             <div class="">
                                 <h3>{{ $reservation->event->name }}</h3>
@@ -50,7 +47,7 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                                 <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
+                                <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                             </div>
@@ -109,7 +106,7 @@
               <br>
               <div class="form-group">
                 <b>Mokinių skaičius</b>
-             <input id='set-capacity'name ="pupil_count" class="col-5" value ="1" min="1" type="number" placeholder="0" min="0">
+             <input id="set-capacity" name ="pupil_count" class="col-5" value ="1" min="1" max="1" type="number" placeholder="0">
               </div>
             </form>
           <div class="modal-footer">
@@ -179,5 +176,13 @@
     $('#id').val($(this).data('id'));
     $('#name').text($(this).data('name'));
     $('#set-capacity').attr("max",$(this).data('capacity'));
+    })
+
+    $('#set-capacity').change(function(){
+        if(parseInt($().val('#set-capacity')) > parseInt($('#set-capacity').attr("max"))){
+            $('#set-capacity').val($('#set-capacity').attr("max"));
+        }else if($('#set-capacity').val() < $('#set-capacity').attr("min")){
+            $('#set-capacity').val($('#set-capacity').attr("min"));
+        }
     })
 </script>

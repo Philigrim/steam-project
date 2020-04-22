@@ -39,28 +39,28 @@
                     <div class="card-body">
         @if(count($errors))
 			<div class="alert alert-danger">
-				
+
 					@foreach($errors->all() as $error)
 					<li>{{ $error }}</li>
 					@endforeach
-				
+
 			</div>
 		@endif
                         <div class="row d-flex justify-content-start">
-                            
+
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" >
                                 </div>
-                                
+
                             </div>
-                            
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id" >
                                         <option value="" selected disabled>{{ "Kursai" }}</option>
                                         @foreach($courses as $course)
-                                            <option value="{{ $course->id }}">{{ $course->course_title }}</option>
+                                            <option value="{{ $course->id }}">{{ $course->course_title }} {{ "(".$course->subject->subject.")" }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -133,7 +133,6 @@
                     </div>
                     <div class="card-body">
                         <div class="col">
-
                             <div class="form-group">
                                 <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
                             </div>
@@ -178,6 +177,8 @@
                 success:function(result){
                     $('#room_id').html('<option value="" selected disabled>Kambarys</option>')
                     $('#time').html('<option value="" selected disabled>Laikas</option>');
+                    $('#set-capacity').attr("max", 1);
+                    $('#set-capacity').val(1);
                     $('#'+dependent).html(result);
                 }
             })
@@ -203,9 +204,18 @@
             }else if(room_value != null){
                 var room_capacity = $('#room_id').find(':selected').data('capacity');
                 $('#set-capacity').attr("max", room_capacity);
+                $('#set-capacity').val(1);
             }
         }else{
             $('#time').html('<option value="" selected disabled>Laikas</option>');
+        }
+    })
+
+    $('#set-capacity').change(function(){
+        if(parseInt($('#set-capacity').val()) > parseInt($('#set-capacity').attr("max"))){
+            $('#set-capacity').val($('#set-capacity').attr("max"));
+        }else if($('#set-capacity').val() < $('#set-capacity').attr("min")){
+            $('#set-capacity').val($('#set-capacity').attr("min"));
         }
     })
 </script>

@@ -116,6 +116,9 @@
                                     <div class="media align-items-center">{{ __('Kitos funkcijos') }}</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-arrow" style="width:100%">
+                                    <a href="{{ route('Kursai') }}" class="dropdown-item">
+                                        {{ __('Kursai') }}
+                                    </a>
                                     <a href="{{ route('RouteToCreateCourse') }}" class="dropdown-item">
                                         {{ __('Sukurti kursą') }}
                                     </a>
@@ -150,7 +153,7 @@
                     <button class="btn"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-            </form> 
+            </form>
 
 
             <!-- Filters -->
