@@ -25,20 +25,31 @@
                                 <th>Paskaitos pavadinimas:</th>
                                 <th>Destytojas:</th>
                                 <th>Data ir laikas:</th>
-                                <th>Užregistruota dalyvių:</th>
-                                <th>Visų dalyvių skaičius:</th>
+                                <th>Dalyvių skaičius:</th>
+                                @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                <th>Laisvos vietos:</th>
+                                @endif
+                                @if(Auth::user()->isRole()!="paskaitu_lektorius")
+                                <th>Iš viso dalyvių:</th>
+                                @endif
                                 <th>Miestas:</th>
                                 <th>Adresas:</th>
                                 <th>Centras:</th>
                                 <th>Kabinetas:</th>
                             </tr>
                             @foreach($futureEvents as $reservation)
-                            <tr style="font-weight:normal">
+                            <tr>
                                 <th style="font-weight:normal">{{ $reservation->event->name}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</th>
                                 <th style="font-weight:normal">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</th>
+                                @if(Auth::user()->isRole()!="paskaitu_lektorius")
                                 <th style="font-weight:normal">{{ $reservation->event->teacher->pupil_count }}</th>
-                                <th style="font-weight:normal">{{ $reservation->event->capacity_left }} / {{ $reservation->event->max_capacity }}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->max_capacity-$reservation->event->capacity_left }}</th>
+                                @endif
+                                @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                <th style="font-weight:normal"> {{ $reservation->event->max_capacity-$reservation->event->capacity_left }} </th>
+                                <th style="font-weight:normal"> {{ $reservation->event->capacity_left }} </th>
+                                @endif
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->city->city_name}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->address}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->steam_name}}</th>
@@ -52,8 +63,13 @@
                                 <th>Paskaitos pavadinimas:</th>
                                 <th>Destytojas:</th>
                                 <th>Data ir laikas:</th>
-                                <th>Užregistruota dalyvių:</th>
-                                <th>Visų dalyvių skaičius:</th>
+                                <th>Dalyvių skaičius:</th>
+                                @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                <th>Laisvos vietos:</th>
+                                @endif
+                                @if(Auth::user()->isRole()!="paskaitu_lektorius")
+                                <th>Iš viso dalyvių:</th>
+                                @endif
                                 <th>Miestas:</th>
                                 <th>Adresas:</th>
                                 <th>Centras:</th>
@@ -64,8 +80,14 @@
                                 <th style="font-weight:normal">{{ $reservation->event->name}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->lecturer->lecturer->user->firstname }} {{ $reservation->event->lecturer->lecturer->user->lastname }}</th>
                                 <th style="font-weight:normal">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</th>
+                                @if(Auth::user()->isRole()!="paskaitu_lektorius")
                                 <th style="font-weight:normal">{{ $reservation->event->teacher->pupil_count }}</th>
-                                <th style="font-weight:normal">{{ $reservation->event->capacity_left }} / {{ $reservation->event->max_capacity }}</th>
+                                <th style="font-weight:normal">{{ $reservation->event->max_capacity-$reservation->event->capacity_left }}</th>
+                                @endif
+                                @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                                <th style="font-weight:normal"> {{ $reservation->event->max_capacity-$reservation->event->capacity_left }} </th>
+                                <th style="font-weight:normal"> {{ $reservation->event->capacity_left }} </th>
+                                @endif
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->city->city_name}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->address}}</th>
                                 <th style="font-weight:normal">{{ $reservation->event->room->steam->steam_name}}</th>

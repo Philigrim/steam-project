@@ -49,8 +49,8 @@ Route::group(['prefix' => 'paskaitos'], function(){
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
 });
 
-Route::get('filter', 'EventController@filter')->name('events.filter');
 Route::get('/search','EventController@search')->name('events.search');
+Route::get('/filter', 'EventController@filter')->name('events.filter');
 
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');

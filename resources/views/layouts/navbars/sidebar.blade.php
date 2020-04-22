@@ -179,9 +179,9 @@
 
             {{ __('Data:') }}
             <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
-                <option disabled selected>Įvesties tipas</option>
-                <option value="oneDay">Diena</option>
-                <option value="interval">Intervalas</option>
+                <option disabled selected>{{ __('Įvesties tipas') }}</option>
+                <option value="oneDay">{{ __('Diena') }}</option>
+                <option value="interval">{{ __('Intervalas') }}</option>
             </select>
 
             <div id="dateFilters">
@@ -197,7 +197,7 @@
 
             <row class="d-flex justify-content-center">
                 <button type = "submit" class = "btn btn-success">
-                    Rodyti rezultatus
+                    {{ __('Rodyti rezultatus') }}
                 </button>
             </row>
 
