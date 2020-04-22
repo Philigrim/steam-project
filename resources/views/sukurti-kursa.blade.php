@@ -40,13 +40,9 @@
                             </div>
                             @endif
                             </div>
-
                 </div>
-
                         </div>
-
                         <div class="row d-flex justify-content-center">
-
                             <div class="col-md-4">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
