@@ -46,10 +46,11 @@ Route::get('/kursai','CourseController@index')->name('Kursai');
 Route::group(['prefix' => 'paskaitos'], function(){
     Route::get('/','EventController@index')->name('Paskaitos');
     Route::get('/search','EventController@search')->name('events.search');
-    Route::get('/filter', 'EventController@filter')->name('events.filter');
     Route::post('/','EventController@insert')->name('eventcontroller.insert');
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
 });
+
+Route::get('filter', 'EventController@filter')->name('events.filter');
 
 Route::group(['prefix' => 'sukurti-kursa', 'middleware' => ['auth' => 'admin']], function(){
     Route::get('/', 'CreateCourseController@index')->name('RouteToCreateCourse');
@@ -76,7 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 });
-    
+
 Route::get('manopaskaitos', 'ActivityController@index')->name('manopaskaitos');
 
 // Data insertation page
