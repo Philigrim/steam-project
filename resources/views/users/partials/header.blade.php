@@ -31,7 +31,7 @@
                                     &times;
                                 </button>
                             </div>
-                            <form action = "/home" method="post">
+                            <form action = {{ route('announcements.store')}} method="post">
                             @csrf
 
                             <div class = "modal-body">

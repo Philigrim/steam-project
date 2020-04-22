@@ -26,11 +26,13 @@
                         <i class="ni ni-settings-gear-65"></i>
                         <span>{{ __('Nustatymai') }}</span>
                     </a>
-                    <a href="#" class="dropdown-item">
+                    @if(Auth::user()->isRole() === 'mokytojas')
+                    <a href="{{ route('manopaskaitos') }}" class="dropdown-item">
                         <i class="ni ni-calendar-grid-58"></i>
-                        <span>{{ __('Activity') }}</span>
+                        <span>{{ __('Mano paskaitos') }}</span>
                     </a>
-                    <a href="#" class="dropdown-item">
+                    @endif
+                    <a href="{{ route('faq') }}" class="dropdown-item">
                         <i class="ni ni-support-16"></i>
                         <span>{{ __('Pagalba') }}</span>
                     </a>

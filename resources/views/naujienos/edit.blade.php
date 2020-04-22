@@ -27,15 +27,15 @@
                     
                 <div class="column">
 
-                <form action="{{ url('/announcements', [$announcement->announcement_id]) }}" method="post">
+                <form action="{{ route('announcements.update', [$announcement->id]) }}" method="post">
                     <input type="hidden" name="_method" value="patch" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     
-                <input type="hidden" name="announcement_id" value="{{ $announcement->announcement_id }}">
+                <input type="hidden" name="id" value="{{ $announcement->id }}">
                 <div class="row border-top mt-2 mb-2"></div>
 
                 <div class="row d-flex justify-content-center">
-                    <input class="col-md-5 form-control" name="announcement_title" value="{{ $announcement->announcement_title }}" required
+                    <input class="col-md-5 form-control" name="title" value="{{ $announcement->title }}" required
                     oninvalid="this.setCustomValidity('Pranešimo autoriaus langelis negali būti tuščias.')">
                 </div>
 
@@ -45,7 +45,7 @@
                     <div class="col ml-2">
                         <div class="row">
                             Autorius:
-                            <input class="col-md-5 ml-2 form-control" name="announcement_author" value="{{ $announcement->announcement_author}}" required
+                            <input class="col-md-5 ml-2 form-control" name="author" value="{{ $announcement->author}}" required
                             oninvalid="this.setCustomValidity('Pranešimo autoriaus langelis negali būti tuščias.')">
                         </div>
                     </div>
@@ -59,13 +59,13 @@
                     
                 <div class="border-top mt-2 mb-2"></div>
 
-                <textarea class="form-control" rows="15" placeholder="Įveskite pranešimą kitiems vartotojams" name="announcement_text" required
-                oninvalid="this.setCustomValidity('Pranešimo langelis negali būti tuščias.')">{{ $announcement->announcement_text}}</textarea>
+                <textarea class="form-control" rows="15" placeholder="Įveskite pranešimą kitiems vartotojams" name="text" required
+                oninvalid="this.setCustomValidity('Pranešimo langelis negali būti tuščias.')">{{ $announcement->text}}</textarea>
 
                 <div class="border-top mt-2 mb-2"></div>
 
                 <div class = "float-right">
-                    <a href="/home">
+                    <a href="{{ route('announcements') }}">
                         <button type = "button" class = "btn btn-danger">
                         Atsaukti
                         </button>

@@ -9,7 +9,8 @@
 
 @section('content')
 @include('users.partials.header', ['title' => __('Naujienos'),
-         'description' => __('Šiame puslapyje skelbiama informacija apie STEAM centrus bei kitos naujienos.')])
+         'description' => __('Šiame puslapyje skelbiama informacija apie STEAM centrus bei kitos naujienos.'),
+         'class' => 'col-lg-7'])
 
 @if (session('status'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -28,10 +29,57 @@
     <div clas="row">
 
         <!-- Search form -->
-        <input type="text" name="search" id="search" class="form-control" placeholder="Raskite norimą pranešimą">
-        <!-- /Announcements -->
-        <div id="announcements">
-        </div>
+        <form action="{{ route('announcements.search') }}" method="get">
+            <div class="input-group border border-primary rounded">
+                <input class="form-control" name="search" type="text" @if (isset($search_value)) value="{{ $search_value }}" @endif placeholder="Raskite norimą pranešimą">
+                <div class="input-group-append">
+                <button class="btn btn-primary" style="font-size:100%"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form> 
+
+        <!-- Announcements -->
+        @foreach($announcements as $announcement)
+                <div class="card card-stats mt-3 xl-7">
+                <div class="card-body border border-primary rounded">
+                @if (Auth::user()->isRole()=="admin")
+                <div class="row d-flex float-right">
+                <form action="{{ route('announcements.edit', [$announcement->id]) }}" method="get">
+                <input class="btn btn-success ml-3" type="submit" value="Redaguoti" />
+                </form> 
+
+                <form action="{{ url('/announcements', [$announcement->id]) }}" method="post">
+                <input class="btn btn-danger ml-3" type="submit" value="Ištrinti" />
+                <input type="hidden" name="_method" value="delete" />
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                </form> 
+                </div>
+
+                <br>
+                <br>
+                @endif
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div class="row d-flex justify-content-center">
+                <h1 class="card-title font-weight-bold">{{ $announcement->title }}</h1>
+                </div>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div>
+                <span class="ml-2">Autorius:</span>
+                <span class="ml-2">{{ $announcement->author }}</span>
+                <div class="ml-2 float-right">{{ $announcement->created_at }}</div>
+                </div>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div class="ml-2">{{ $announcement->text }}</div>
+
+                <div class="border-top mt-2 mb-2"></div>
+                </div>
+                </div>
+        @endforeach
         <!-- /Announcements -->
 
     </div>
@@ -117,33 +165,6 @@
     <!-- /Promoted Courses (right side) -->
 
 </div>
-
-<script>
-$(document).ready(function(){
-
-    fetch_customer_data();
-   
-    function fetch_customer_data(query = '')
-    {
-     $.ajax({
-      url:'{{ route('home.action') }}',
-      method:'get',
-      data:{query:query},
-      dataType:'json',
-      success:function(data)
-      {
-       $('#announcements').html(data.table_data);
-       $('#total_records').text(data.total_data);
-      }
-     })
-    }
-   
-    $(document).on('keyup', '#search', function(){
-     var query = $(this).val();
-     fetch_customer_data(query);
-    });
-   }); 
-</script>  
   
 @include('layouts.footers.auth')
 @endsection

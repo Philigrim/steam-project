@@ -147,7 +147,7 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript">
-    new GijgoDatePicker(document.getElementById('datepicker'), { uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
+    new GijgoDatePicker(document.getElementById('datepicker'), { uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
 
     $('.dynamic-lecturers').change(function update_lecturers(){
         if($(this).val() != ''){

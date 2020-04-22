@@ -152,7 +152,7 @@
     //get the divs to show/hide
     dateFiltersDivs = document.getElementById("dateFilters").getElementsByTagName('div');
     }
-     
+
     function showHide(elem) {
     if(elem.value == "oneDay") {
         //unhide the divs
