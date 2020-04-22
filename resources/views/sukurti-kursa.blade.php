@@ -40,14 +40,10 @@
                             </div>
                             @endif
                             </div>
-                    
                 </div>
-                           
                         </div>
-                        
                         <div class="row d-flex justify-content-center">
-                            
-                            <div class="col-md-4"> 
+                            <div class="col-md-4">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
                                     <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id">
@@ -65,7 +61,7 @@
                             @endif
                                 </div>
                             </div>
-                            
+
                             </div>
                             <div class="col-md-6">
                                 @if ($errors->has('lecturers'))
@@ -84,7 +80,7 @@
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" ></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="1500"></textarea>
                                 @if ($errors->has('description'))
                                 <div class="">
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -94,7 +90,7 @@
                                 @endif</div>
                             </div>
                                 </div>
-                                
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -131,7 +127,7 @@
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token').val();
-                    
+
                 $.ajax({
                     url:"{{ route('createeventcontroller.fetch_lecturers') }}",
                     method: "POST",

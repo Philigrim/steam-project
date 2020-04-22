@@ -109,7 +109,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="200" required></textarea>
                                 </div>
                             </div>
                         </div>

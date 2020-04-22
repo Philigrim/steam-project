@@ -22,25 +22,31 @@
           </div>
             @endif
             @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session()->get('message') }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session()->get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             @endif
-    @endif                            
-    <div class="container-fluid mt-1 ml--5">
-        @foreach($reservations->split($count)->reverse() as $row)
-            @csrf
-            <div class="flex-row d-inline-flex">
-                @foreach($row as $reservation)
-                    <div class="ml-4 bg-gradient-secondary p-2 border-bottom shadow rounded mt-2 col-md-6 win-event" id="{{ $reservation->event->id }}">
-                        <div class="col">
-                            <h2>{{ $reservation->event->name }}</h2>
-                            <div class="flex-row d-inline-flex ml--2 mt--3">
+    @endif
+    <div class="container pt-2 ml-3 w-50">
+        <table class="table">
+            <tbody>
+            @foreach($reservations->reverse() as $reservation)
+                @csrf
+                <tr>
+                    <div class="row mr-2 mt-1 border shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
+{{--                            <div class="col-md-2 rounded p-0 pr--3 mr-0">--}}
+{{--                                <img class="p-0 m-0 rounded" src="argon/img/brand/steam1-lectures.png" width=200 height=200 alt="">--}}
+{{--                            </div>--}}
+                        <div class="col-md-12 pl--7 ml-0">
+                            <div class="">
+                                <h3>{{ $reservation->event->name }}</h3>
+                            </div>
+                            <div class="row mt--3 ml-1">
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->address }}</h5>
+                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                                 <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
@@ -48,15 +54,17 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                             </div>
-                            <p>{{ $reservation->event->description }}</p>
-                            <div class="flex-row d-inline-flex ml--2 mt--3" id="lecturers">
+                            <div class="">
+                                <p>{{ $reservation->event->description }}</p>
+                            </div>
+                            <div class="row mt--4" id="lecturers">
                                 @foreach($lecturers[$reservation->event->id] as $lecturer)
-                                    <button class="ml-3 mt-3 p-1 btn btn-dark my-2">
-                                        {{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}
+                                    <button class="ml-3 p-1 mt-3 btn btn-dark my-2">
+                                        <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
                                     </button>
                                 @endforeach
                             </div>
-                            <div class="row d-flex justify-content-center">
+                            <div class="row justify-content-center border-top">
                                 <div class="col-4">
                                     <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
                                     @if(Auth::user()->isRole() === 'mokytojas')
@@ -70,14 +78,12 @@
                                     @endif
                                 </div>
                             </div>
-                            {{-- <a href="#" class="show-modal btn btn-info btn-sm"  data-name="{{$event->name}}">
-                              <i class="fa fa-eye"></i>
-                            </a> --}}
-                          </div>
+                        </div>
                     </div>
-                @endforeach
-            </div>
-            {{ csrf_field() }}
+                </tr>
+            </tbody>
+        </table>
+        {{ csrf_field() }}
         @endforeach
     </div>
     <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -111,7 +117,7 @@
               <button type="submit"  class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
           </div>
           </div>
-          
+
         </div>
       </div>
     </div>
