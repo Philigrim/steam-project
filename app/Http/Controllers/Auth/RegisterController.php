@@ -54,12 +54,21 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'usertype' => ['required', 'string', 'max:255'],
+            'usertype' => ['required','in:mokytojas,paskaitu_lektorius'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password_confirmation' => ['required']
+        ],[
+        'firstname.required' => ' Vardas yra privalomas.',
+        'lastname.required' => ' Pavardė yra privaloma.',
+        'email.required' => ' Elektroninis paštas yra privalomas.',
+        'email.unique' => ' Toks elektroninis paštas jau užimtas.',
+        'email.email' => ' Neteisingas elektroninis paštas.',
+        'usertype.required' => ' Privalote pasirinkti vartotojo tipą.',
+        'password_confirmation.required' => ' Slaptažodžio pakartojimas yra privalomas.',
+        'password.required' => ' Slaptažodis yra privalomas'
+    ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
