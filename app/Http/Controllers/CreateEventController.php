@@ -123,12 +123,13 @@ class CreateEventController extends Controller
 
         echo $output;
     }
-
+    
     public function insert(Request $request){
-        $request->validate([
-            'lecturers' => 'required'
-        ]);
 
+        $request->validate([
+            'lecturers' => 'required',
+            
+        ]);
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
             'course_id' => $request->course_id,

@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
 
-class AdminMiddleware
+class LecturerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -14,9 +13,8 @@ class AdminMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
-        if(Auth::check() && (Auth::user()->isRole()=="admin")){
+    public function handle($request, Closure $next){
+        if(\Auth::check() && (\Auth::user()->isRole()=="paskaitu_lektorius" || \Auth::user()->isRole()=="admin")){
             return $next($request);
         }
 

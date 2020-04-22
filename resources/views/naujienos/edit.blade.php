@@ -27,7 +27,7 @@
                     
                 <div class="column">
 
-                <form action="{{ url('/announcements', [$announcement->id]) }}" method="post">
+                <form action="{{ route('announcements.update', [$announcement->id]) }}" method="post">
                     <input type="hidden" name="_method" value="patch" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     

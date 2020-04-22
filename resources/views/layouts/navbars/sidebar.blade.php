@@ -77,11 +77,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('Kursai') }}">
-                                    {{ __('Kursai') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Paskaitos') }}">
                                     {{ __('Paskaitos') }}
                                 </a>
@@ -99,6 +94,11 @@
                             @if(Auth::user()->isRole()=="paskaitu_lektorius")
                             <!-- Divider -->
                             <li><hr class="my-0"></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('Kursai') }}">
+                                    {{ __('Kursai') }}
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateEvent') }}">
                                     {{ __('Sukurti paskaitą') }}

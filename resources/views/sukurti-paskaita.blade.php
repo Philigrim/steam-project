@@ -10,14 +10,6 @@
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
 
-{{--Time pickeris--}}
-    <link href="gijgo/dist/modular/css/timepicker.css" rel="stylesheet" type="text/css">
-    <script src="gijgo/dist/modular/js/timepicker.js"></script>
-
-{{--Drop downas--}}
-    <link href="/gijgo/dist/modular/css/dropdown.css" rel="stylesheet" type="text/css">
-    <script src="/gijgo/dist/modular/js/dropdown.js"></script>
-
 {{--Nedulio skriptai--}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -25,7 +17,7 @@
 
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
-        <form class="mt--7 d-flex justify-content-center" action = "/sukurti-paskaita" method="post">
+        <form class="mt--5 d-flex justify-content-center" action = "/sukurti-paskaita" method="post">
             @csrf
             <div class="col-xl-6 order-xl-1">
                 <div class="card bg-secondary shadow">
@@ -48,12 +40,19 @@
                         <div class="row d-flex justify-content-start">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" required>
+                                    <input class="form-control" placeholder="Paskaitos pavadinimas" name="name" >
                                 </div>
                             </div>
+                            @if ($errors->has('description'))
+                                <div class="">
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ "Aprašymas yra privalomas" }}</strong>
+                                    </span>
+                                </div>
+                                @endif
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id" required>
+                                    <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic-lecturers" name="course_id" id="course_id" data-dependent="lecturer_id"  required>
                                         <option value="" selected disabled>{{ "Kursai" }}</option>
                                         @foreach($courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->course_title }}</option>
@@ -148,7 +147,7 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript">
-    new GijgoDatePicker(document.getElementById('datepicker'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
+    new GijgoDatePicker(document.getElementById('datepicker'), { uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
 
     $('.dynamic-lecturers').change(function update_lecturers(){
         if($(this).val() != ''){

@@ -12,6 +12,24 @@
 
 @section('content')
     @include('layouts.headers.cards')
+    @if (session()->has('message'))
+            @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ session()->get('message') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+            @endif
+            @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session()->get('message') }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+            @endif
+    @endif                            
     <div class="container-fluid mt-1 ml--5">
       
         @foreach($reservations->split($count)->reverse() as $row)
@@ -31,7 +49,7 @@
                                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                             </div>
-                            <p>{{ "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." }}</p>
+                            <p>{{ $reservation->event->description }}</p>
                             <div class="flex-row d-inline-flex ml--2 mt--3" id="lecturers">
                                 @foreach($lecturers[$reservation->event->id] as $lecturer)
                                     <button class="ml-3 mt-3 p-1 btn btn-dark my-2">
@@ -43,7 +61,13 @@
                                 <div class="col-4">
                                     <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
                                     @if(Auth::user()->isRole() === 'mokytojas')
-                                        <button href ="#" data-id="{{$reservation->event->id}}" class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                                      @if($reservation->event->capacity_left>"0")
+                                        <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                                      @endif
+                                      @if($reservation->event->capacity_left=="0")
+                                      <button class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol"  disabled ">Registruotis</button>
+
+                                      @endif
                                     @endif
                                 </div>
                             </div>
@@ -80,7 +104,7 @@
               <br>
               <div class="form-group">
                 <b>Mokinių skaičius</b>
-             <input name ="pupil_count" class="col-5" type="number" placeholder="0" min="0">
+             <input id='set-capacity'name ="pupil_count" class="col-5" value ="1" min="1" type="number" placeholder="0" min="0">
               </div>
             </form>
           <div class="modal-footer">
@@ -88,6 +112,7 @@
               <button type="submit"  class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
           </div>
           </div>
+          
         </div>
       </div>
     </div>
@@ -141,27 +166,13 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 <script type="text/javascript">
     $(document).on('click', '.show-modal', function() {
     $('#show').modal('show');
     $('#id').val($(this).data('id'));
-    $('#name').text($(this).data('name'));})
-
-    $('.dynamic').change(function update_dropdown(){
-        if($(this).val() != ''){
-            var select = $(this).attr("id");
-            var value = $(this).val();
-            var dependent = $(this).data('dependent');
-            var _token = $('input[name="_token').val();
-
-            $.ajax({
-                url:"{{ route('createeventcontroller.fetch_lecturers') }}",
-                method: "POST",
-                data:{select:select, value:value, _token:_token},
-                success:function(result){
-                    $('#'+dependent).html(result);
-                }
-            })
-        }
+    $('#name').text($(this).data('name'));
+    $('#set-capacity').attr("max",$(this).data('capacity'));
     })
 </script>
