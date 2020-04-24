@@ -116,9 +116,6 @@
                                     <div class="media align-items-center">{{ __('Kitos funkcijos') }}</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-arrow" style="width:100%">
-                                    <a href="{{ route('Kursai') }}" class="dropdown-item">
-                                        {{ __('Kursai') }}
-                                    </a>
                                     <a href="{{ route('RouteToCreateCourse') }}" class="dropdown-item">
                                         {{ __('Sukurti kursą') }}
                                     </a>
@@ -160,20 +157,18 @@
             <form action="{{ route('events.filter')}} " method="get">
 
             {{ __('Kategorija:') }}
-            <select class="mdb-select md-form mb-2" style="width:100%;" name="filterCategoryInput">
+            <select class="form-control mb-2 dropdown-menu-arrow" style="width:100%;" name="filterCategoryInput">
                 <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
                 @foreach($subjects as $subject)
                 <option value="{{ $subject->subject }}">{{ $subject->subject }}</option>
                 @endforeach
             </select>
 
-            <br>
-
             {{ __('Laisvų vietų skaičius:') }}
-            <input class="mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
+            <input class="form-control input-group mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
 
             {{ __('Miestas:') }}
-            <select class="mdb-select md-form mb-2"  style="width:100%;" name="filterCityInput">
+            <select class="form-control mb-2 dropdown-menu-arrow mb-2"  style="width:100%;" name="filterCityInput">
                 <option selected disabled>{{ "Nurodykite miestą" }}</option>
                 @foreach($cities as $city)
                 <option value="{{ $city->city_name }}">{{ $city->city_name }}</option>
@@ -181,7 +176,7 @@
             </select>
 
             {{ __('Data:') }}
-            <select class="mdb-select md-form mb-2" style="width:100%;" onchange="showHide(this)">
+            <select class="form-control mb-2 dropdown-menu-arrow mb-2" style="width:100%;" onchange="showHide(this)">
                 <option disabled selected>{{ __('Įvesties tipas') }}</option>
                 <option value="oneDay">{{ __('Diena') }}</option>
                 <option value="interval">{{ __('Intervalas') }}</option>

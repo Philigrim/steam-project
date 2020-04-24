@@ -30,7 +30,7 @@
                 </div>
             @endif
     @endif
-    <div class="container pt-2 ml-3 w-50">
+    <div class="container pt-2 ml-7 w-50">
         <table class="table">
             <tbody>
             @foreach($reservations as $reservation)

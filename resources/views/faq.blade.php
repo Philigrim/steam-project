@@ -14,7 +14,7 @@
 </div>
 @endif
 
-<div class="row">
+<div class="container-fluid row d-flex justify-content-center">
 
 
     <!-- Questions and Answers -->
@@ -24,7 +24,7 @@
         @foreach ($questions_and_answers as $question_and_answer)
 
         <div class="card card-stats ml-5 mt-3 xl-7">
-            <div class="card-body border border-primary rounded">
+            <div class="card-body border shadow rounded">
 
                 <div class="row d-flex float-right">
                 <form action="{{ url('/faq', [$question_and_answer->id]) }}" method="post">
@@ -58,7 +58,7 @@
     <!-- Promoted Courses (right side)-->
     <div class="col-xl-4 ml-5">
         <div class="card card-stats mt-3 d-flex justify-content-center">
-            <div class="card-body border border-primary rounded">
+            <div class="card-body border shadow rounded bg-gradient-lighter">
 
                 <div class="border-top mt-2 mb-2"></div>
 
@@ -82,7 +82,7 @@
         </div>
 
         <div class="card card-stats mt-3 d-flex justify-content-center">
-            <div class="card-body border border-primary rounded">
+            <div class="card-body border shadow rounded bg-gradient-lighter">
 
                 <div class="border-top mt-2 mb-2"></div>
 
@@ -106,7 +106,7 @@
         </div>
 
         <div class="card card-stats mt-3 d-flex justify-content-center">
-            <div class="card-body border border-primary rounded">
+            <div class="card-body border shadow rounded bg-gradient-lighter">
 
                 <div class="border-top mt-2 mb-2"></div>
 
@@ -129,7 +129,5 @@
     <!-- /Promoted Courses (right side) -->
 
 </div>
-
-@include('layouts.footers.auth')
 
 @endsection
