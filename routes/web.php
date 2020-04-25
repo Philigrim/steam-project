@@ -69,7 +69,6 @@ Route::group(['prefix' => 'vartotoju-valdymas', 'middleware' => ['auth' => 'admi
     Route::get('/', 'UserController@index')->name('RouteToUserManagement');
 });
 
-
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
     // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);
@@ -77,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 });
-    
+
 Route::get('manopaskaitos', 'ActivityController@index')->name('manopaskaitos');
 
 // Data insertation page

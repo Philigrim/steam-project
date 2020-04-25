@@ -2,7 +2,6 @@
 @section('additional_header_content')
 {{-- JQUERY --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 @endsection
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti kursą'),
@@ -26,28 +25,27 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if(count($errors))
+			<div class="alert alert-danger">
+				
+					@foreach($errors->all() as $error)
+					<li>{{ $error }}</li>
+					@endforeach
+				
+			</div>
+		@endif
                     <form action = "/sukurti-kursa" method="post">
                         @csrf
                         <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                         <div class="col-md-12  ">
                             <div class="form-group">
                                 <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" >
-                             @if ($errors->has('course_title'))
-                            <div class="">
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ "Kurso pavadinimas yra privalomas" }}</strong>
-                                </span>
+                             
                             </div>
-                            @endif
-                            </div>
-                    
                 </div>
-                           
                         </div>
-                        
                         <div class="row d-flex justify-content-center">
-                            
-                            <div class="col-md-4"> 
+                            <div class="col-md-4">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
                                     <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id">
@@ -56,25 +54,13 @@
                                             <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('subject_id'))
-                            <div class="">
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ "Pasirinkite dalyką" }}</strong>
-                                </span>
-                            </div>
-                            @endif
+                                    
                                 </div>
                             </div>
-                            
+
                             </div>
                             <div class="col-md-6">
-                                @if ($errors->has('lecturers'))
-                                    <div class="ml-4">
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ "Pasirinkite bent 1 dėstytoją." }}</strong>
-                                        </span>
-                                    </div>
-                                @endif
+                                
                                 <div class="form-group">
                                     <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
                                 </div>
@@ -84,30 +70,18 @@
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" ></textarea>
-                                @if ($errors->has('description'))
-                                <div class="">
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ "Aprašymas yra privalomas" }}</strong>
-                                    </span>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="1500"></textarea>
                                 </div>
-                                @endif</div>
                             </div>
                                 </div>
-                                
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
                                     <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments"></textarea>
-                                    @if ($errors->has('description'))
-                                    <div class="">
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ "Papildoma informacija yra privaloma" }}</strong>
-                                        </span>
                                     </div>
-                                    @endif</div>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +105,7 @@
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token').val();
-                    
+
                 $.ajax({
                     url:"{{ route('createeventcontroller.fetch_lecturers') }}",
                     method: "POST",

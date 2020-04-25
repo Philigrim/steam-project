@@ -56,7 +56,7 @@ class CreateEventController extends Controller
 
             $output = '<option value="" selected disabled>Kambarys</option>';
             foreach ($rooms as $room) {
-                $output .= '<option value="' . $room->id . '">' . $room->room_number .'('. $room->capacity .')'.' '. $room->subject->subject .'</option>';
+                $output .= '<option data-capacity="'. $room->capacity .'" value="' . $room->id . '">' . $room->room_number .'('. $room->capacity .')'.' '. $room->subject->subject .'</option>';
             }
             echo $output;
         }
@@ -123,12 +123,31 @@ class CreateEventController extends Controller
 
         echo $output;
     }
-    
+
     public function insert(Request $request){
 
         $request->validate([
+            'name' => 'required',
             'lecturers' => 'required',
-            
+            'course_id' => 'required',
+            'city_id' => 'required',
+            'steam_id' => 'required',
+            'room_id' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'capacity' => 'required',
+            'description' => 'required'
+        ],[
+            'name.required' => ' Paskaitos pavadinimas yra privalomas!',
+            'lecturers.required' => ' Pasirinkite bent vieną dėstytoją!',
+            'course_id.required' => ' Nepasirinkote kurso!',
+            'city_id.required' => ' Nepasirinkote miesto!',
+            'steam_id.required' => ' Nepasirinkote STEAM centro!',
+            'room_id.required' => ' Nepasirinkote kambario!',
+            'date.required' => ' Nepasirinkote datos!',
+            'time.required' => ' Nepasirinkote laiko!',
+            'capacity.required' => ' Nepasirinkto žmonių skaičiaus!',
+            'description.required' => ' Paskaitos aprašymas yra privalomas!'
         ]);
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
