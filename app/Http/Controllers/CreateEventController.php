@@ -135,7 +135,8 @@ class CreateEventController extends Controller
             'course_id' => $request->course_id,
             'description' => $request->description,
             'capacity_left' => $request->capacity,
-            'max_capacity' => $request->capacity]);
+            'max_capacity' => $request->capacity,
+            'isPromoted' => 'f']);
 
         foreach($request->lecturers as $lecturer){
             LecturerHasEvent::create(['lecturer_id' => $lecturer,

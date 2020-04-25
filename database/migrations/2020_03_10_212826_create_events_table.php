@@ -23,6 +23,7 @@ class CreateEventsTable extends Migration
             $table->integer('capacity_left');
             $table->integer('max_capacity');
             $table->mediumText('description');
+            $table->boolean('isPromoted');
             $table->timestamps();
         });
     }

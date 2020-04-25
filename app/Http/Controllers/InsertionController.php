@@ -63,19 +63,19 @@ class InsertionController extends Controller
 
     function fetch(Request $request)
     {
-    $select = $request->get('select');
-    $value = $request->get('value');
-    $dependent = $request->get('dependent');
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
 
-    $city_steam_room = SteamCenter::with('city', 'room')->get();
+        $city_steam_room = SteamCenter::with('city', 'room')->get();
 
-    $data = $city_steam_room->where($select, $value);
+        $data = $city_steam_room->where($select, $value);
 
-    $output = '<option value="" selected disabled>STEAM Centras</option>';
-    foreach ($data as $row) {
-        $output .= '<option value="' . $row->id . '">' . $row->steam_name . '</option>';
-    }
-    echo $output;
+        $output = '<option value="" selected disabled>STEAM Centras</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->steam_name . '</option>';
+        }
+        echo $output;
     }
 
 }

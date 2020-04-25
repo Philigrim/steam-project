@@ -91,7 +91,6 @@
                                     {{ __('Apie') }}
                                 </a>
                             </li>
-                            @if(Auth::user()->isRole()=="paskaitu_lektorius")
                             <!-- Divider -->
                             <li><hr class="my-0"></li>
                             <li class="nav-item">
@@ -99,6 +98,7 @@
                                     {{ __('Kursai') }}
                                 </a>
                             </li>
+                            @if(Auth::user()->isRole()=="paskaitu_lektorius")
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateEvent') }}">
                                     {{ __('Sukurti paskaitą') }}
