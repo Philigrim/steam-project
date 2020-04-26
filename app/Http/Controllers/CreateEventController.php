@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use DateTime;
 use App\Event;
+use App\File;
 
 class CreateEventController extends Controller
 {
@@ -136,7 +137,8 @@ class CreateEventController extends Controller
             'date' => 'required',
             'time' => 'required',
             'capacity' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'file' => 'mimes:doc,docx,pdf,txt,pptx,ppsx,odt,ods,odp,tiff,jpeg,png|max:5120'
         ],[
             'name.required' => ' Paskaitos pavadinimas yra privalomas!',
             'lecturers.required' => ' Pasirinkite bent vieną dėstytoją!',
@@ -147,32 +149,48 @@ class CreateEventController extends Controller
             'date.required' => ' Nepasirinkote datos!',
             'time.required' => ' Nepasirinkote laiko!',
             'capacity.required' => ' Nepasirinkto žmonių skaičiaus!',
-            'description.required' => ' Paskaitos aprašymas yra privalomas!'
+            'description.required' => ' Paskaitos aprašymas yra privalomas!',
+            'file.mimes' => ' Blogas pasirinktas failo formatas',
+            'file.max' => ' Per didelis failas'
         ]);
+        
+        
+        if($request->hasFile('file')){
+                            $filename = $request ->file -> getClientOriginalName();
+                            $request->file -> storeAs(('public/file'),$filename);
+                            $file = File ::create(
+                                ['name' =>$filename]
+                            );
+
+                        }
         $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
             'course_id' => $request->course_id,
             'description' => $request->description,
             'capacity_left' => $request->capacity,
-            'max_capacity' => $request->capacity]);
+            'max_capacity' => $request->capacity,
+            'file_id' => $file->id]);
 
         foreach($request->lecturers as $lecturer){
             LecturerHasEvent::create(['lecturer_id' => $lecturer,
                 'event_id'=>$event->id]);
         }
 
+        
         $arr = explode("-", $request->time, 2);
         $start_time = $arr[0];
         $end_time = $arr[1];
 
         $date = $request->date;
 
+    
         Reservation::create(['room_id' => $request->room_id,
             'start_time' => $start_time,
             'end_time' => $end_time,
             'date' => $date,
             'event_id' => $event->id]);
 
+        
         return redirect()->back()->with('message', 'Paskaita pridėta. Ją galite matyti paskaitų puslapyje.');
     }
 }

@@ -15,7 +15,7 @@ use App\Subject;
 use App\City;
 use App\SteamCenterHasRoom;
 use Illuminate\Http\Request;
-
+use App\File;
 class EventController extends Controller
 {
     public function index(){
@@ -49,7 +49,10 @@ class EventController extends Controller
 
         echo $output;
     }
-
+    public function download ($id){
+        $dl = File::find($id);
+        return  response()->download(storage_path('app/public/file/'.$dl->name));
+    }
     public function filter(Request $request)
     {
         $capacity = $request->get('filterCapacityInput');

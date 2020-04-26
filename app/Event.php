@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable = [
-        'name', 'room_id','course_id','lecturer_id','capacity_left','description','max_capacity'
+        'name', 'room_id','course_id','lecturer_id','capacity_left','description','max_capacity','file_id'
     ];
 
     public function room(){
@@ -24,5 +24,8 @@ class Event extends Model
     }
     public function reservation(){
         return $this->belongsTo(Reservation::class);
+    }
+    public function file(){
+        return $this->belongsTo(File::class);
     }
 }
