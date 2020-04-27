@@ -71,18 +71,29 @@
                                         <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                                         <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                                     </div>
-                                    <div class="row mt--2">
+                                    <div class="row mt--2 justify-content-between">
                                         <p>{{ $reservation->event->description }}</p>
+                                        @if(isset($reservation->event->file_id))
+               
+                                    <div class="form-group">
+                                     <b> Pridėti failai: </b>
+                                     <br>
+                                     <i class="fa fa-file" style="font-size:24px"></i>     
+                                     <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">{{ $reservation->event->file->name }}</a>
+                                    </div>
+                                    @endif
+                                    </div>
                                     </div>
                                     
-                                    <div class="row pb-1 mt--2" id="lecturers">
+                                    <div class="row pb-1 mt--4 ml-3" id="lecturers">
                                         @foreach($lecturers[$reservation->event->id] as $lecturer)
                                             <div class="p-0 pb pl-1 pr-1 mr-2 bg-primary rounded align-self-baseline">
                                                 <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
                                             </div>
                                         @endforeach
-                                    </div>
-
+                                        
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -131,13 +142,6 @@
               <div class="form-group">
                 <b>Mokinių skaičius</b>
              <input id="set-capacity" name ="pupil_count" class="col-5" value ="1" min="1" max="1" type="number" placeholder="0">
-               </div>
-               <br>
-               <div class="form-group">
-                <b> Pridėti failai: </b>
-                <br>
-                <i class="fa fa-file" style="font-size:24px"></i>     
-                <a href = "{{route('downloadFile',$reservation->event->file->id)}}">{{ $reservation->event->file->name }}</a>
                </div>
             </form>
           <div class="modal-footer">
@@ -216,4 +220,5 @@
             $('#set-capacity').val($('#set-capacity').attr("min"));
         }
     })
+
 </script>

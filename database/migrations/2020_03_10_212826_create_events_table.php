@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->integer('capacity_left');
-            $table->integer('file_id')->unsigned();
+            $table->integer('file_id')->nullable();
             $table->foreign('file_id')->references('id')->on('files');
             $table->integer('max_capacity');
             $table->mediumText('description');
