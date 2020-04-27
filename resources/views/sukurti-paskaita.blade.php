@@ -17,7 +17,7 @@
 
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
-        <form class="mt--5 d-flex justify-content-center" action = "/sukurti-paskaita" method="post">
+        <form class="mt--5 d-flex justify-content-center" enctype="multipart/form-data" action = "/sukurti-paskaita" method="post">
             @csrf
             <div class="col-xl-6 order-xl-1">
                 <div class="card bg-secondary shadow">
@@ -118,6 +118,20 @@
                                 </div>
                             </div>
                         </div>
+                @csrf
+                <div class="form-group">
+                    
+                    <input type="file" class="form-control-file" multiple name="file" id="file" style="display:none" aria-describedby="fileHelp">
+                    
+                    <button  type="button"  class="btn-default"  onclick="document.getElementById('file').click()">Pasirinkite failą</button>
+                    <div style ="display: inline-block;" id="file-name">
+                    
+                   
+                
+                </div>
+                
+                 <small id="fileHelp" class="form-text text-muted"> Failą pridėti nėra būtina. Leidžiami formatai: doc, docx, pdf, txt, pptx, ppsx, odt, ods, odp, tiff, jpeg, png. Failas negali būti didesnis nei 5MB.</small>
+                </div>
                         <div class="text-center">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
@@ -163,6 +177,9 @@
             })
         }
     })
+    $("#file").change(function(){
+  $("#file-name").text(this.files[0].name);
+});
 
     $('.dynamic-ccr').change(function update_multi_dropdown(){
         if($(this).val() != ''){

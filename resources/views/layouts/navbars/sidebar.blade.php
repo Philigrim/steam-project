@@ -96,12 +96,17 @@
                                     {{ __('Kursai') }}
                                 </a>
                             </li>
+                            @if(Auth::user()->isRole()=="mokytojas")
+                            <li class="mb-6">
+                            </li>
+                            @endif
                             @if(Auth::user()->isRole()=="paskaitu_lektorius")
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('RouteToCreateEvent') }}">
                                     {{ __('Sukurti paskaitą') }}
                                 </a>
                             </li>
+                            <li class="mb-6">
                             @endif
                             @if(Auth::user()->isRole()=="admin")
                             <!-- Divider -->
@@ -127,7 +132,7 @@
                                 </div>
                             </li>
                             <!-- Divider -->
-                            <li><hr class="my-0"></li>
+                            <li><hr class="my-0 mb-6"></li>
                             @endif
                         </ul>
                     </div>
@@ -138,18 +143,16 @@
             <!-- Search & Filters -->
             @if (isset($title) && $title == __('Paskaitos'))
 
-            <!-- Search form -->
-            <form action="{{ route('events.search') }}" method="get">
-                <div class="input-group mt-3">
-                    <input class="form-control" name="search" type="text" @if (isset($search_value)) value="{{ $search_value }}" @endif placeholder="Raskite paskaitą">
-                    <div class="input-group-append">
-                    <button class="btn"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-
-
             <!-- Filters -->
+
+            @if (isset($filtered))
+            <row class="d-flex justify-content-center">
+            <form action="{{ route('Paskaitos')}} " method="get">
+                <button type="submit" class="btn btn-danger">Isvalyti filtrus</button>
+            </form>
+            </row>
+            @endif
+
             <form action="{{ route('events.filter')}} " method="get">
 
             {{ __('Kategorija:') }}

@@ -21,9 +21,12 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->integer('capacity_left');
+            $table->integer('file_id')->unsigned();
+            $table->foreign('file_id')->references('id')->on('files');
             $table->integer('max_capacity');
             $table->mediumText('description');
             $table->boolean('isPromoted');
+            $table->integer('file_id');
             $table->timestamps();
         });
     }

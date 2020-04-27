@@ -20,10 +20,10 @@
           var event_id = $(this).data('id'); 
           var isPromoted = $(this).is(':checked');
           if(isPromoted){
-            $("#" + event_id).addClass( "border border-primary rounded" );
+            $("#" + event_id).addClass( "border-primary" );
           }
           else{
-            $("#" + event_id).removeClass( "border border-primary rounded" );
+            $("#" + event_id).removeClass( "border-primary" );
           }
           $.ajax({
             type: "GET",
@@ -36,84 +36,121 @@
     </script>
 @endsection
 
+@section('additional_header_content')
+    <link href="{{ asset('css/win.css') }}" rel="stylesheet" type="text/css" >
+@endsection
+
 @section('content')
     @include('layouts.headers.cards')
     @if (session()->has('message'))
-            @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              {{ session()->get('message') }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-            @endif
-            @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session()->get('message') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+        @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{ session()->get('message') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+        @endif
+        @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session()->get('message') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     @endif
-    <div class="container pt-2 ml-7 w-50">
-      <p id="test"></p>
-        <table class="table">
-            <tbody>
-            @foreach($reservations as $reservation)
-                @csrf
-                <tr>
-                    <div class="row mr-2 mt-1 border @if($reservation->event->isPromoted) border-primary rounded @endif shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
-                        <div class="col-md-12 pl--7 ml-0">
-                            <div class="">
-                                @if (Auth::user()->isRole()=="admin")
-                                <div class="mt-3 float-right">
-                                  <input data-id="{{ $reservation->event->id }}" class="promote-class" @if($reservation->event->isPromoted) checked @endif type="checkbox" data-onstyle="success" data-toggle="toggle" data-on="Demote" data-off="Promote">
-                                </div>
-                                @endif
-                                <h3>{{ $reservation->event->name }}</h3>
-                            </div>
-                            <div class="row mt--3 ml-1">
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
-                                <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
-                            </div>
-                            <div class="">
-                                <p>{{ $reservation->event->description }}</p>
-                            </div>
-                            <div class="row mt--4" id="lecturers">
-                                @foreach($lecturers[$reservation->event->id] as $lecturer)
-                                    <button class="ml-3 p-1 mt-3 btn btn-dark my-2">
-                                        <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
-                                    </button>
-                                @endforeach
-                            </div>
-                            <div class="row justify-content-center border-top">
-                                <div class="col-4">
-                                    <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>
-                                    @if(Auth::user()->isRole() === 'mokytojas')
-                                      @if($reservation->event->capacity_left>"0")
-                                        <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
-                                      @endif
-                                      @if($reservation->event->capacity_left=="0")
-                                      <button class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol"  disabled ">Registruotis</button>
-                                      @endif
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container pt-2">
+
+        <!-- Search form -->
+      <form action="{{ route('events.search') }}" method="get">
+        <div class="input-group mt-3">
+            <input class="form-control" name="search" type="text" @if (isset($search_value)) value="{{ $search_value }}" @endif placeholder="Raskite norimą paskaitą">
+            <div class="input-group-append">
+            <button class="btn"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+      </form>
+
+      @foreach($reservations as $reservation)
+      @csrf
+      <div class="card shadow mb-1 border rounded w-100 d-flex">
+          @if($reservation->event->capacity_left > "0")
+            <a href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="text-darker show-modal exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">
+            <div class="d-flex win-card-link-active">
+          @else
+            <div class="d-inline-flex win-light-red">
+          @endif
+          <div class="p-0 m-0 flex-column">
+            <img class="img-center border-0 bg-white rounded-left" width="160" height="160" src="argon/img/brand/steam1-lectures.png" alt="">
+          </div>
+          <div class="m-0 w-100 flex-column">
+            <div class="card-header mb-0 pb-2">
+
+            @if (Auth::user()->isRole()=="admin")
+            <div class="mt--3 mr--3 float-right">
+              <input data-id="{{ $reservation->event->id }}" class="promote-class" @if($reservation->event->isPromoted) checked @endif type="checkbox" data-onstyle="success" data-toggle="toggle" data-on="Demote" data-off="Promote">
+            </div>
+            @endif
+
+            <h3 class="m--3 pb-3">{{ $reservation->event->name }}</h3>
+            <div class="row">
+                <div class="p-0 pl-1 pr-1 bg-primary rounded">
+                    <h6 class="text-white text-center mb-0">{{ $reservation->event->course->course_title }}</h6>
+                </div>
+            </div>
+            </div>
+            <div class="card-body pb-0 mt--2" style="height: 72%">
+              <div class="row mt--4 ml--4">
+                <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
+                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
+                <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
+                <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
+                <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
+                @if($reservation->event->capacity_left > "0")
+                    <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
+                @else
+                    <h5 class="pt-3 pr-2 text-red">Vietų nėra</h5>
+                @endif
+                <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
+                <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
+              </div>
+              <div class="row mt--2">
+                  <p>{{ $reservation->event->description }}</p>
+              </div>
+                
+              <div class="row pb-1 mt--2" id="lecturers">
+              @foreach($lecturers[$reservation->event->id] as $lecturer)
+                <div class="p-0 pb pl-1 pr-1 mr-2 bg-primary rounded align-self-baseline">
+                  <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
+                </div>
+              @endforeach
+              </div>
+            </div>
+          </div>
+            </div>
+            @if($reservation->event->capacity_left > "0")
+                </a>
+            @endif
+      </div>
+    
+{{--                <div class="card-footer bg-secondary p-0">--}}
+{{--                    <div class="col">--}}
+{{--                        <div class="d-flex justify-content-between">--}}
+{{--                            <a href="" class="align-self-center"><img src="argon/img/icons/common/document-blue.svg" class="icon-sm" alt=""></a>--}}
+{{--                            --}}{{----}}{{--                        @if(Auth::user()->isRole() === 'mokytojas')--}}
+{{--                            @if($reservation->event->capacity_left > "0")--}}
+{{--                                <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn p-2 btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>--}}
+{{--                            @else--}}
+{{--                                <button class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol"  disabled>Registruotis</button>--}}
+{{--                            @endif--}}
+{{--                            --}}{{----}}{{--                        @endif--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
         {{ csrf_field() }}
         @endforeach
-    </div>
+
     <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -138,7 +175,13 @@
               <div class="form-group">
                 <b>Mokinių skaičius</b>
              <input id="set-capacity" name ="pupil_count" class="col-5" value ="1" min="1" max="1" type="number" placeholder="0">
-              </div>
+               </div>
+               <br>
+               <div class="form-group">
+                <b> Pridėti failai: </b>
+                <br>
+                <i class="fa fa-file" style="font-size:24px"></i>     
+               </div>
             </form>
           <div class="modal-footer">
             <div class="form-group">
@@ -149,7 +192,7 @@
         </div>
       </div>
     </div>
-
+    </div>
   {{-- Modal Form Show POST
   <div id="show" class="modal fade" role="dialog">
     <div class="modal-dialog">

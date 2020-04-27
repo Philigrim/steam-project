@@ -15,7 +15,7 @@ use App\Subject;
 use App\City;
 use App\SteamCenterHasRoom;
 use Illuminate\Http\Request;
-
+use App\File;
 class EventController extends Controller
 {
     public function index(){
@@ -49,7 +49,10 @@ class EventController extends Controller
 
         echo $output;
     }
-
+    public function download ($id){
+        $dl = File::find($id);
+        return  response()->download(storage_path('app/public/file/'.$dl->name));
+    }
     public function filter(Request $request)
     {
         $capacity = $request->get('filterCapacityInput');
@@ -97,8 +100,10 @@ class EventController extends Controller
         $events = $events->get();
         $subjects = Subject::all();
         $cities = City::all();
+
+        $filtered = 't';
         
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered]);
     }
 
     public function search(Request $request)

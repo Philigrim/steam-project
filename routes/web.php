@@ -48,6 +48,7 @@ Route::group(['prefix' => 'paskaitos'], function(){
     Route::post('/','EventController@insert')->name('eventcontroller.insert');
     Route::get('/promote','EventController@promote')->name('paskaitos.promote');
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
+    Route::get('/file/download/{id}','EventController@download')->name('downloadFile');
 });
 
 Route::get('/search','EventController@search')->name('events.search');

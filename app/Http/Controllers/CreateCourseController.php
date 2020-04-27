@@ -42,8 +42,7 @@ class CreateCourseController extends Controller
             'course_title.required' => ' Kurso pavadinimas yra privalomas!',
             'subject_id.required' => ' Nepasirinkote dalyko!',
             'description.required' => ' Kurso aprašymas yra privalomas!',
-            'comments.required' => ' Kurso papildoma informacija yra privaloma!',
-
+            'comments.required' => ' Kurso papildoma informacija yra privaloma!',   
         ]);
 
         $subject = Subject::all()->where('id', '=', $request->subject_id)->collect();
