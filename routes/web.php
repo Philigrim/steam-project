@@ -24,7 +24,6 @@ Route::group(['middleware' => 'auth'], function(){
 Route::get('/announcements', 'AnnouncementsController@index')->name('announcements');
 Route::get('/announcements/search', 'AnnouncementsController@search')->name('announcements.search');
 Route::post('/announcements', 'AnnouncementsController@store')->name('announcements.store');
-Route::get('/announcements/{announcement_id}/edit', 'AnnouncementsController@edit')->name('announcements.edit');
 Route::patch('/announcement/{announcement_id}', 'AnnouncementsController@update')->name('announcements.update');
 Route::delete('/announcements/{announcement_id}', 'AnnouncementsController@destroy')->name('announcements.destroy');
 });
@@ -37,6 +36,7 @@ Route::group(['middleware' => 'auth'], function(){
 Route::get('/faq', 'FAQController@index')->name('faq');
 Route::post('/faq', 'FAQController@storeQuestion')->name('faq.store.question');
 Route::patch('/faq', 'FAQController@storeAnswer')->name('faq.store.answer');
+Route::patch('/faq/{faq_id}', 'FAQController@update')->name('faq.update');
 Route::delete('/faq/{faq_id}', 'FAQController@destroyById')->name('faq.destroy');
 Route::delete('/faq/{question}', 'FAQController@destroyByQ')->name('q.destroy');
 });
@@ -46,6 +46,7 @@ Route::get('/kursai','CourseController@index')->name('Kursai');
 Route::group(['prefix' => 'paskaitos'], function(){
     Route::get('/','EventController@index')->name('Paskaitos');
     Route::post('/','EventController@insert')->name('eventcontroller.insert');
+    Route::get('/promote','EventController@promote')->name('paskaitos.promote');
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
 });
 
@@ -73,6 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
     // Route::get('profile',['as' => 'profile.index','uses'=> 'ProfileController@index']);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+    Route::post('profile', ['as' => 'profile.addSubject', 'uses' => 'ProfileController@addSubject']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 });

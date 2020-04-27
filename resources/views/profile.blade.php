@@ -2,7 +2,7 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Hello') . ' '. auth()->user()->firstname,
+        'title' => __('Sveiki, ') . auth()->user()->firstname . ',',
         'description' => __('This is your profile page. You can see the progress you\'ve made with your work and manage your projects or assigned tasks'),
         'class' => 'col-lg-7'
     ])
@@ -59,6 +59,39 @@
                                 </div>
                             </div>
                         </form>
+                        @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                        <hr class="my-4" />
+                        <form method="post" action="{{ route('profile.addSubject') }}">
+                            @csrf
+
+                            <h6 class="heading-small text-muted mb-4">{{ __('Mokomieji dalykai') }}</h6>
+
+                            @if (session('subject_status'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('subject_status') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+
+                            <div class="pl-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">{{ __('Kategorija') }}</label>
+                                    <select class="form-control dropdown-menu-arrow" name="input-subject" required>
+                                        <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
+                                        @foreach($addable_subjects as $addable_subject)
+                                        <option value="{{ $addable_subject->id }}">{{ $addable_subject->subject }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Pridėti') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                        @endif
                         <hr class="my-4" />
                         <form method="post" action="{{ route('profile.password') }}" autocomplete="off">
                             @csrf
@@ -158,6 +191,12 @@
                             <div>
                                 <i class="ni education_hat mr-2"></i>{{ __('University of Computer Science') }}
                             </div>
+                            @if(Auth::user()->isRole()=="paskaitu_lektorius")
+                            <div class="mt-4">
+                                <h5>{{ __('Mokomieji dalykai:') }}</h5>
+                                @foreach($lector_subjects as $lector_subject) {{ $lector_subject->subject }} @endforeach
+                            </div>
+                            @endif
                             <hr class="my-4" />
                             <p>{{ __('Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.') }}</p>
                             <a href="#">{{ __('Rodyti daugiau') }}</a>

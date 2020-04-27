@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
-use App\Teacher;
+use App\Subject;
+use App\Lecturer;
 use App\User;
-use App\Event;
-use App\EventHasTeacher;
-use App\Reservation;
+use App\LecturerHasSubject;
+use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     /**
@@ -19,7 +19,18 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        return view('profile.edit');
+
+        if(\Auth::user()->isRole()=="paskaitu_lektorius"){
+        $lecturer_id=Lecturer::all()->where('user_id','=',\Auth::user()->id)->first()->id;
+        $lecturer_subjects_ids = LecturerHasSubject::all()->where('lecturer_id', $lecturer_id)->pluck('subject_id');
+        $addable_subjects = Subject::all()->whereNotIn('id', $lecturer_subjects_ids);
+        $lector_subjects = Subject::all()->whereIn('id', $lecturer_subjects_ids);
+        return view('profile', ['addable_subjects'=>$addable_subjects, 'lector_subjects'=>$lector_subjects]);
+        }
+        else{
+            return view('profile');
+        }
+
     }
 
     public function index()
@@ -36,6 +47,20 @@ class ProfileController extends Controller
         auth()->user()->update($request->all());
 
         return back()->withStatus(__('Profile successfully updated.'));
+    }
+
+    public function addSubject(Request $request)
+    {
+        $subject_id = $request->get('input-subject');
+        $lecturer_id=Lecturer::all()->where('user_id','=',\Auth::user()->id)->first()->id;
+
+        $data = array(
+            'subject_id' => $subject_id,
+            'lecturer_id' => $lecturer_id);
+    
+        LecturerHasSubject::insert($data);
+
+        return back()->withSubjectStatus(__('Mokomasis dalykas pridėtas!'));
     }
 
     /**

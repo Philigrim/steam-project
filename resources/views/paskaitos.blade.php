@@ -8,6 +8,32 @@
 {{--Date pickeris--}}
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
+
+{{--Toggle buttonas--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script>
+      jQuery(document).ready(function($) {
+        $('.promote-class').change(function() {
+          var event_id = $(this).data('id'); 
+          var isPromoted = $(this).is(':checked');
+          if(isPromoted){
+            $("#" + event_id).addClass( "border border-primary rounded" );
+          }
+          else{
+            $("#" + event_id).removeClass( "border border-primary rounded" );
+          }
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: 'paskaitos/promote',
+            data: {'isPromoted': isPromoted, 'event_id': event_id}
+          });
+        })
+      })
+    </script>
 @endsection
 
 @section('content')
@@ -31,14 +57,20 @@
             @endif
     @endif
     <div class="container pt-2 ml-7 w-50">
+      <p id="test"></p>
         <table class="table">
             <tbody>
             @foreach($reservations as $reservation)
                 @csrf
                 <tr>
-                    <div class="row mr-2 mt-1 border shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
+                    <div class="row mr-2 mt-1 border @if($reservation->event->isPromoted) border-primary rounded @endif shadow rounded win-event bg-gradient-white" id="{{ $reservation->event->id }}">
                         <div class="col-md-12 pl--7 ml-0">
                             <div class="">
+                                @if (Auth::user()->isRole()=="admin")
+                                <div class="mt-3 float-right">
+                                  <input data-id="{{ $reservation->event->id }}" class="promote-class" @if($reservation->event->isPromoted) checked @endif type="checkbox" data-onstyle="success" data-toggle="toggle" data-on="Demote" data-off="Promote">
+                                </div>
+                                @endif
                                 <h3>{{ $reservation->event->name }}</h3>
                             </div>
                             <div class="row mt--3 ml-1">
@@ -70,7 +102,6 @@
                                       @endif
                                       @if($reservation->event->capacity_left=="0")
                                       <button class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol"  disabled ">Registruotis</button>
-
                                       @endif
                                     @endif
                                 </div>
@@ -99,7 +130,7 @@
           <div class="form-group">
               <label for="">Paskaitos pavadinimas :</label>
               <b id ="name"/>
-             </div>
+          </div>
              <div class="form-group">
               <input  type="hidden"type="text" name="event_id" id="id">
               </div>
@@ -118,6 +149,7 @@
         </div>
       </div>
     </div>
+
   {{-- Modal Form Show POST
   <div id="show" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -163,7 +195,6 @@
  }
  </script>
 @endsection
-
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

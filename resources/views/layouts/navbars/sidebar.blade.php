@@ -91,8 +91,6 @@
                                     {{ __('Apie') }}
                                 </a>
                             </li>
-                            <!-- Divider -->
-                            <li><hr class="my-0"></li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('Kursai') }}">
                                     {{ __('Kursai') }}
@@ -104,8 +102,6 @@
                                     {{ __('Sukurti paskaitą') }}
                                 </a>
                             </li>
-                            <!-- Divider -->
-                            <li><hr class="my-0"></li>
                             @endif
                             @if(Auth::user()->isRole()=="admin")
                             <!-- Divider -->

@@ -146,4 +146,10 @@ class EventController extends Controller
         return redirect()->back()->with('message', 'Jūs sėkmingai užsiregistravote į paskaitą');
     }
 
+    public function promote(Request $request)
+    {
+        $event = Event::find($request->event_id);
+        $event->isPromoted = $request->isPromoted;
+        $event->save();
+    }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Sveikas') . ', '. auth()->user()->firstname . ',',
+        'title' => __('Mano paskaitos'),
         'description' => __('Šiame puslapyje galite apžvelgti praėjusias ir būsimas paskaitas, taip pat matyti, kur ir kada jos vyko.'),
         'class' => 'col-lg-7'
     ])
@@ -29,7 +29,7 @@
                                 @if(Auth::user()->isRole()=="paskaitu_lektorius")
                                 <th>Laisvos vietos:</th>
                                 @endif
-                                @if(Auth::user()->isRole()!="paskaitu_lektorius")
+                                @if(Auth::user()->isRole()=="mokytojas")
                                 <th>Iš viso dalyvių:</th>
                                 @endif
                                 <th>Miestas:</th>

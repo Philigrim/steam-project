@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Announcement;
+
+use App\Event;
+use App\LecturerHasEvent;
+use App\Reservation;
+use App\Subject;
+use App\City;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 class AnnouncementsController extends Controller
@@ -24,8 +31,16 @@ class AnnouncementsController extends Controller
      */
     public function index()
     {
+        // announcements
         $announcements = Announcement::all()->reverse();
-        return view('naujienos', ['announcements' => $announcements]);
+
+        // promoted events
+        $events = Event::where("isPromoted", true);
+        $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
+        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id');
+        $events = $events->get();
+        
+        return view('naujienos', ['announcements' => $announcements, 'events'=>$events, 'lecturers'=>$lecturers, 'reservations'=>$reservations]);
     }
 
     public function search(Request $request)
@@ -63,18 +78,12 @@ class AnnouncementsController extends Controller
         return redirect()->route('announcements')->withStatus(__('Pranešimas sėkmingai sukurtas.'));
     }
 
-    public function edit($id)
-    {
-        $announcement = Announcement::where('id', $id)->get();
-        return view('naujienos.edit', ['announcement'=>$announcement]);
-    }
-
     public function update(Request $request)
     {
-        $id = $request->input('id');
-        $title = $request->input('title');
-        $author = $request->input('author');
-        $text = $request->input('text');
+        $id = $request->input('edited_id');
+        $title = $request->input('edited_title');
+        $author = $request->input('edited_author');
+        $text = $request->input('edited_text');
 
         date_default_timezone_set('Europe/Vilnius');
         $modification_date = date('Y/m/d H:i', time());
