@@ -79,7 +79,7 @@
                                      <b> Pridėti failai: </b>
                                      <br>
                                      <i class="fa fa-file" style="font-size:24px"></i>     
-                                     <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Apie paskaitą</a>
+                                     <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
                                     </div>
                                     @endif
                                     </div>
