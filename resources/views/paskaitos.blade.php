@@ -63,7 +63,7 @@
                             </div>
                             <div class="row justify-content-center border-top">
                                 <div class="col-4">
-                                  <a href = "{{route('downloadFile',$reservation->event->file->id)}}">atsisiusti</a>
+                                  <a href = "{{route('downloadFile',$reservation->event->file->id)}}">{{ $reservation->event->file->name }}</a>
                                   @if(Auth::user()->isRole() === 'mokytojas')
                                       @if($reservation->event->capacity_left>"0")
                                         <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
