@@ -31,30 +31,6 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
-        date_default_timezone_set('Europe/Vilnius');
-        $today_date = date('Y-m-d', time());
-        $time_now = date('H:i:s', time());
-        
-        $promotable_date = date('Y-m-d', strtotime($today_date. ' + 2 days'));
-
-        // DEMOTE
-        // days till today_date
-        $pastReservations1 = $reservations->where('date', '<', $today_date);
-        // today_date, but time already passed
-        $pastReservations2 = $reservations->where('date', $today_date)->where('start_time', '<', $time_now);
-        $pastEventsIds = $pastReservations1->merge($pastReservations2)->pluck('event_id');
-        Event::wherein('id', $pastEventsIds)->update(['isPromoted' => 'false']);
-    
-        // PROMOTE
-        // today_date, but time did not passed yet
-        $futureEvents1 = $reservations->where('date', $today_date)->where('start_time', '>', $time_now);
-        // gap from today_date till promotable_date
-        $futureEvents2 = $reservations->where('date', '>', $today_date)->where('date', '<', $promotable_date);
-        // promotable_date, but time did not passed yet
-        $futureEvents3 = $reservations->where('date', $promotable_date)->where('start_time', '<', $time_now);
-        $futureEventsIds = $futureEvents1->merge($futureEvents2)->merge($futureEvents3)->pluck('event_id');
-        Event::wherein('id', $futureEventsIds)->update(['isPromoted' => 'true']);
-
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
 
