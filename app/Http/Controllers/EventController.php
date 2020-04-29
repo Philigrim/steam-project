@@ -31,6 +31,30 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
+        date_default_timezone_set('Europe/Vilnius');
+        $today_date = date('Y-m-d', time());
+        $time_now = date('H:i:s', time());
+        
+        $promotable_date = date('Y-m-d', strtotime($today_date. ' + 2 days'));
+
+        // DEMOTE
+        // days till today_date
+        $pastReservations1 = $reservations->where('date', '<', $today_date);
+        // today_date, but time already passed
+        $pastReservations2 = $reservations->where('date', $today_date)->where('start_time', '<', $time_now);
+        $pastEventsIds = $pastReservations1->merge($pastReservations2)->pluck('event_id');
+        Event::wherein('id', $pastEventsIds)->update(['isPromoted' => 'false']);
+    
+        // PROMOTE
+        // today_date, but time did not passed yet
+        $futureEvents1 = $reservations->where('date', $today_date)->where('start_time', '>', $time_now);
+        // gap from today_date till promotable_date
+        $futureEvents2 = $reservations->where('date', '>', $today_date)->where('date', '<', $promotable_date);
+        // promotable_date, but time did not passed yet
+        $futureEvents3 = $reservations->where('date', $promotable_date)->where('start_time', '<', $time_now);
+        $futureEventsIds = $futureEvents1->merge($futureEvents2)->merge($futureEvents3)->pluck('event_id');
+        Event::wherein('id', $futureEventsIds)->update(['isPromoted' => 'true']);
+
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
 
@@ -55,10 +79,10 @@ class EventController extends Controller
     }
     public function filter(Request $request)
     {
+        $filtered = 'f';
         $capacity = $request->get('filterCapacityInput');
         $category = $request->get('filterCategoryInput');
         $city = $request->get('filterCityInput');
-        $dateFrom = $request->get('filterDateFrom');
 
         $events = Event::join('rooms', 'rooms.id', '=', 'events.room_id')
                        ->join('steam_centers', 'steam_centers.id', '=', 'rooms.steam_center_id')
@@ -70,23 +94,44 @@ class EventController extends Controller
 
         if(isset($category)){
             $events = $events->where('subjects.subject', '=', $category);
+            $filtered = 't';
         }
 
         if(isset($capacity)){          
             $events = $events->where('capacity_left', '>=', $capacity);
+            $filtered = 't';
         }
         
         if(isset($city)){
             $events = $events->where('city_name', '=', $city);
+            $filtered = 't';
         }
 
-        if(isset($dateFrom)){
-            $dateTo = $request->get('filterDateTo');
-            if(isset($dateTo)){
-                $reservations = $reservations->whereBetween('date', [$dateFrom, $dateTo]);
-            } else {
-                $reservations = $reservations->where('date', '=', $dateFrom);
-            }
+        $date_value = $request->get('filterDateInput');
+        $dateOneDay = $request->get('filterDateOneDay');
+        $dateFrom = $request->get('filterDateFrom');
+        $dateTill = $request->get('filterDateTill');
+
+        if(isset($date_value)){
+        if($dateOneDay != "" && $date_value=="oneDay"){
+            $reservations = $reservations->where('date', $dateOneDay);
+            $filtered = 't';
+        } else if ($dateFrom != "" && $date_value=="from"){
+            $reservations1 = $reservations->where('date', '>', $dateFrom);
+            $reservations2 = $reservations->where('date', $dateFrom);
+            $reservations=$reservations1->merge($reservations2);
+            $filtered = 't';
+        } else if ($dateTill != "" && $date_value=="till"){
+            $reservations1 = $reservations->where('date', '<', $dateTill);
+            $reservations2 = $reservations->where('date', $dateTill);
+            $reservations=$reservations1->merge($reservations2);
+            $filtered = 't';
+        } else if ($dateFrom != "" && $dateTill != "" && $date_value=="interval" && $dateFrom<$dateTill){
+            $reservations = $reservations->whereBetween('date', [$dateFrom, $dateTill]);
+            $filtered = 't';
+        } else {
+            $date_value = "";
+        }
         }
 
         $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
@@ -100,10 +145,10 @@ class EventController extends Controller
         $events = $events->get();
         $subjects = Subject::all();
         $cities = City::all();
-
-        $filtered = 't';
         
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered]);
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered,
+            'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity,
+            'date_value'=>$date_value, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
     public function search(Request $request)

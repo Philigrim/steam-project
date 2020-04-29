@@ -51,6 +51,7 @@ class InsertionController extends Controller
                                   'city_id' => $request->get('cityIdForCenter')));
         return redirect()->back()->withStatus(__('Centras sėkmingai pridėtas.'));
     }
+    
 
     public function insertRoom(Request $request)
     {

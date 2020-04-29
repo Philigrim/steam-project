@@ -9,31 +9,6 @@
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
 
-{{--Toggle buttonas--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
-    <script>
-      jQuery(document).ready(function($) {
-        $('.promote-class').change(function() {
-          var event_id = $(this).data('id'); 
-          var isPromoted = $(this).is(':checked');
-          if(isPromoted){
-            $("#" + event_id).addClass( "border-primary" );
-          }
-          else{
-            $("#" + event_id).removeClass( "border-primary" );
-          }
-          $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: 'paskaitos/promote',
-            data: {'isPromoted': isPromoted, 'event_id': event_id}
-          });
-        })
-      })
-    </script>
 @endsection
 
 @section('additional_header_content')
@@ -60,7 +35,7 @@
             </div>
         @endif
     @endif
-    <div class="container pt-2">
+    <div class="container pt-2 pl-0 pr-0">
 
         <!-- Search form -->
       <form action="{{ route('events.search') }}" method="get">
@@ -72,7 +47,37 @@
         </div>
       </form>
 
+      @if(isset($filtered) && $filtered == 't')
+      <div class="row">
+
+      <form action="{{ route('Paskaitos')}} " method="get">
+          <input id="clearFilers" type="submit" class="btn btn-danger ml-3" value="Išvalyti visus filtrus"/>
+      </form>
+
+      @if(isset($category_value))
+      <input type="button" class="btn btn-danger ml-3 mb-3" value="Dalykas: {{ $category_value }} (x)" onclick="deleteValue(Category)"></input>
+      @endif
+      @if(isset($capacity_value))
+      <input type="button" class="btn btn-danger ml-3 mb-3" value="Laisvos vietos: bent {{ $capacity_value }} (x)" onclick="deleteValue(Capacity)"></input>
+      @endif
+      @if(isset($city_value))
+      <input type="button" class="btn btn-danger ml-3 mb-3" value="Miestas: {{ $city_value }} (x)" onclick="deleteValue(City)"></input>
+      @endif
+      @if(isset($date_value) && 
+      (($date_value=="oneDay" && $dateOneDay!="") || ($date_value=="from" && $dateFrom!="") || ($date_value=="till" && $dateTill!="") || ($date_value=="interval" && $dateFrom!="" && $dateTill!="")))
+      <input type="button" class="btn btn-danger ml-3 mb-3" value="Data
+      @if($date_value=="oneDay") {{ $dateOneDay }} (x)" @endif
+      @if($date_value=="from") nuo {{ $dateFrom }} (x)" @endif
+      @if($date_value=="till") iki {{ $dateTill }} (x)" @endif
+      @if($date_value=="interval") {{ $dateFrom }} - {{ $dateTill }} (x)" @endif
+      onclick="deleteValue(dateInput)"></input>
+      @endif
+      </div>
+      @endif
+
       @foreach($reservations as $reservation)
+      <div class="row">
+      <div class="col">
       @csrf
       <div class="card shadow mb-1 border rounded w-100 d-flex">
           @if($reservation->event->capacity_left > "0")
@@ -87,13 +92,8 @@
           <div class="m-0 w-100 flex-column">
             <div class="card-header mb-0 pb-2">
 
-            @if (Auth::user()->isRole()=="admin")
-            <div class="mt--3 mr--3 float-right">
-              <input data-id="{{ $reservation->event->id }}" class="promote-class" @if($reservation->event->isPromoted) checked @endif type="checkbox" data-onstyle="success" data-toggle="toggle" data-on="Demote" data-off="Promote">
-            </div>
-            @endif
-
             <h3 class="m--3 pb-3">{{ $reservation->event->name }}</h3>
+            
             <div class="row">
                 <div class="p-0 pl-1 pr-1 bg-primary rounded">
                     <h6 class="text-white text-center mb-0">{{ $reservation->event->course->course_title }}</h6>
@@ -115,10 +115,19 @@
                 <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                 <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
               </div>
-              <div class="row mt--2">
-                  <p>{{ $reservation->event->description }}</p>
+
+              <div class="row mt--2 justify-content-between">
+                <p>{{ $reservation->event->description }}</p>
+                @if(isset($reservation->event->file_id))
+                  <div class="form-group">
+                    <b> Pridėti failai: </b>
+                    <br>
+                    <i class="fa fa-file" style="font-size:24px"></i>     
+                    <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
+                  </div>
+                @endif
               </div>
-                
+
               <div class="row pb-1 mt--2" id="lecturers">
               @foreach($lecturers[$reservation->event->id] as $lecturer)
                 <div class="p-0 pb pl-1 pr-1 mr-2 bg-primary rounded align-self-baseline">
@@ -149,6 +158,10 @@
 {{--                    </div>--}}
 {{--                </div>--}}
         {{ csrf_field() }}
+
+
+      </div>
+      </div>
         @endforeach
 
     <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -216,26 +229,41 @@
                     </div>
   </div> --}}
   <script type="text/javascript">
+    new GijgoDatePicker(document.getElementById('dateOneDay'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
     new GijgoDatePicker(document.getElementById('dateFrom'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
-    new GijgoDatePicker(document.getElementById('dateTo'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
+    new GijgoDatePicker(document.getElementById('dateTill'), { calendarWeeks: true, uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
 
     window.onload=function()
     {
     //get the divs to show/hide
-    dateFiltersDivs = document.getElementById("dateFilters").getElementsByTagName('div');
+    oneDay = document.getElementById("dateOneDayDiv");
+    dateFrom = document.getElementById("dateFromDiv");
+    dateTill = document.getElementById("dateTillDiv");
     }
 
     function showHide(elem) {
-    if(elem.value == "oneDay") {
-        //unhide the divs
-        dateFiltersDivs[0].style.display = 'flex';
-        dateFiltersDivs[2].style.display = 'none';
-    } else if(elem.value == "interval"){
-        //unhide the divs
-        dateFiltersDivs[0].style.display = 'flex';
-        dateFiltersDivs[2].style.display = 'flex';
-     }
- }
+      if(elem.value == "oneDay") {
+      showDeleteButton(deleteDateButton);
+        oneDay.style.display = 'flex';
+        dateFrom.style.display = 'none';
+        dateTill.style.display = 'none';
+      } else if(elem.value == "from"){
+      showDeleteButton(deleteDateButton);
+        oneDay.style.display = 'none';
+        dateFrom.style.display = 'flex';
+        dateTill.style.display = 'none';
+      } else if(elem.value == "till"){
+      showDeleteButton(deleteDateButton);
+        oneDay.style.display = 'none';
+        dateFrom.style.display = 'none';
+        dateTill.style.display = 'flex';
+      } else if(elem.value == "interval"){
+      showDeleteButton(deleteDateButton);
+        oneDay.style.display = 'none';
+        dateFrom.style.display = 'flex';
+        dateTill.style.display = 'flex';
+      }
+    }
  </script>
 @endsection
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>

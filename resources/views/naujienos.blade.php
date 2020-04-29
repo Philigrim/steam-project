@@ -2,30 +2,6 @@
 
 @section('additional_header_content')
 
-@if (Auth::user()->isRole()=="admin")
-{{--Toggle button--}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
-<script>
-    jQuery(document).ready(function($) {
-      $('.promote-class').change(function() {
-        var event_id = $(this).data('id'); 
-        var isPromoted = $(this).is(':checked');
-        if(!isPromoted){
-            $("#" + event_id).remove();
-        }
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: 'paskaitos/promote',
-          data: {'isPromoted': isPromoted, 'event_id': event_id}
-        });
-      })
-    })
-</script>
-@endif
 @endsection
 
 @section('content')

@@ -52,8 +52,14 @@ class AnnouncementsController extends Controller
                                      ->orWhere('created_at', 'like', '%'.$query.'%')
                                      ->orderBy('id', 'desc')
                                      ->get();
+
+        // promoted events
+        $events = Event::where("isPromoted", true);
+        $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
+        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id');
+        $events = $events->get();
     
-        return view('naujienos', ['search_value' => $query, 'announcements' => $announcements]);
+        return view('naujienos', ['search_value' => $query, 'announcements' => $announcements, 'events'=>$events, 'lecturers'=>$lecturers, 'reservations'=>$reservations]);
     }
 
     public function store(Request $request)

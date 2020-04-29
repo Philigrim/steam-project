@@ -145,55 +145,79 @@
 
             <!-- Filters -->
 
-            @if (isset($filtered))
             <row class="d-flex justify-content-center">
             <form action="{{ route('Paskaitos')}} " method="get">
-                <button type="submit" class="btn btn-danger">Isvalyti filtrus</button>
+                <button id="clearFilers" type="submit" class="btn btn-danger" style="display: none">Panaikinti pasirinkimus</button>
             </form>
             </row>
-            @endif
 
             <form action="{{ route('events.filter')}} " method="get">
 
             {{ __('Kategorija:') }}
-            <select class="form-control mb-2 dropdown-menu-arrow" style="width:100%;" name="filterCategoryInput">
-                <option selected disabled>{{ "Pasirinkite kategoriją" }}</option>
+            <div class="row">
+            <select id="Category" class="form-control mb-2 ml-3 dropdown-menu-arrow" style="width:80%;" name="filterCategoryInput" onchange="showDeleteButton(deleteCategoryButton)">
+                <option value="" @if(!isset($category_value)) selected @endif disabled>{{ "Pasirinkite kategoriją" }}</option>
                 @foreach($subjects as $subject)
-                <option value="{{ $subject->subject }}">{{ $subject->subject }}</option>
+                <option @if((isset($category_value)) && ($category_value == $subject->subject)) selected @endif value="{{ $subject->subject }}">{{ $subject->subject }}</option>
                 @endforeach
             </select>
+            <input id="deleteCategoryButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(Category)"></input>
+            </div>
 
             {{ __('Laisvų vietų skaičius:') }}
-            <input class="form-control input-group mb-2" style="width:100%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1">
+            <div class="row">
+            <input id="Capacity" class="form-control ml-3 input-group mb-2" @if (isset($capacity_value)) value="{{ $capacity_value }}" @endif style="width:80%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1" oninput="showDeleteButton(deleteCapacityButton)">
+            <input id="deleteCapacityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(Capacity)"></input>
+            </div>
 
             {{ __('Miestas:') }}
-            <select class="form-control mb-2 dropdown-menu-arrow mb-2"  style="width:100%;" name="filterCityInput">
-                <option selected disabled>{{ "Nurodykite miestą" }}</option>
+            <div class="row">
+            <select id="City" class="form-control ml-3 mb-2 dropdown-menu-arrow mb-2" style="width:80%;" name="filterCityInput" onchange="showDeleteButton(deleteCityButton)">
+                <option value="" @if(!isset($city_value)) selected @endif disabled>{{ "Nurodykite miestą" }}</option>
                 @foreach($cities as $city)
-                <option value="{{ $city->city_name }}">{{ $city->city_name }}</option>
+                <option @if((isset($city_value)) && ($city_value == $city->city_name)) selected @endif value="{{ $city->city_name }}">{{ $city->city_name }}</option>
                 @endforeach
             </select>
+            <input id="deleteCityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(City)"></input>
+            </div>
 
             {{ __('Data:') }}
-            <select class="form-control mb-2 dropdown-menu-arrow mb-2" style="width:100%;" onchange="showHide(this)">
-                <option disabled selected>{{ __('Įvesties tipas') }}</option>
-                <option value="oneDay">{{ __('Diena') }}</option>
-                <option value="interval">{{ __('Intervalas') }}</option>
+            <div class="row">
+            <select id="dateInput" class="form-control ml-3 mb-2 dropdown-menu-arrow mb-2" style="width:80%;" name="filterDateInput" onchange="showHide(this)">
+                <option value=""
+                @if(!isset($date_value) || ($date_value==""))
+                ) selected @endif >{{ __('Įvesties tipas') }}</option>
+                <option @if (isset($date_value) && $date_value == "oneDay") selected @endif value="oneDay">{{ __('Diena') }}</option>
+                <option @if (isset($date_value) && $date_value == "from") selected @endif value="from">{{ __('Nuo') }}</option>
+                <option @if (isset($date_value) && $date_value == "till") selected @endif value="till">{{ __('Iki') }}</option>
+                <option @if (isset($date_value) && $date_value == "interval") selected @endif value="interval">{{ __('Intervalas') }}</option>
             </select>
+            <input id="deleteDateButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(dateInput)"></input>
+            </div>
+
+            @if (isset($date_value))
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    //alert(document.getElementById('date_select'));
+                    showHide(document.getElementById('dateInput'));
+                });
+            </script>
+            @endif 
 
             <div id="dateFilters">
-
-            <div class="form-group mb-2" style="width:100%; display:none;">
-                <input placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
+            <div id="dateOneDayDiv" class="form-group mb-2" style="width:92%; display:none;">
+                <input @if ((isset($date_value)) && ($date_value == "oneDay") && ($dateOneDay!="")) value="{{ $dateOneDay }}" @endif placeholder="Pasirinkite datą" id="dateOneDay" name="filterDateOneDay"/>
             </div>
-            <div class="form-group mb-2" style="width:100%; display:none;">
-                <input placeholder="Pasirinkite datą" id="dateTo" name="filterDateTo"/>
+            <div id="dateFromDiv" class="form-group mb-2" style="width:92%; display:none;">
+                <input @if ((isset($date_value)) && ((($date_value == "from") && ($dateFrom!="")) || (($date_value == "interval") && ($dateFrom!="") && ($dateTill!="")))) value="{{ $dateFrom }}" @endif placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
+            </div>
+            <div id="dateTillDiv" class="form-group mb-2" style="width:92%; display:none;">
+                <input @if ((isset($date_value)) && ((($date_value == "till") && ($dateTill!="")) || (($date_value == "interval") && ($dateFrom!="") && ($dateTill!="")))) value="{{ $dateTill }}" @endif placeholder="Pasirinkite datą" id="dateTill" name="filterDateTill"/>
+            </div>
             </div>
 
-            </div>
-
-            <row class="d-flex justify-content-center">
-                <button type = "submit" class = "btn btn-success">
+            <row class="d-flex justify-content-center mr-3">
+                <button id="submitFilters" type = "submit" class = "btn btn-success">
                     {{ __('Rodyti rezultatus') }}
                 </button>
             </row>
@@ -202,6 +226,28 @@
 
             @endif
 
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    @if (isset($category_value)) showDeleteButton(deleteCategoryButton); @endif
+                    @if (isset($capacity_value)) showDeleteButton(deleteCapacityButton); @endif 
+                    @if (isset($city_value)) showDeleteButton(deleteCityButton); @endif 
+                });
+            </script>
+            
+            <script type="text/javascript">
+                function showDeleteButton(buttonId) {
+                    buttonId.style.display = 'flex';
+                    clearFilers.style.display = 'flex';
+                };
+            </script>
+
+            <script type="text/javascript">
+                function deleteValue(inputId) {
+                    inputId.value = "";
+                    $( "#submitFilters" ).click();
+                };
+            </script>
+            
             <!-- /Filters -->
 
                         <!-- Navigation -->
@@ -211,3 +257,4 @@
         </div>
     </div>
 </nav>
+
