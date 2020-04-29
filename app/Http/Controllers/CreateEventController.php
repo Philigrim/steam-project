@@ -161,16 +161,26 @@ class CreateEventController extends Controller
                             $file = File ::create(
                                 ['name' =>$filename]
                             );
-
-                        }
-        $event = Event::create(['name' => $request->name,
+            $event = Event::create(['name' => $request->name,
+            'room_id' => $request->room_id,
+            'course_id' => $request->course_id,
+            'description' => $request->description,
+            'capacity_left' => $request->capacity,
+            'max_capacity' => $request->capacity,
+            'isPromoted' => 'f',
+            'file_id' => $file->id]);
+                                }
+        else {
+            $event = Event::create(['name' => $request->name,
             'room_id' => $request->room_id,
             'course_id' => $request->course_id,
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
             'isPromoted' => 'f']);
-
+        }
+        
+        
         foreach($request->lecturers as $lecturer){
             LecturerHasEvent::create(['lecturer_id' => $lecturer,
                 'event_id'=>$event->id]);

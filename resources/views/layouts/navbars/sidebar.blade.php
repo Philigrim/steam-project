@@ -195,15 +195,6 @@
             <input id="deleteDateButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(dateInput)"></input>
             </div>
 
-            @if (isset($date_value))
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    //alert(document.getElementById('date_select'));
-                    showHide(document.getElementById('dateInput'));
-                });
-            </script>
-            @endif 
-
             <div id="dateFilters">
             <div id="dateOneDayDiv" class="form-group mb-2" style="width:92%; display:none;">
                 <input @if ((isset($date_value)) && ($date_value == "oneDay") && ($dateOneDay!="")) value="{{ $dateOneDay }}" @endif placeholder="Pasirinkite datą" id="dateOneDay" name="filterDateOneDay"/>
@@ -224,13 +215,17 @@
 
             </form>
 
-            @endif
-
+            
+            <script type="text/javascript">
+                $(document).one('ready',function(){
+                    @if(isset($date_value)) showHide(document.getElementById('dateInput')); @endif
+                });
+            </script>
             <script type="text/javascript">
                 $(document).ready(function() {
-                    @if (isset($category_value)) showDeleteButton(deleteCategoryButton); @endif
-                    @if (isset($capacity_value)) showDeleteButton(deleteCapacityButton); @endif 
-                    @if (isset($city_value)) showDeleteButton(deleteCityButton); @endif 
+                    @if(isset($category_value)) showDeleteButton(deleteCategoryButton); @endif
+                    @if(isset($capacity_value)) showDeleteButton(deleteCapacityButton); @endif 
+                    @if(isset($city_value)) showDeleteButton(deleteCityButton); @endif 
                 });
             </script>
             
@@ -248,9 +243,11 @@
                 };
             </script>
             
-            <!-- /Filters -->
 
-                        <!-- Navigation -->
+            <!-- /Filters -->
+            @endif
+
+            <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
 
             </ul>
