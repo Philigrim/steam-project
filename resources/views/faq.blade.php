@@ -17,12 +17,22 @@
 </div>
 @endif
 @if (session()->has('message'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ session()->get('message') }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ session()->get('message') }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+    @endif
+    @if(session()->get('message')==('Jūs sėkmingai užsiregistravote į paskaitą'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 @endif
 
 <!-- Question Asking Modal -->
@@ -224,7 +234,6 @@
     <!-- Divider-->
     <div class="border-right mt-3 ml-4 mr-4 mb-2 d-flex justify-content-center"></div>
     
-    
     <!-- Promoted Courses (right side)-->
     <div class="col-xl-5">
         <div clas="row">
@@ -245,7 +254,11 @@
                         <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                         <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
                         <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                        <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
+                        @if($reservation->event->capacity_left > "0")
+                            <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
+                        @else
+                            <h5 class="pt-3 pr-2 text-red">Vietų nėra</h5>
+                        @endif
                         <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                         <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                     </div>
@@ -281,7 +294,6 @@
                                 @csrf
                             <div class="form-group">
                                 <label for="">Paskaitos pavadinimas :</label>
-                                <b id ="name"/>
                             </div>
                             <div class="form-group">
                                 <input  type="hidden"type="text" name="event_id" id="id">
@@ -291,12 +303,12 @@
                                 <b>Mokinių skaičius</b>
                                 <input id="set-capacity" name ="pupil_count" class="col-5" value ="1" min="1" max="1" type="number" placeholder="0">
                             </div>
-                            </form>
                             <div class="modal-footer">
                                 <div class="form-group">
                                     <button type="submit"  class="btn btn-success mt-4">{{ __('Patvirtinti') }}</button>
                                 </div>
                             </div>
+                            </form>
                             </div>
                         </div>
                         </div>
@@ -313,7 +325,7 @@
             {{ csrf_field() }}
             @endforeach
         </div>
-    </div>
+        </div>
 
 </div>
 
