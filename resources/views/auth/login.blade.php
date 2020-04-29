@@ -37,12 +37,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="custom-control custom-control-alternative custom-checkbox">
-                                <input class="custom-control-input" name="remember" id="customCheckLogin" type="checkbox" {{ old('remember') ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="customCheckLogin">
-                                    <span class="text-muted">{{ __('Atsiminti ir kitąsyk prijungti automatiškai') }}</span>
-                                </label>
-                            </div>
+                            
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary my-4">{{ __('Prisijungti') }}</button>
                             </div>
@@ -51,11 +46,6 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-6">
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-light">
-                                <small>{{ __('Pamiršote slaptažodį?') }}</small>
-                            </a>
-                        @endif
                     </div>
                     <div class="col-6 text-right">
                         <a href="{{ route('register') }}" class="text-light">
