@@ -90,7 +90,7 @@ class EventController extends Controller
 
         if(isset($date_value)){
         if($dateOneDay != "" && $date_value=="oneDay"){
-            $reservations = $reservations->where('date', $dateOneDay)->paginate(3);
+            $reservations = $reservations->where('date', $dateOneDay)->paginate(15);
             $filtered = 't';
         } else if ($dateFrom != "" && $date_value=="from"){
             $reservations1 = $reservations->where('date', '>', $dateFrom);

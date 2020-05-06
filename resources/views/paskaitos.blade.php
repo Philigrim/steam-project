@@ -83,6 +83,12 @@
     <div class="m-0 w-100 flex-column">
       <div class="card-header mb-0 pb-2">
         <h3 class="m--3 pb-3">{{ $reservation->event->name }}</h3>
+        @if(isset($reservation->event->file_id))
+        <div class="form-group">
+          <i class="fa fa-file" style="font-size:24px"></i>     
+          <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
+        </div>
+      @endif
         <div class="row">
           <div class="p-0 pl-1 pr-1 bg-primary rounded">
             <h6 class="text-white text-center mb-0">{{ $reservation->event->course->course_title }}</h6>
@@ -107,9 +113,11 @@
         <div class="row mt--2 justify-content-between">
           <p>{{ $reservation->event->description }}</p>
         </div>
-      </div>
         
-      <div class="row pb-1 mt--4 ml-3" id="lecturers">
+      </div>
+       
+      <div class="row pb-1 mt--4 ml-3" id="lecturers"> 
+        
         @foreach($lecturers[$reservation->event->id] as $lecturer)
           <div class="p-0 pb pl-1 pr-1 mr-2 bg-primary rounded align-self-baseline">
             <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
