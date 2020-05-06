@@ -19,7 +19,7 @@ use App\File;
 class EventController extends Controller
 {
     public function index(){
-        $reservations = Reservation::all();
+        $reservations = Reservation::paginate(15);
         $lecturers = LecturerHasEvent::all()->groupBy('event_id')->collect();
         $events = Event::all();
         $count = $reservations->count()/2;
@@ -66,7 +66,7 @@ class EventController extends Controller
                        ->join('courses', 'courses.id', '=', 'events.course_id')
                        ->join('subjects', 'subjects.id', '=', 'courses.subject_id');
                        
-        $reservations = Reservation::all();
+  
 
         if(isset($category)){
             $events = $events->where('subjects.subject', '=', $category);
@@ -90,7 +90,7 @@ class EventController extends Controller
 
         if(isset($date_value)){
         if($dateOneDay != "" && $date_value=="oneDay"){
-            $reservations = $reservations->where('date', $dateOneDay);
+            $reservations = $reservations->where('date', $dateOneDay)->paginate(3);
             $filtered = 't';
         } else if ($dateFrom != "" && $date_value=="from"){
             $reservations1 = $reservations->where('date', '>', $dateFrom);
@@ -110,7 +110,7 @@ class EventController extends Controller
         }
         }
 
-        $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
+        $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->paginate(15);
         
         $count = $reservations->count()/2;
         if($count == 0.5){
@@ -133,7 +133,7 @@ class EventController extends Controller
         $events = Event::where('name', 'like', '%'.$query.'%')
                        ->orWhere('description', 'like', '%'.$query.'%');
 
-        $reservations = Reservation::all()->whereIn('event_id', $events->pluck('events.id'));
+        $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->paginate(15);
         
         $count = $reservations->count()/2;
         if($count == 0.5){
@@ -172,10 +172,10 @@ class EventController extends Controller
         return redirect()->back()->with('message', 'Jūs sėkmingai užsiregistravote į paskaitą');
     }
 
-    public function promote(Request $request)
-    {
-        $event = Event::find($request->event_id);
-        $event->isPromoted = $request->isPromoted;
-        $event->save();
-    }
+    // public function promote(Request $request)
+    // {
+    //     $event = Event::find($request->event_id);
+    //     $event->isPromoted = $request->isPromoted;
+    //     $event->save();
+    // }
 }

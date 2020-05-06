@@ -106,14 +106,6 @@
         </div>
         <div class="row mt--2 justify-content-between">
           <p>{{ $reservation->event->description }}</p>
-          @if(isset($reservation->event->file_id))
-            <div class="form-group">
-              <b> Pridėti failai: </b>
-              <br>
-              <i class="fa fa-file" style="font-size:24px"></i>     
-              <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
-            </div>
-          @endif
         </div>
       </div>
         
@@ -149,6 +141,15 @@
 
 
     @endforeach
+  
+
+
+
+  </div>
+<div class = "row">
+      <div class = "col-12 d-flex justify-content-center">
+      {{$reservations->links() }}
+      </div>
   </div>
 
   <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
