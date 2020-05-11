@@ -83,7 +83,7 @@ class AnnouncementsController extends Controller
                                      ->get();
 
         // promoted events
-        $events = Event::where("isPromoted", true);
+        $events = Event::where("isPromoted", true)->where("capacity_left", ">", "0");
         $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
         $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id');
         $events = $events->get();
@@ -93,7 +93,7 @@ class AnnouncementsController extends Controller
 
     public function store(Request $request)
     {
-        $author_id = \Auth::user()->id;
+        $author_id = Auth::user()->id;
         $author = $request->input('announcement_author');
         $title = $request->input('announcement_title');
         $text = $request->input('announcement_text');

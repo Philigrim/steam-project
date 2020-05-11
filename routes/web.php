@@ -22,8 +22,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 Route::get('/announcements', 'AnnouncementsController@index')->name('announcements');
-Route::get('/announcements/search', 'AnnouncementsController@search')->name('announcements.search');
 Route::post('/announcements', 'AnnouncementsController@store')->name('announcements.store');
+Route::get('/findannouncements', 'AnnouncementsController@search')->name('announcements.search');
 Route::patch('/announcement/{announcement_id}', 'AnnouncementsController@update')->name('announcements.update');
 Route::delete('/announcements/{announcement_id}', 'AnnouncementsController@destroy')->name('announcements.destroy');
 });

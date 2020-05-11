@@ -177,7 +177,8 @@ class CreateEventController extends Controller
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
-            'isPromoted' => 'f']);
+            'isPromoted' => 'f'
+            ]);
         }
         
         

@@ -28,7 +28,7 @@ class EventController extends Controller
         $futureReservations1 = $reservations->where('date', '>', $today_date);
         $todayFutureReservations2 = $reservations->where('date', $today_date)->where('start_time', '>', $time_now);
         $reservations = $futureReservations1->merge($todayFutureReservations2);
-
+        
         $lecturers = LecturerHasEvent::all()->groupBy('event_id')->collect();
         $events = Event::all();
         $count = $reservations->count()/2;
@@ -146,7 +146,7 @@ class EventController extends Controller
             $reservations = $futureReservations1->merge($todayFutureReservations2);
         }
 
-        $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
+        //$reservations = Reservation::whereIn('event_id', $events->pluck('events.id'));
         
         $count = $reservations->count()/2;
         if($count == 0.5){
@@ -169,7 +169,7 @@ class EventController extends Controller
         $events = Event::where('name', 'like', '%'.$query.'%')
                        ->orWhere('description', 'like', '%'.$query.'%');
 
-        $reservations = Reservation::all()->whereIn('event_id', $events->pluck('events.id'));
+        $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
         
         $count = $reservations->count()/2;
         if($count == 0.5){
@@ -208,10 +208,10 @@ class EventController extends Controller
         return redirect()->back()->with('message', 'Jūs sėkmingai užsiregistravote į paskaitą');
     }
 
-    public function promote(Request $request)
-    {
-        $event = Event::find($request->event_id);
-        $event->isPromoted = $request->isPromoted;
-        $event->save();
-    }
+    // public function promote(Request $request)
+    // {
+    //     $event = Event::find($request->event_id);
+    //     $event->isPromoted = $request->isPromoted;
+    //     $event->save();
+    // }
 }
