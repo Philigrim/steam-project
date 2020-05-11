@@ -63,7 +63,7 @@ class AnnouncementsController extends Controller
 
 
         // promoted events
-        $events = Event::where("isPromoted", true);
+        $events = Event::where("isPromoted", true)->where("capacity_left", ">", "0");
         $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
         $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id');
         $events = $events->get();

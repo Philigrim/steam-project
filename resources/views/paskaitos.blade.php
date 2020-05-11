@@ -57,11 +57,13 @@
       @if(isset($category_value)) <input type="button" class="btn btn-danger ml-3 mb-3" value="Dalykas: {{ $category_value }} (x)" onclick="deleteValue(Category)"></input> @endif
       @if(isset($capacity_value)) <input type="button" class="btn btn-danger ml-3 mb-3" value="Laisvos vietos: bent {{ $capacity_value }} (x)" onclick="deleteValue(Capacity)"></input> @endif
       @if(isset($city_value)) <input type="button" class="btn btn-danger ml-3 mb-3" value="Miestas: {{ $city_value }} (x)" onclick="deleteValue(City)"></input> @endif
-      @if(isset($date_value) && (($date_value=="oneDay" && $dateOneDay!="") || ($date_value=="from" && $dateFrom!="") || ($date_value=="till" && $dateTill!="") || ($date_value=="interval" && $dateFrom!="" && $dateTill!="")))
-        <input type="button" class="btn btn-danger ml-3 mb-3" value="Data
-        @if($date_value=="oneDay") {{ $dateOneDay }} (x)" @endif
-        @if($date_value=="from") nuo {{ $dateFrom }} (x)" @endif
-        @if($date_value=="till") iki {{ $dateTill }} (x)" @endif
+      @if(isset($date_value)) <input type="button" class="btn btn-danger ml-3 mb-3" value="
+        @if($date_value=="past") Rodomos tik praejusios paskaitos (x)" @endif
+        @if($date_value=="future") Rodomos tik ateinančios paskaitos (x)" @endif
+        @if($date_value=="all") Rodomos tiek ateinančios, tiek praėjusios paskaitos (x)" @endif
+        @if($date_value=="oneDay") Data: {{ $dateOneDay }} (x)" @endif
+        @if($date_value=="from") Data nuo: {{ $dateFrom }} (x)" @endif
+        @if($date_value=="till") Data iki: {{ $dateTill }} (x)" @endif
         @if($date_value=="interval") {{ $dateFrom }} - {{ $dateTill }} (x)" @endif
         onclick="deleteValue(dateInput)"></input>
       @endif
@@ -225,26 +227,27 @@
 
     function showHide(elem) {
       if(elem.value == "oneDay") {
-      showDeleteButton(deleteDateButton);
         oneDay.style.display = 'flex';
         dateFrom.style.display = 'none';
         dateTill.style.display = 'none';
       } else if(elem.value == "from"){
-      showDeleteButton(deleteDateButton);
         oneDay.style.display = 'none';
         dateFrom.style.display = 'flex';
         dateTill.style.display = 'none';
       } else if(elem.value == "till"){
-      showDeleteButton(deleteDateButton);
         oneDay.style.display = 'none';
         dateFrom.style.display = 'none';
         dateTill.style.display = 'flex';
       } else if(elem.value == "interval"){
-      showDeleteButton(deleteDateButton);
         oneDay.style.display = 'none';
         dateFrom.style.display = 'flex';
         dateTill.style.display = 'flex';
-      }
+      } else {
+        oneDay.style.display = 'none';
+        dateFrom.style.display = 'none';
+        dateTill.style.display = 'none';
+      } 
+      showDeleteButton(deleteDateButton);
     }
  </script>
 @endsection

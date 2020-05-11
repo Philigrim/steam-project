@@ -229,11 +229,7 @@
                     <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
                     <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
                     <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                    @if($reservation->event->capacity_left > "0")
-                        <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
-                    @else
-                        <h5 class="pt-3 pr-2 text-red">Vietų nėra</h5>
-                    @endif
+                    <h5 class="pt-3 pr-2">{{ $reservation->event->max_capacity - $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
                     <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
                     <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
                 </div>

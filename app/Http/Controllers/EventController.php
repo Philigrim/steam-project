@@ -19,7 +19,16 @@ use App\File;
 class EventController extends Controller
 {
     public function index(){
+        date_default_timezone_set('Europe/Vilnius');
+        $today_date = date('Y-m-d', time());
+        $time_now = date('H:i:s', time());
+
         $reservations = Reservation::all();
+
+        $futureReservations1 = $reservations->where('date', '>', $today_date);
+        $todayFutureReservations2 = $reservations->where('date', $today_date)->where('start_time', '>', $time_now);
+        $reservations = $futureReservations1->merge($todayFutureReservations2);
+
         $lecturers = LecturerHasEvent::all()->groupBy('event_id')->collect();
         $events = Event::all();
         $count = $reservations->count()/2;
@@ -65,9 +74,7 @@ class EventController extends Controller
                        ->join('cities', 'cities.id', '=', 'steam_centers.city_id')
                        ->join('courses', 'courses.id', '=', 'events.course_id')
                        ->join('subjects', 'subjects.id', '=', 'courses.subject_id');
-                       
-        $reservations = Reservation::all();
-
+         
         if(isset($category)){
             $events = $events->where('subjects.subject', '=', $category);
             $filtered = 't';
@@ -83,31 +90,60 @@ class EventController extends Controller
             $filtered = 't';
         }
 
-        $date_value = $request->get('filterDateInput');
+        $dateInput = $request->get('filterDateInput');
         $dateOneDay = $request->get('filterDateOneDay');
         $dateFrom = $request->get('filterDateFrom');
         $dateTill = $request->get('filterDateTill');
 
-        if(isset($date_value)){
-        if($dateOneDay != "" && $date_value=="oneDay"){
+        $reservations = Reservation::all();
+        if(isset($dateInput)){
+
+        if($dateInput!="oneDay"){$dateOneDay="";}
+        if($dateInput!="from" && $dateInput!="interval"){$dateFrom="";}
+        if($dateInput!="till" && $dateInput!="interval"){$dateTill="";}
+        if($dateInput=="interval" && !isset($dateFrom)){$dateTill="";}
+        if($dateInput=="interval" && !isset($dateTill)){$dateFrom="";}
+
+        if($dateInput=="oneDay" && isset($dateOneDay)){
             $reservations = $reservations->where('date', $dateOneDay);
             $filtered = 't';
-        } else if ($dateFrom != "" && $date_value=="from"){
+        } else if ($dateInput=="from" && isset($dateFrom)){
             $reservations1 = $reservations->where('date', '>', $dateFrom);
             $reservations2 = $reservations->where('date', $dateFrom);
             $reservations=$reservations1->merge($reservations2);
             $filtered = 't';
-        } else if ($dateTill != "" && $date_value=="till"){
+        } else if ($dateInput=="till" && isset($dateTill)){
             $reservations1 = $reservations->where('date', '<', $dateTill);
             $reservations2 = $reservations->where('date', $dateTill);
             $reservations=$reservations1->merge($reservations2);
             $filtered = 't';
-        } else if ($dateFrom != "" && $dateTill != "" && $date_value=="interval" && $dateFrom<$dateTill){
+        } else if ($dateInput=="interval" && isset($dateFrom) && isset($dateTill) && $dateFrom<$dateTill){
             $reservations = $reservations->whereBetween('date', [$dateFrom, $dateTill]);
             $filtered = 't';
+        } else if ($dateInput == "past"){
+            date_default_timezone_set('Europe/Vilnius');
+            $today_date = date('Y-m-d', time());
+            $time_now = date('H:i:s', time());
+
+            $futureReservations1 = $reservations->where('date', '<', $today_date);
+            $todayFutureReservations2 = $reservations->where('date', $today_date)->where('start_time', '<', $time_now);
+            $reservations = $futureReservations1->merge($todayFutureReservations2);
+            $filtered = 't';
+        } else if ($dateInput == "all" || $dateInput == "future") {
+            $filtered = 't';
         } else {
-            $date_value = "";
+            $dateInput = "";
         }
+        }
+
+        if(!isset($dateInput) || $dateInput == "future"){
+            date_default_timezone_set('Europe/Vilnius');
+            $today_date = date('Y-m-d', time());
+            $time_now = date('H:i:s', time());
+            
+            $futureReservations1 = $reservations->where('date', '>', $today_date);
+            $todayFutureReservations2 = $reservations->where('date', $today_date)->where('start_time', '>', $time_now);
+            $reservations = $futureReservations1->merge($todayFutureReservations2);
         }
 
         $reservations = $reservations->whereIn('event_id', $events->pluck('events.id'));
@@ -124,7 +160,7 @@ class EventController extends Controller
         
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered,
             'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity,
-            'date_value'=>$date_value, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
+            'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
     public function search(Request $request)
