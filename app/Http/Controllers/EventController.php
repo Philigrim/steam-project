@@ -31,6 +31,8 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
+
+
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
     }
 
@@ -154,6 +156,20 @@ class EventController extends Controller
         $teacher=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
         $capacity = Event::select('capacity_left')->where(['id'=>$request->event_id])->first();
         
+        
+        
+        $event_ids=EventHasTeacher::all()->where('teacher_id',$teacher)->pluck('event_id');
+        $events = Event::all()->whereIn('id',$event_ids)->collect();
+        $reservations = Reservation::select('date','start_time','end_time')->whereIn('event_id',$event_ids)->get();
+        $reservationSelectedEventDate = Reservation::select('date','start_time','end_time')->where('event_id',$request->event_id)->first(); 
+        dd((string)$reservations[0], (string)$reservationSelectedEventDate);
+        for($x = 0; $x<sizeof($reservations);$x++){
+            if($reservations[$x]==$reservationSelectedEventDate){
+                return \redirect()->back()->with('message','Jūs šiuo metu jau užimtas!');
+            }
+        }
+
+
         try{
            EventHasTeacher::create([
             'teacher_id' => $teacher,

@@ -39,7 +39,7 @@
                         <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                         <div class="col-md-12  ">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Kurso pavadinimas" name="course_title" >
+                                <input class="form-control" placeholder="Kurso pavadinimas" value="{{old('course_title')}}" name="course_title" >
                              
                             </div>
                 </div>
@@ -51,7 +51,7 @@
                                     <select onload="update_dropdown()" class="form-control dropdown-menu-arrow dynamic" name="subject_id" id ="subject_id" data-dependent="lecturer_id">
                                         <option value="" selected disabled>{{ "Dalykai" }}</option>
                                         @foreach($subjects as $subject)
-                                            <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
+                                            <option value="{!!$subject->id !!}" @if (old('subject_id')==$subject->id) selected="selected"@endif>{!! $subject->subject !!}</option>
                                         @endforeach
                                     </select>
                                     
@@ -62,7 +62,8 @@
                             <div class="col-md-6">
                                 
                                 <div class="form-group">
-                                    <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
+                                    <table class="table table-sm align-items-center table-scroll" id="lecturer_id">
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +71,7 @@
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description" maxlength="1500"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Apie kursą ..." name="description"  maxlength="1500">{{old('description')}}</textarea>
                                 </div>
                             </div>
                                 </div>
@@ -80,7 +81,7 @@
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('course_title') ? ' has-danger' : '' }}">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="Papildoma informacija ..." name="comments">{{old('comments')}}</textarea>
                                     </div>
                                 </div>
                             </div>
