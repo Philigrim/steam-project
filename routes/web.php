@@ -22,8 +22,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 Route::get('/announcements', 'AnnouncementsController@index')->name('announcements');
-Route::get('/announcements/search', 'AnnouncementsController@search')->name('announcements.search');
 Route::post('/announcements', 'AnnouncementsController@store')->name('announcements.store');
+Route::get('/findannouncements', 'AnnouncementsController@search')->name('announcements.search');
 Route::patch('/announcement/{announcement_id}', 'AnnouncementsController@update')->name('announcements.update');
 Route::delete('/announcements/{announcement_id}', 'AnnouncementsController@destroy')->name('announcements.destroy');
 });
@@ -49,6 +49,7 @@ Route::group(['prefix' => 'paskaitos'], function(){
     Route::get('/promote','EventController@promote')->name('paskaitos.promote');
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
     Route::get('/file/download/{id}','EventController@download')->name('downloadFile');
+    Route::delete('/{announcement_id}', 'EventController@destroy')->name('paskaitos.destroy');
 });
 
 Route::get('/search','EventController@search')->name('events.search');

@@ -25,7 +25,8 @@ class CreateEventsTable extends Migration
             $table->foreign('file_id')->references('id')->on('files');
             $table->integer('max_capacity');
             $table->mediumText('description');
-            $table->boolean('isPromoted');
+            $table->boolean('is_auto_promoted');
+            $table->boolean('is_manual_promoted');
             $table->timestamps();
         });
     }

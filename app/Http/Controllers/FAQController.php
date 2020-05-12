@@ -49,7 +49,7 @@ class FAQController extends Controller
         // today_date, but time already passed
         $pastReservations2 = $reservations->where('date', $today_date)->where('start_time', '<', $time_now);
         $pastEventsIds = $pastReservations1->merge($pastReservations2)->pluck('event_id');
-        Event::wherein('id', $pastEventsIds)->update(['isPromoted' => 'false']);
+        Event::wherein('id', $pastEventsIds)->update(['is_auto_promoted' => 'false']);
     
         // PROMOTE
         // today_date, but time did not passed yet
@@ -59,11 +59,11 @@ class FAQController extends Controller
         // promotable_date, but time did not passed yet
         $futureEvents3 = $reservations->where('date', $promotable_date)->where('start_time', '<', $time_now);
         $futureEventsIds = $futureEvents1->merge($futureEvents2)->merge($futureEvents3)->pluck('event_id');
-        Event::wherein('id', $futureEventsIds)->update(['isPromoted' => 'true']);
+        Event::wherein('id', $futureEventsIds)->update(['is_auto_promoted' => 'true']);
 
 
         // promoted events
-        $events = Event::where("isPromoted", true);
+        $events = Event::where("capacity_left", ">", 0)->where("is_auto_promoted", true)->orWhere("is_manual_promoted", true);
         $reservations = Reservation::whereIn('event_id', $events->pluck('events.id'))->get();
         $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id');
         $events = $events->get();

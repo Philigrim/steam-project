@@ -147,7 +147,7 @@
 
             <row class="d-flex justify-content-center">
             <form action="{{ route('Paskaitos')}} " method="get">
-                <button id="clearFilers" type="submit" class="btn btn-danger" style="display: none">Panaikinti pasirinkimus</button>
+                <button id="clearFilers" type="submit" class="btn btn-danger" style="display: @if (isset($category_value) || isset($capacity_value) || isset($city_value) || isset($date_value) && $date_value!="") flex @else none @endif;">Panaikinti pasirinkimus</button>
             </form>
             </row>
 
@@ -161,13 +161,14 @@
                 <option @if((isset($category_value)) && ($category_value == $subject->subject)) selected @endif value="{{ $subject->subject }}">{{ $subject->subject }}</option>
                 @endforeach
             </select>
-            <input id="deleteCategoryButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(Category)"></input>
+
+            <input id="deleteCategoryButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; @if(!isset($category_value)) display:none; @endif;" onclick="deleteValue(Category)"></input>
             </div>
 
             {{ __('Laisvų vietų skaičius:') }}
             <div class="row">
             <input id="Capacity" class="form-control ml-3 input-group mb-2" @if (isset($capacity_value)) value="{{ $capacity_value }}" @endif style="width:80%;" type="number" name="filterCapacityInput" placeholder="Nesvarbus" min="1" oninput="showDeleteButton(deleteCapacityButton)">
-            <input id="deleteCapacityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(Capacity)"></input>
+            <input id="deleteCapacityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; @if(!isset($capacity_value)) display:none; @endif;" onclick="deleteValue(Capacity)"></input>
             </div>
 
             {{ __('Miestas:') }}
@@ -178,32 +179,34 @@
                 <option @if((isset($city_value)) && ($city_value == $city->city_name)) selected @endif value="{{ $city->city_name }}">{{ $city->city_name }}</option>
                 @endforeach
             </select>
-            <input id="deleteCityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(City)"></input>
+            <input id="deleteCityButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; @if(!isset($city_value)) display:none; @endif" onclick="deleteValue(City)"></input>
             </div>
 
             {{ __('Data:') }}
             <div class="row">
             <select id="dateInput" class="form-control ml-3 mb-2 dropdown-menu-arrow mb-2" style="width:80%;" name="filterDateInput" onchange="showHide(this)">
-                <option value=""
-                @if(!isset($date_value) || ($date_value==""))
-                ) selected @endif >{{ __('Įvesties tipas') }}</option>
-                <option @if (isset($date_value) && $date_value == "oneDay") selected @endif value="oneDay">{{ __('Diena') }}</option>
-                <option @if (isset($date_value) && $date_value == "from") selected @endif value="from">{{ __('Nuo') }}</option>
-                <option @if (isset($date_value) && $date_value == "till") selected @endif value="till">{{ __('Iki') }}</option>
-                <option @if (isset($date_value) && $date_value == "interval") selected @endif value="interval">{{ __('Intervalas') }}</option>
+                <option value="" @if(!isset($date_value)) selected @endif disabled >{{ __('Įvesties tipas') }}</option>
+                <option @if(isset($date_value) && $date_value == "future") selected @endif value="future">{{ __('Rodyti tik ateinančias') }}</option>
+                <option @if(isset($date_value) && $date_value == "past") selected @endif value="past">{{ __('Rodyti tik praėjusias') }}</option>
+                <option @if(isset($date_value) && $date_value == "all") selected @endif value="all">{{ __('Rodyti visas') }}</option>
+                <option @if(isset($date_value) && $date_value == "oneDay") selected @endif value="oneDay">{{ __('Pasirinkti dieną') }}</option>
+                <option @if(isset($date_value) && $date_value == "from") selected @endif value="from">{{ __('Įvesti nuo') }}</option>
+                <option @if(isset($date_value) && $date_value == "till") selected @endif value="till">{{ __('Įvesti iki') }}</option>
+                <option @if(isset($date_value) && $date_value == "interval") selected @endif value="interval">{{ __('Įvesti intervalą') }}</option>
             </select>
-            <input id="deleteDateButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; display:none;" onclick="deleteValue(dateInput)"></input>
+            <input id="deleteDateButton" value="(x)" type="button" class="btn btn-danger p-0" style="width:10%; height: 45px; @if(!isset($date_value) || (isset($date_value) && $date_value=="")) display:none; @endif" onclick="deleteValue(dateInput)"></input>
             </div>
 
+
             <div id="dateFilters">
-            <div id="dateOneDayDiv" class="form-group mb-2" style="width:92%; display:none;">
-                <input @if ((isset($date_value)) && ($date_value == "oneDay") && ($dateOneDay!="")) value="{{ $dateOneDay }}" @endif placeholder="Pasirinkite datą" id="dateOneDay" name="filterDateOneDay"/>
+            <div id="dateOneDayDiv" class="form-group mb-2" style="width:92%; display: @if(isset($date_value) && $date_value == "oneDay") flex @else none @endif ;">
+                <input @if(isset($dateOneDay)) value="{{ $dateOneDay }}" @endif placeholder="Pasirinkite datą" id="dateOneDay" name="filterDateOneDay"/>
             </div>
-            <div id="dateFromDiv" class="form-group mb-2" style="width:92%; display:none;">
-                <input @if ((isset($date_value)) && ((($date_value == "from") && ($dateFrom!="")) || (($date_value == "interval") && ($dateFrom!="") && ($dateTill!="")))) value="{{ $dateFrom }}" @endif placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
+            <div id="dateFromDiv" class="form-group mb-2" style="width:92%; display: @if(isset($date_value) && ($date_value == "from" || $date_value == "interval")) flex @else none @endif ;">
+                <input @if(isset($dateFrom)) value="{{ $dateFrom }}" @endif placeholder="Pasirinkite datą" id="dateFrom" name="filterDateFrom"/>
             </div>
-            <div id="dateTillDiv" class="form-group mb-2" style="width:92%; display:none;">
-                <input @if ((isset($date_value)) && ((($date_value == "till") && ($dateTill!="")) || (($date_value == "interval") && ($dateFrom!="") && ($dateTill!="")))) value="{{ $dateTill }}" @endif placeholder="Pasirinkite datą" id="dateTill" name="filterDateTill"/>
+            <div id="dateTillDiv" class="form-group mb-2" style="width:92%; display: @if(isset($date_value) && ($date_value == "till" || $date_value == "interval")) flex @else none @endif ;">
+                <input @if(isset($dateTill)) value="{{ $dateTill }}" @endif placeholder="Pasirinkite datą" id="dateTill" name="filterDateTill"/>
             </div>
             </div>
 
@@ -215,20 +218,6 @@
 
             </form>
 
-            
-            <script type="text/javascript">
-                $(document).one('ready',function(){
-                    @if(isset($date_value)) showHide(document.getElementById('dateInput')); @endif
-                });
-            </script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    @if(isset($category_value)) showDeleteButton(deleteCategoryButton); @endif
-                    @if(isset($capacity_value)) showDeleteButton(deleteCapacityButton); @endif 
-                    @if(isset($city_value)) showDeleteButton(deleteCityButton); @endif 
-                });
-            </script>
-            
             <script type="text/javascript">
                 function showDeleteButton(buttonId) {
                     buttonId.style.display = 'flex';
