@@ -76,7 +76,7 @@ class EventController extends Controller
                        ->join('subjects', 'subjects.id', '=', 'courses.subject_id');
          
         if(isset($category)){
-            $events = $events->where('subjects.subject', '=', $category);
+            $events = $events->where('subjects.subject', $category);
             $filtered = 't';
         }
 
@@ -86,7 +86,7 @@ class EventController extends Controller
         }
         
         if(isset($city)){
-            $events = $events->where('city_name', '=', $city);
+            $events = $events->where('city_name', $city);
             $filtered = 't';
         }
 
@@ -159,8 +159,7 @@ class EventController extends Controller
         $cities = City::all();
         
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered,
-            'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity,
-            'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
+            'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
     public function search(Request $request)
@@ -208,10 +207,19 @@ class EventController extends Controller
         return redirect()->back()->with('message', 'Jūs sėkmingai užsiregistravote į paskaitą');
     }
 
-    // public function promote(Request $request)
-    // {
-    //     $event = Event::find($request->event_id);
-    //     $event->isPromoted = $request->isPromoted;
-    //     $event->save();
-    // }
+    public function promote(Request $request)
+    {
+        $event = Event::find($request->event_id);
+        $event->is_manual_promoted = $request->is_manual_promoted;
+        $event->save();
+    }
+
+    public function destroy($id)
+    {
+        EventHasTeacher::where('event_id', $id)->delete();
+        LecturerHasEvent::where('event_id', $id)->delete();
+        Reservation::where('event_id', $id)->delete();
+        Event::where('id', $id)->delete();
+        return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai ištrinta.'));
+    }
 }

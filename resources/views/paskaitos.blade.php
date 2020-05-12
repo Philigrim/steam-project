@@ -9,6 +9,27 @@
     <link href="/gijgo/dist/modular/css/datepicker.css" rel="stylesheet" type="text/css">
     <script src="/gijgo/dist/modular/js/datepicker.js"></script>
 
+{{--Toggle buttonas--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script>
+    jQuery(document).ready(function($) {
+      $('.promote-class').change(function() {
+        var event_id = $(this).data('id'); 
+        var is_manual_promoted = $(this).is(':checked');
+        
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: 'paskaitos/promote',
+          data: {'is_manual_promoted': is_manual_promoted, 'event_id': event_id}
+        });
+      })
+    })
+    </script>
+
 @endsection
 
 @section('additional_header_content')
@@ -18,6 +39,14 @@
 
 @section('content')
     @include('layouts.headers.cards')
+    @if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     @if (session()->has('message'))
         @if(session()->get('message')==('Jūs jau užsiregistravę į šią paskaitą!'))
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -72,75 +101,102 @@
         @endif
       
         @csrf
-            @foreach($reservations as $reservation)
-                <div class="card flex-row mb-3" id="{{ $reservation->event->id }}">
-                    @if(strlen($reservation->event->description) > 118)
-                        <img class="border-0 bg-white rounded-left" width="220" height="211" src="argon/img/brand/steam1-lectures.png" alt="">
-                    @else
-                        <img class="border-0 bg-white rounded-left" width="216" height="183" src="argon/img/brand/steam1-lectures.png" alt="">
-                    @endif
-                    <div class="w-100 mb-0 pb-0">
-                        <div class="card-header p-0 m-0  win-light-blue">
-                            <h2 class="ml-3 pb-0 m-0">{{ $reservation->event->name }}</h2>
-                            <div class="ml-3 mb-1 row">
-                                <div class="p-0 pl-1 pr-1 bg-primary rounded">
-                                    <h6 class="text-white text-center mb-0">{{ $reservation->event->course->course_title }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0 win-light-blue">
-                            <div class="row ml-1">
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
-                                <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
-                                @if($reservation->event->capacity_left > 0)
-                                    <h5 class="pt-3 pr-2">{{ $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
-                                @else
-                                    <h5 class="pt-3 pr-2 text-red">Vietų nėra</h5>
-                                @endif
-                                <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
-                                <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
-                            </div>
-                            <div class="ml-3">
-                                <p>{{ $reservation->event->description }}</p>
-                            </div>
-                            <div class="row mt--3 p-0 m-0" id="lecturers">
-                                @foreach($lecturers[$reservation->event->id] as $lecturer)
-                                    <button class="p-0 shadow--hover ml-3 mb-1 pl-1 pr-1 bg-primary rounded border-0">
-                                        <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="card-footer win-light-blue pb-0 pt-0 mb-0">
-                            <div class="row justify-content-between mb--2 p-0">
-                                <div class="flex-column mt-1">
-                                      @if(isset($reservation->event->file_id))
-                                        <div class="form-group">
-                                          <i class="fa fa-file" style="font-size:24px"></i>     
-                                          <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
-                                        </div>
-                                      @endif   
-                                </div>
-                                <div class="flex-column">
-                                    @if(Auth::user()->isRole() === 'mokytojas')
-                                        <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal p-1 btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
-                                    @else
-                                        <button disabled href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal p-1 btn btn-light my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        @foreach($reservations as $reservation)
+        <div class="row">
 
+          <div class="col">
+            <div class="card flex-row mb-3" id="{{ $reservation->event->id }}">
+              @if(strlen($reservation->event->description) > 118)
+                  <img class="border-0 bg-white rounded-left" width="220" height="211" src="argon/img/brand/steam1-lectures.png" alt="">
+              @else
+                  <img class="border-0 bg-white rounded-left" width="216" height="183" src="argon/img/brand/steam1-lectures.png" alt="">
+              @endif
+              <div class="w-100 mb-0 pb-0">
+                <div class="card-header p-0 m-0  win-light-blue">
+                  <h2 class="ml-3 pb-0 m-0">{{ $reservation->event->name }}</h2>
+                  <div class="ml-3 mb-1 row">
+                      <div class="p-0 pl-1 pr-1 bg-primary rounded">
+                          <h6 class="text-white text-center mb-0">{{ $reservation->event->course->course_title }}</h6>
+                      </div>
+                  </div>
                 </div>
-            {{ csrf_field() }}
+                <div class="card-body p-0 win-light-blue">
+                  <div class="row ml-1">
+                    <img class="icon-sm pt-3" src="argon/img/icons/common/place.svg" alt="">
+                    <h5 class="pt-3 pr-2">{{ $reservation->room->steam->city->city_name }}, {{ $reservation->room->steam->address }}</h5>
+                    <img class="icon-sm pt-3" src="argon/img/icons/common/clock.svg" alt="">
+                    <h5 class="pt-3 pr-2">{{ $reservation->date }}, {{ substr($reservation->start_time, 0, 5) }} - {{ substr($reservation->end_time, 0, 5) }}</h5>
+                    <img class="icon-sm pt-3" src="argon/img/icons/common/user.svg" alt="">
+                    @if($reservation->event->capacity_left > 0)
+                        <h5 class="pt-3 pr-2">{{ $reservation->event->capacity_left }}/{{ $reservation->event->max_capacity }}</h5>
+                    @else
+                        <h5 class="pt-3 pr-2 text-red">Vietų nėra</h5>
+                    @endif
+                    <img class="icon-sm pt-3" src="argon/img/icons/common/book.svg" alt="">
+                    <h5 class="pt-3">{{ $reservation->event->course->subject->subject }}</h5>
+                  </div>
+                  <div class="ml-3">
+                      <p>{{ $reservation->event->description }}</p>
+                  </div>
+                  <div class="row mt--3 p-0 m-0" id="lecturers">
+                    @foreach($lecturers[$reservation->event->id] as $lecturer)
+                      <button class="p-0 shadow--hover ml-3 mb-1 pl-1 pr-1 bg-primary rounded border-0">
+                        <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
+                      </button>
+                    @endforeach
+                  </div>
+                </div>
+                <div class="card-footer win-light-blue pb-0 pt-0 mb-0">
+                  <div class="row justify-content-between mb--2 p-0">
+                    <div class="flex-column mt-1">
+                    @if(isset($reservation->event->file_id))
+                      <div class="form-group">
+                        <i class="fa fa-file" style="font-size:24px"></i>     
+                        <a href = "{{route('downloadFile',$reservation->event->file->id)}}"  id = "hyper">Dėstytojo pridėtas failas</a>
+                      </div>
+                    @endif   
+                    </div>
+                    <div class="flex-column">
+                    @if(Auth::user()->isRole() == 'mokytojas')
+                        <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal p-1 btn btn-primary my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                    @else
+                        <button disabled href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal p-1 btn btn-light my-2 exampleModalCenter" id="lol" data-name="{{$reservation->event->name}}">Registruotis</button>
+                    @endif
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          @if(Auth::user()->isRole()=="admin")
+          <div class="col- mt-2 mr-2">
+            @if(date($reservation->date) < date('Y-m-d'))
+              <button class="btn btn-primary mt-2" disabled>Past Event</button>
+            @elseif($reservation->event->capacity_left == 0)
+              <button class="btn btn-primary mt-2" disabled>No Capacity</button>
+            @elseif(date($reservation->date) > date('Y-m-d', strtotime(date('Y-m-d'). ' + 2 days')) || (date($reservation->date) == date('Y-m-d', strtotime(date('Y-m-d'). ' + 2 days')) && date($reservation->start_time) > date('h:i:s')))
+              <input data-id="{{ $reservation->event->id }}" class="promote-class" @if($reservation->event->is_manual_promoted) checked @endif type="checkbox" data-onstyle="warning" data-toggle="toggle" data-on="MDemote" data-off="MPromote">
+            @else
+              <button class="btn btn-primary mt-2" disabled>AutoPromoted</button>
+            @endif
+            <br>
+            <button class="btn btn-success mt-2" style="width: 94%">Edit</button>
+            <br>
+            <form action="{{ url('/paskaitos', [$reservation->event->id]) }}" method="post">
+              <button class="btn btn-danger mt-2" style="width: 94%">Delete</button>
+              <input type="hidden" name="_method" value="delete" />
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            </form>
+          </div>
+          @endif
+
+        </div>
+        {{ csrf_field() }}
         @endforeach
 
-  </div>
-</div>
+      </div>
+    </div>
+
     <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

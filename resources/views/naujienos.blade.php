@@ -2,6 +2,32 @@
 
 @section('additional_header_content')
 
+@if (Auth::user()->isRole()=="admin")
+{{--Toggle button--}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<script>
+    jQuery(document).ready(function($) {
+      $('.promote-class').change(function() {
+        var event_id = $(this).data('id'); 
+        var is_manual_promoted = $(this).is(':checked');
+        
+        if(!is_manual_promoted){
+            $("#" + event_id).remove();
+        }
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: 'paskaitos/promote',
+          data: {'is_manual_promoted': is_manual_promoted, 'event_id': event_id}
+        });
+      })
+    })
+    </script>
+@endif
+
 @endsection
 
 @section('content')
@@ -214,8 +240,20 @@
     <div clas="row">
         @foreach($reservations as $reservation)
         @csrf
+        
         <div id="{{ $reservation->event->id }}" class="card card-stats mt-3 d-flex justify-content-center">
             <div class="card-body border border-primary shadow rounded">
+                @if (Auth::user()->isRole()=="admin")
+                <row class="float-right">
+                    @if($reservation->event->is_manual_promoted)
+                        <input data-id="{{ $reservation->event->id }}" class="promote-class" checked type="checkbox" data-onstyle="danger" data-toggle="toggle" data-on="Demote" data-off="Promote">
+                    @else
+                        <button class="btn btn-primary mt-2" disabled>AutoPromoted</button>
+                    @endif
+                </row>
+                <br>
+                <br>
+                @endif
 
                 <div class="border-top mt-2 mb-2"></div>
 
@@ -245,7 +283,6 @@
                         <h6 class="text-white text-center mb-0">{{ $lecturer->lecturer->user->firstname }} {{ $lecturer->lecturer->user->lastname }}</h6>
                     </button>
                 @endforeach
-
                 @if (Auth::user()->isRole()=="mokytojas")
                 <button href ="#" data-id="{{$reservation->event->id}}" data-capacity= "{{$reservation->event->capacity_left}}"class="show-modal btn btn-primary exampleModalCenter mr-0 float-right" id="lol" data-name="{{$reservation->event->name}}">
                     Registruotis

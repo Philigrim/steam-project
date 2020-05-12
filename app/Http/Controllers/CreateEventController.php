@@ -167,7 +167,8 @@ class CreateEventController extends Controller
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
-            'isPromoted' => 'f',
+            'is_auto_promoted' => 'f',
+            'is_manual_promoted' => 'f',
             'file_id' => $file->id]);
                                 }
         else {
@@ -177,7 +178,8 @@ class CreateEventController extends Controller
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
-            'isPromoted' => 'f'
+            'is_auto_promoted' => 'f',
+            'is_manual_promoted' => 'f'
             ]);
         }
         
