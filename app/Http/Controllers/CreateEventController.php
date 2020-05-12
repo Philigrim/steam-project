@@ -127,6 +127,8 @@ class CreateEventController extends Controller
 
     public function insert(Request $request){
 
+
+
         $request->validate([
             'name' => 'required',
             'lecturers' => 'required',
@@ -154,7 +156,27 @@ class CreateEventController extends Controller
             'file.max' => ' Per didelis failas'
         ]);
         
-        
+
+
+            $lecturer_ids=$request->lecturers;
+            $event_ids=LecturerHasEvent::all()->whereIn('lecturer_id',$lecturer_ids)->pluck('event_id');
+            $events = Event::all()->whereIn('id',$event_ids)->collect();
+            $reservations = Reservation::select('date')->whereIn('event_id',$event_ids)->get();
+            
+            $naujasEventasTikrinimui =collect(array(
+                'date'=>"$request->date"
+            ));
+            
+            // dd($naujasEventasTikrinimui==$reservations[0]);
+
+            for($x = 0; $x<sizeof($reservations);$x++){
+                if((string)$reservations[$x]==(string)$naujasEventasTikrinimui){
+                    return \redirect()->back()->with('message','Jūs šiuo metu jau užimtas!');
+                }
+            }
+
+
+
         if($request->hasFile('file')){
                             $filename = $request ->file -> getClientOriginalName();
                             $request->file -> storeAs(('public/file'),$filename);
@@ -167,7 +189,8 @@ class CreateEventController extends Controller
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
-            'isPromoted' => 'f',
+            'is_auto_promoted' => 'f',
+            'is_manual_promoted' => 'f',
             'file_id' => $file->id]);
                                 }
         else {
@@ -177,7 +200,9 @@ class CreateEventController extends Controller
             'description' => $request->description,
             'capacity_left' => $request->capacity,
             'max_capacity' => $request->capacity,
-            'isPromoted' => 'f']);
+            'is_auto_promoted' => 'f',
+            'is_manual_promoted' => 'f'
+            ]);
         }
         
         

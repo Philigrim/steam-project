@@ -17,6 +17,7 @@
 
 @section('content')
     @include('users.partials.header', ['title' => __('Sukurti paskaitą')])
+
         <form class="mt--5 d-flex justify-content-center" enctype="multipart/form-data" action = "/sukurti-paskaita" method="post">
             @csrf
             <div class="col-xl-6 order-xl-1">
@@ -25,12 +26,23 @@
                         <div class="row align-items-center">
                             <div class="col-12">
                                 @if (session()->has('message'))
+
+                                    @if(session()->get('message')==('Viskas zjbs!!!!!!')||session()->get('message')==('Jūs šiuo metu jau užimtas!'))
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                             {{ session()->get('message') }}
+                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                        </div>
+                                    @else
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         {{ session()->get('message') }}
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
+                                    @endif
+
                                 @endif
                             </div>
                             <h2 class="col-12 mb-0">{{ __('Informacija apie paskaitą') }}</h2>
