@@ -13,6 +13,7 @@ use App\Reservation;
 use App\SteamCenter;
 use App\Subject;
 use App\City;
+use App\Course;
 use App\SteamCenterHasRoom;
 use Illuminate\Http\Request;
 use App\File;
@@ -40,9 +41,10 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
+        $lecturersForEdit = Lecturer::all();
+        $courses = Course::all();
 
-
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForedit'=>$lecturersForEdit]);
     }
 
     public function fetch_lecturers(Request $request){
@@ -228,6 +230,45 @@ class EventController extends Controller
         $event = Event::find($request->event_id);
         $event->is_manual_promoted = $request->is_manual_promoted;
         $event->save();
+    }
+
+
+    public function update(Request $request)
+    {
+
+        date_default_timezone_set('Europe/Vilnius');
+        $modification_date = date('Y/m/d H:i', time());
+
+        if($request->hasFile('file')){
+            $filename = $request ->file -> getClientOriginalName();
+            $request->file -> storeAs(('public/file'),$filename);
+            $file = File::create(['name' =>$filename]);
+            $data = array(
+                'name' => $request->name,
+                'room_id' => $request->room_id,
+                'course_id' => $request->course_id,
+                'description' => $request->description,
+                'capacity_left' => $request->capacity,
+                'max_capacity' => $request->capacity,
+                'file_id' => $file->id,
+                'updated_at' => $modification_date);
+        } else {
+            $data = array(
+                'name' => $request->name,
+                'room_id' => $request->room_id,
+                'course_id' => $request->course_id,
+                'description' => $request->description,
+                //'capacity_left' => $request->capacity,
+                'max_capacity' => $request->capacity,
+                'updated_at' => $modification_date);
+        }
+        
+        $id = $request->input('edited_id');
+        $event_id = Reservation::where('id', $id)->pluck('event_id');
+        Event::where('id', $event_id)->update($data);
+        $room_id = $request->room_id;
+        echo($room_id);
+        //return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
     }
 
     public function destroy($id)

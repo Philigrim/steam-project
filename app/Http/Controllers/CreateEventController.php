@@ -138,8 +138,6 @@ class CreateEventController extends Controller
 
     public function insert(Request $request){
 
-
-
         $request->validate([
             'name' => 'required',
             'lecturers' => 'required',
@@ -166,8 +164,6 @@ class CreateEventController extends Controller
             'file.mimes' => ' Blogas pasirinktas failo formatas',
             'file.max' => ' Per didelis failas'
         ]);
-
-
 
             $lecturer_ids=$request->lecturers;
             $event_ids=LecturerHasEvent::all()->whereIn('lecturer_id',$lecturer_ids)->pluck('event_id');
