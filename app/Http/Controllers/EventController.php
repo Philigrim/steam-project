@@ -161,8 +161,11 @@ class EventController extends Controller
         $events = $events->get();
         $subjects = Subject::all();
         $cities = City::all();
-        
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered,
+
+        $lecturersForEdit = Lecturer::all();
+        $courses = Course::all();
+
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForEdit'=>$lecturersForEdit, 'filtered'=>$filtered,
             'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
@@ -184,7 +187,10 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
+        $lecturersForEdit = Lecturer::all();
+        $courses = Course::all();
+        
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForEdit'=>$lecturersForEdit]);
     }
 
     public function insert(Request $request){
@@ -267,8 +273,7 @@ class EventController extends Controller
         $event_id = Reservation::where('id', $id)->pluck('event_id');
         Event::where('id', $event_id)->update($data);
         $room_id = $request->room_id;
-        echo($room_id);
-        //return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
+        return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
     }
 
     public function destroy($id)

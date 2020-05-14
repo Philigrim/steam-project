@@ -14,16 +14,11 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-{{--Nedulio skriptai--}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
     <script>
     jQuery(document).ready(function($) {
       $('.promote-class').change(function() {
         var event_id = $(this).data('id');
         var is_manual_promoted = $(this).is(':checked');
-
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -208,7 +203,7 @@
                   <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
               </div>
 
-              <form action="{{ route('paskaitos.update', [$reservation->id]) }}" method="post">
+              <form id="eventEditingModalForm" method="post">
               <input type="hidden" name="_method" value="patch" />
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -234,6 +229,19 @@
                   </div>
                 </div>
 
+                <div class="card bg-secondary shadow" style="position: absolute; margin-left: 900px; margin-top: -68px">
+                    <div class="card-header bg-white border-0">
+                        <h2 class="col-12 mb-0">{{ __('Dėstytojai') }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="col">
+                            <div class="form-group">
+                                <table class="table table-sm align-items-center table-scroll" id="lecturer_id"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-4">
                   <div class="form-group">
                     <select class="form-control dropdown-menu-arrow dynamic-ccr" name="city_id" id="city_id" data-dependent="steam_id">
@@ -248,7 +256,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <select class="form-control dropdown-menu-arrow dynamic-ccr" name="steam_id" id="steam_id" data-dependent="room_id">
-                        <option value="" selected disabled="">STEAM centras</option>
+                        <option value="" selected disabled>STEAM centras</option>
                     </select>
                   </div>
                 </div>
@@ -256,7 +264,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <select class="form-control dropdown-menu-arrow update-time" name="room_id" id="room_id">
-                      <option selected disabled="">Kambarys</option>
+                      <option selected disabled>Kambarys</option>
                     </select>
                   </div>
                 </div>
@@ -270,7 +278,6 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <select name="time" id="time" class="form-control dropdown-menu-arrow">
-                      <option selected disabled="">Laikas</option>
                     </select>
                   </div>
                 </div>
@@ -493,10 +500,16 @@ $("#file-name").text(this.files[0].name);
 <script type="text/javascript">
   $(document).on('click', '.show-edit-event', function() {
 
-  $('#editing_id').val($(this).data('id'));
+  var id = $(this).data('id');
+  $('#editing_id').val(id);
+  var url = '{{ route("paskaitos.update", ":id") }}';
+  url = url.replace(':id', id);
+  document.getElementById('eventEditingModalForm').setAttribute("action", url);
   $('#editing_name').val($(this).data('name'));
   var course_selected = $(this).data('course_title') + " (" + $(this).data('subject_title') + ")";
   $('#course_id option').filter(function() { return ($(this).text() == course_selected); }).prop('selected', true); 
+  document.querySelector("#course_id").dispatchEvent(new Event("change"));
+  alert(" ");
   var city_selected = $(this).data('city')
   $('#city_id option').filter(function() { return ($(this).text() == city_selected); }).prop('selected', true);
   document.querySelector("#city_id").dispatchEvent(new Event("change"));
@@ -509,11 +522,11 @@ $("#file-name").text(this.files[0].name);
   $('#room_id option').filter(function() { return ($(this).text() == room_selected); }).prop('selected', true); 
   $('#datepicker').val($(this).data('reservation_date'));
   document.querySelector("#datepicker").dispatchEvent(new Event("change"));
-  //alert($(this).data('reservation_time'));
-  //$('#time').val($(this).data('reservation_time'));
+  alert(" ");
+  document.getElementsByName('time')[0].options[0].innerHTML = $(this).data('reservation_time');
   $('#set-capacity').val($(this).data('event_capacity'));
   $('#description').val($(this).data('event_description'));
-  alert(" ");
+  alert($(this).data('event_file'));
   $('#file-name').text($(this).data('event_file'));
   })
 </script>
