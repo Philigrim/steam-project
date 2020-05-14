@@ -197,7 +197,6 @@ class EventController extends Controller
         $events = Event::all()->whereIn('id',$event_ids)->collect();
         $reservations = Reservation::select('date','start_time','end_time')->whereIn('event_id',$event_ids)->get();
         $reservationSelectedEventDate = Reservation::select('date','start_time','end_time')->where('event_id',$request->event_id)->first(); 
-        dd((string)$reservations[0], (string)$reservationSelectedEventDate);
         for($x = 0; $x<sizeof($reservations);$x++){
             if($reservations[$x]==$reservationSelectedEventDate){
                 return \redirect()->back()->with('message','Jūs šiuo metu jau užimtas!');
