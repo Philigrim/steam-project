@@ -49,6 +49,7 @@ Route::group(['prefix' => 'paskaitos'], function(){
     Route::get('/promote','EventController@promote')->name('paskaitos.promote');
     Route::post('/fetch_lecturers','EventController@fetch_lecturers')->name('eventcontroller.fetch_lecturers');
     Route::get('/file/download/{id}','EventController@download')->name('downloadFile');
+    Route::post('/fetch_selected_lecturers', 'EventController@fetch_selected_lecturers')->name('paskaitos.fetch_selected_lecturers');
     Route::patch('/event/{event_id}', 'EventController@update')->name('paskaitos.update');
     Route::delete('/{event_id}', 'EventController@destroy')->name('paskaitos.destroy');
 });

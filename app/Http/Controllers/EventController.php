@@ -9,6 +9,8 @@ use App\EventHasTeacher;
 use App\Http\Controllers\Controller;
 use App\Lecturer;
 use App\LecturerHasEvent;
+use App\LecturerHasCourse;
+use App\LecturerHasSubject;
 use App\Reservation;
 use App\SteamCenter;
 use App\Subject;
@@ -62,10 +64,27 @@ class EventController extends Controller
 
         echo $output;
     }
+
+    public function fetch_selected_lecturers(Request $request){
+        $select = $request->get('select');
+        $value = $request->get('value');
+
+        if($select === 'subject_id'){
+            $output = $this->lecturer_table(LecturerHasSubject::all()->where($select, $value));
+        }else if($select === 'course_id'){
+            $output = $this->lecturer_table(LecturerHasCourse::all()->where($select, $value));
+        }else{
+            $output = '';
+        }
+
+        echo $output;
+    }
+
     public function download ($id){
         $dl = File::find($id);
         return  response()->download(storage_path('app/public/file/'.$dl->name));
     }
+
     public function filter(Request $request)
     {
         $filtered = 'f';
@@ -237,7 +256,6 @@ class EventController extends Controller
         $event->is_manual_promoted = $request->is_manual_promoted;
         $event->save();
     }
-
 
     public function update(Request $request)
     {

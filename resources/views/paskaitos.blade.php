@@ -263,7 +263,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select class="form-control dropdown-menu-arrow update-time" name="room_id" id="room_id">
+                    <select class="form-control dropdown-menu-arrow room" name="room_id" id="room_id">
                       <option selected disabled>Kambarys</option>
                     </select>
                   </div>
@@ -284,7 +284,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <input class="form-control input-group" id="set-capacity" type="number" min="1" max="100" name="capacity" value="1" placeholder="Žmonių skaičius">
+                    <input class="form-control input-group" id="edit-capacity" type="number" min="1" name="capacity" value="1" placeholder="Žmonių skaičius">
                   </div>
                 </div>
 
@@ -447,86 +447,91 @@ $("#file-name").text(this.files[0].name);
           var dependent = $(this).data('dependent');
           var _token = $('input[name="_token').val();
           $.ajax({
+              async: false,
               url:"{{ route('createeventcontroller.fetch') }}",
               method: "POST",
               data:{select:select, value:value, _token:_token, dependent:dependent},
               success:function(result){
-                  $('#room_id').html('<option value="" selected disabled>Kambarys</option>')
-                  $('#time').html('<option value="" selected disabled>Laikas</option>');
-                  $('#set-capacity').attr("max", 1);
-                  $('#set-capacity').val(1);
+                  $('#room_id').html('<option value="" selected disabled>Kambarys</option>');
                   $('#'+dependent).html(result);
               }
           })
       }
   })
 
-  $('.update-time').change(function update_time(){
-      if($(this).val() != ''){
-          var room_value = $('#room_id').val();
-          var date_value = $('#datepicker').val();
-          if(room_value != null && date_value != ''){
-              var _token = $('input[name="_token').val();
-              var room_capacity = $('#'+room_value).data('capacity');
-              $('#set-capacity').attr("max", room_capacity);
-              $.ajax({
-                  url:"{{ route('createeventcontroller.fetch_time') }}",
-                  method: "POST",
-                  data:{room_value:room_value, date_value:date_value, _token:_token},
-                  success:function(result){
-                      $('#time').html(result);
-                  }
-              })
-          }else if(room_value != null){
-              var room_capacity = $('#room_id').find(':selected').data('capacity');
-              $('#set-capacity').attr("max", room_capacity);
-              $('#set-capacity').val(1);
-          }
-      }else{
-          $('#time').html('<option value="" selected disabled>Laikas</option>');
-      }
+  $('.room').change(function set_new_max_capacity(){
+    var room_value = $('#room_id').val();
+    var room_capacity = $('#room_id').find(':selected').data('capacity');
+    $('#edit-capacity').attr("max", room_capacity);
+    if(parseInt($('#edit-capacity').val()) > parseInt($('#edit-capacity').attr("max"))){
+        $('#edit-capacity').val($('#edit-capacity').attr("max"));
+    }
   })
 
-  $('#set-capacity').change(function(){
-      if(parseInt($('#set-capacity').val()) > parseInt($('#set-capacity').attr("max"))){
-          $('#set-capacity').val($('#set-capacity').attr("max"));
-      }else if($('#set-capacity').val() < $('#set-capacity').attr("min")){
-          $('#set-capacity').val($('#set-capacity').attr("min"));
+  $('.update-time').change(function update_time(){
+    if ($("#time option:selected" ).text() == ""){
+      var room_value = $('#room_id').val();
+      var date_value = $('#datepicker').val();
+      if(room_value != null && date_value != ''){
+        var _token = $('input[name="_token').val();
+        $.ajax({
+            async: false,
+            url:"{{ route('createeventcontroller.fetch_time') }}",
+            method: "POST",
+            data:{room_value:room_value, date_value:date_value, _token:_token},
+            success:function(result){
+                $('#time').html(result);
+            }
+        })
       }
+    }
+  })
+
+  $('#edit-capacity').change(function(){
+    if(parseInt($('#edit-capacity').val()) > parseInt($('#edit-capacity').attr("max"))){
+        $('#edit-capacity').val($('#edit-capacity').attr("max"));
+    }else if($('#edit-capacity').val() < $('#edit-capacity').attr("min")){
+        $('#edit-capacity').val($('#edit-capacity').attr("min"));
+    }
   })
 </script>
 
 {{--Editing modal script--}}
 <script type="text/javascript">
   $(document).on('click', '.show-edit-event', function() {
-
   var id = $(this).data('id');
   $('#editing_id').val(id);
-  var url = '{{ route("paskaitos.update", ":id") }}';
-  url = url.replace(':id', id);
-  document.getElementById('eventEditingModalForm').setAttribute("action", url);
+  var route = '{{ route("paskaitos.update", ":id") }}';
+  route = route.replace(':id', id);
+  document.getElementById('eventEditingModalForm').setAttribute("action", route);
   $('#editing_name').val($(this).data('name'));
+
   var course_selected = $(this).data('course_title') + " (" + $(this).data('subject_title') + ")";
-  $('#course_id option').filter(function() { return ($(this).text() == course_selected); }).prop('selected', true); 
+  $('#course_id option').filter(function() { return ($(this).text() == course_selected); }).prop('selected', 'selected'); 
   document.querySelector("#course_id").dispatchEvent(new Event("change"));
-  alert(" ");
+
   var city_selected = $(this).data('city')
-  $('#city_id option').filter(function() { return ($(this).text() == city_selected); }).prop('selected', true);
+  $('#city_id option').filter(function() { return ($(this).text() == city_selected); }).prop('selected', 'selected');
   document.querySelector("#city_id").dispatchEvent(new Event("change"));
+
   var steam_center_selected = $(this).data('steam_center');
-  alert(" ");
-  $('#steam_id option').filter(function() { return ($(this).text() == steam_center_selected); }).prop('selected', true); 
+  $('#steam_id option').filter(function() { return ($(this).text() == steam_center_selected); }).prop('selected', 'selected'); 
   document.querySelector("#steam_id").dispatchEvent(new Event("change"));
+
   var room_selected = $(this).data('room');
-  alert(" ");
-  $('#room_id option').filter(function() { return ($(this).text() == room_selected); }).prop('selected', true); 
+  $('#room_id option').filter(function() { return ($(this).text() == room_selected); }).prop('selected', 'selected'); 
+  document.querySelector("#room_id").dispatchEvent(new Event("change"));
+
   $('#datepicker').val($(this).data('reservation_date'));
   document.querySelector("#datepicker").dispatchEvent(new Event("change"));
-  alert(" ");
-  document.getElementsByName('time')[0].options[0].innerHTML = $(this).data('reservation_time');
-  $('#set-capacity').val($(this).data('event_capacity'));
+
+  $('#datepicker')[0].options[0].innerHTML = "Laikas: " + $(this).data('reservation_time');
+  document.querySelector("#time").dispatchEvent(new Event("change"));
+
+  $('#edit-capacity').val($(this).data('event_capacity'));
+  document.querySelector("#edit-capacity").dispatchEvent(new Event("change"));
+  
   $('#description').val($(this).data('event_description'));
-  alert($(this).data('event_file'));
   $('#file-name').text($(this).data('event_file'));
   })
 </script>
