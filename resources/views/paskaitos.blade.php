@@ -494,6 +494,14 @@ $("#file-name").text(this.files[0].name);
         $('#edit-capacity').val($('#edit-capacity').attr("min"));
     }
   })
+
+  $('#set-capacity').change(function(){
+    if(parseInt($('#set-capacity').val()) > parseInt($('#set-capacity').attr("max"))){
+        $('#set-capacity').val($('#set-capacity').attr("max"));
+    }else if($('#set-capacity').val() < $('#set-capacity').attr("min")){
+        $('#set-capacity').val($('#set-capacity').attr("min"));
+    }
+  })
 </script>
 
 {{--Editing modal script--}}

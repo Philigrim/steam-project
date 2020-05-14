@@ -103,7 +103,7 @@ class EventController extends Controller
             $filtered = 't';
         }
 
-        if(isset($capacity)){          
+        if(isset($capacity)){
             $events = $events->where('capacity_left', '>=', $capacity);
             $filtered = 't';
         }
@@ -176,7 +176,12 @@ class EventController extends Controller
             $count = 2;
         }
 
-        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+        if($events->count()>0){
+            $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+            
+        } else {
+            $lecturers = $events;
+        }
         $events = $events->get();
         $subjects = Subject::all();
         $cities = City::all();
@@ -185,7 +190,7 @@ class EventController extends Controller
         $courses = Course::all();
 
         return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForEdit'=>$lecturersForEdit, 'filtered'=>$filtered,
-            'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
+           'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
     public function search(Request $request)
@@ -224,7 +229,6 @@ class EventController extends Controller
         $events = Event::all()->whereIn('id',$event_ids)->collect();
         $reservations = Reservation::select('date','start_time','end_time')->whereIn('event_id',$event_ids)->get();
         $reservationSelectedEventDate = Reservation::select('date','start_time','end_time')->where('event_id',$request->event_id)->first(); 
-        dd((string)$reservations[0], (string)$reservationSelectedEventDate);
         for($x = 0; $x<sizeof($reservations);$x++){
             if($reservations[$x]==$reservationSelectedEventDate){
                 return \redirect()->back()->with('message','Jūs šiuo metu jau užimtas!');
