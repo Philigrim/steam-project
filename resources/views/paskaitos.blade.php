@@ -167,7 +167,7 @@
             </div>
           </div>
         </div>
-        
+
         @if(Auth::user()->isRole()=="admin")
         <div class="col-" style="position: absolute; margin-left:1140px;">
           @if(date($reservation->date) < date('Y-m-d'))
@@ -184,7 +184,7 @@
             data-id="{{ $reservation->id }}" data-name="{{ $reservation->event->name }}" data-course_title="{{ $reservation->event->course->course_title }}" data-subject_title="{{ $reservation->event->course->subject->subject }}" data-city="{{ $reservation->room->steam->city->city_name }}" data-steam_center="{{ $reservation->room->steam->steam_name }}" data-room="{{ $reservation->room->room_number }}({{$reservation->room->capacity }}) {{ $reservation->room->subject->subject }}" data-reservation_date="{{ $reservation->date }}" data-reservation_time="{{ substr($reservation->start_time, 0, 5) }}-{{ substr($reservation->end_time, 0, 5) }}" data-event_capacity="{{ $reservation->event->max_capacity }}" data-event_description="{{ $reservation->event->description }}" @if(isset($reservation->event->file->name)) data-event_file={{ $reservation->event->file->name }} @endif">
             Redaguoti
           </button>
-          
+
           <form action="{{ url('/paskaitos', [$reservation->event->id]) }}" method="post">
             <button class="btn btn-danger mt-2" style="width: 95%">Ištrinti</button>
             <input type="hidden" name="_method" value="delete" />
@@ -213,7 +213,7 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
               <input type="hidden" id="editing_id" name="edited_id">
-                
+
               <div class="modal-body pt-2">
                 <div class="row d-flex justify-content-start">
 
@@ -260,7 +260,7 @@
                     </select>
                   </div>
                 </div>
-                
+
                 <div class="col-md-4">
                   <div class="form-group">
                     <input class=" form-group form-control input-group update-time" name="date" placeholder="Data" id="datepicker" />
@@ -496,17 +496,17 @@ $("#file-name").text(this.files[0].name);
   $('#editing_id').val($(this).data('id'));
   $('#editing_name').val($(this).data('name'));
   var course_selected = $(this).data('course_title') + " (" + $(this).data('subject_title') + ")";
-  $('#course_id option').filter(function() { return ($(this).text() == course_selected); }).prop('selected', true); 
+  $('#course_id option').filter(function() { return ($(this).text() == course_selected); }).prop('selected', true);
   var city_selected = $(this).data('city')
   $('#city_id option').filter(function() { return ($(this).text() == city_selected); }).prop('selected', true);
   document.querySelector("#city_id").dispatchEvent(new Event("change"));
   var steam_center_selected = $(this).data('steam_center');
   alert(" ");
-  $('#steam_id option').filter(function() { return ($(this).text() == steam_center_selected); }).prop('selected', true); 
+  $('#steam_id option').filter(function() { return ($(this).text() == steam_center_selected); }).prop('selected', true);
   document.querySelector("#steam_id").dispatchEvent(new Event("change"));
   var room_selected = $(this).data('room');
   alert(" ");
-  $('#room_id option').filter(function() { return ($(this).text() == room_selected); }).prop('selected', true); 
+  $('#room_id option').filter(function() { return ($(this).text() == room_selected); }).prop('selected', true);
   $('#datepicker').val($(this).data('reservation_date'));
   document.querySelector("#datepicker").dispatchEvent(new Event("change"));
   //alert($(this).data('reservation_time'));
