@@ -9,6 +9,8 @@ use App\EventHasTeacher;
 use App\Http\Controllers\Controller;
 use App\Lecturer;
 use App\LecturerHasEvent;
+use App\LecturerHasCourse;
+use App\LecturerHasSubject;
 use App\Reservation;
 use App\SteamCenter;
 use App\Subject;
@@ -62,10 +64,27 @@ class EventController extends Controller
 
         echo $output;
     }
+
+    public function fetch_selected_lecturers(Request $request){
+        $select = $request->get('select');
+        $value = $request->get('value');
+
+        if($select === 'subject_id'){
+            $output = $this->lecturer_table(LecturerHasSubject::all()->where($select, $value));
+        }else if($select === 'course_id'){
+            $output = $this->lecturer_table(LecturerHasCourse::all()->where($select, $value));
+        }else{
+            $output = '';
+        }
+
+        echo $output;
+    }
+
     public function download ($id){
         $dl = File::find($id);
         return  response()->download(storage_path('app/public/file/'.$dl->name));
     }
+
     public function filter(Request $request)
     {
         $filtered = 'f';
@@ -84,7 +103,7 @@ class EventController extends Controller
             $filtered = 't';
         }
 
-        if(isset($capacity)){          
+        if(isset($capacity)){
             $events = $events->where('capacity_left', '>=', $capacity);
             $filtered = 't';
         }
@@ -157,13 +176,21 @@ class EventController extends Controller
             $count = 2;
         }
 
-        $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+        if($events->count()>0){
+            $lecturers = LecturerHasEvent::all()->whereIn('event_id', $events->pluck('events.id'))->groupBy('event_id')->collect();
+            
+        } else {
+            $lecturers = $events;
+        }
         $events = $events->get();
         $subjects = Subject::all();
         $cities = City::all();
-        
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'filtered'=>$filtered,
-            'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
+
+        $lecturersForEdit = Lecturer::all();
+        $courses = Course::all();
+
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForEdit'=>$lecturersForEdit, 'filtered'=>$filtered,
+           'category_value'=>$category, 'city_value'=>$city, 'capacity_value'=>$capacity, 'date_value'=>$dateInput, 'dateOneDay'=>$dateOneDay, 'dateFrom'=>$dateFrom, 'dateTill'=>$dateTill ]);
     }
 
     public function search(Request $request)
@@ -184,7 +211,10 @@ class EventController extends Controller
         $subjects = Subject::all();
         $cities = City::all();
 
-        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities]);
+        $lecturersForEdit = Lecturer::all();
+        $courses = Course::all();
+        
+        return view('paskaitos', ['events'=>$events, 'count'=>$count, 'lecturers'=>$lecturers, 'reservations'=>$reservations, 'subjects'=>$subjects, 'cities'=>$cities, 'courses'=>$courses, 'lecturersForEdit'=>$lecturersForEdit]);
     }
 
     public function insert(Request $request){
@@ -199,7 +229,6 @@ class EventController extends Controller
         $events = Event::all()->whereIn('id',$event_ids)->collect();
         $reservations = Reservation::select('date','start_time','end_time')->whereIn('event_id',$event_ids)->get();
         $reservationSelectedEventDate = Reservation::select('date','start_time','end_time')->where('event_id',$request->event_id)->first(); 
-        dd((string)$reservations[0], (string)$reservationSelectedEventDate);
         for($x = 0; $x<sizeof($reservations);$x++){
             if($reservations[$x]==$reservationSelectedEventDate){
                 return \redirect()->back()->with('message','Jūs šiuo metu jau užimtas!');
@@ -232,7 +261,6 @@ class EventController extends Controller
         $event->save();
     }
 
-
     public function update(Request $request)
     {
 
@@ -240,15 +268,15 @@ class EventController extends Controller
         $modification_date = date('Y/m/d H:i', time());
 
         if($request->hasFile('file')){
-            $filename = $request ->file -> getClientOriginalName();
-            $request->file -> storeAs(('public/file'),$filename);
-            $file = File::create(['name' =>$filename]);
+            $filename = $request->file ->getClientOriginalName();
+            $request->file->storeAs(('public/file'),$filename);
+            $file = File::create(['name'=>$filename]);
             $data = array(
                 'name' => $request->name,
                 'room_id' => $request->room_id,
                 'course_id' => $request->course_id,
                 'description' => $request->description,
-                'capacity_left' => $request->capacity,
+                'capacity_left' => $request->capacity-$request->capacity_left,
                 'max_capacity' => $request->capacity,
                 'file_id' => $file->id,
                 'updated_at' => $modification_date);
@@ -258,17 +286,35 @@ class EventController extends Controller
                 'room_id' => $request->room_id,
                 'course_id' => $request->course_id,
                 'description' => $request->description,
-                //'capacity_left' => $request->capacity,
+                'capacity_left' => $request->capacity-$request->capacity_left,
                 'max_capacity' => $request->capacity,
                 'updated_at' => $modification_date);
         }
-        
-        $id = $request->input('edited_id');
-        $event_id = Reservation::where('id', $id)->pluck('event_id');
+
+        $event_id = Reservation::where('id', $request->edited_id)->pluck('event_id')->first();
+
+        if($request->lecturers != null){
+            LecturerHasEvent::where('event_id', $event_id)->delete();
+            foreach($request->lecturers as $lecturer){
+                LecturerHasEvent::create(['lecturer_id' => $lecturer, 'event_id' => $event_id]);
+            }
+            $arr = explode("-", $request->time, 2);
+            $start_time = $arr[0];
+            $end_time = $arr[1];
+        } else {
+            return redirect()->route('Paskaitos')->with('dangerstatus','Paskaita nebuvo redaguota. Turite pasirinkti bent vieną dėstytoją!');  
+        }
+
+        Reservation::where('id', $request->edited_id)->update([
+            'room_id' => $request->room_id,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'date' => $request->date,
+            'updated_at' => $modification_date]);
+
         Event::where('id', $event_id)->update($data);
-        $room_id = $request->room_id;
-        echo($room_id);
-        //return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
+
+        return redirect()->route('Paskaitos')->with('status','Paskaita sėkmingai redaguota.');  
     }
 
     public function destroy($id)
@@ -277,6 +323,7 @@ class EventController extends Controller
         LecturerHasEvent::where('event_id', $id)->delete();
         Reservation::where('event_id', $id)->delete();
         Event::where('id', $id)->delete();
-        return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai ištrinta.'));
+        
+        return redirect()->route('Paskaitos')->with('status','Paskaita sėkmingai ištrinta.');  
     }
 }

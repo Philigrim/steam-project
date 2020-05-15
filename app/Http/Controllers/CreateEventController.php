@@ -168,10 +168,16 @@ class CreateEventController extends Controller
             $lecturer_ids=$request->lecturers;
             $event_ids=LecturerHasEvent::all()->whereIn('lecturer_id',$lecturer_ids)->pluck('event_id');
             $events = Event::all()->whereIn('id',$event_ids)->collect();
-            $reservations = Reservation::select('date')->whereIn('event_id',$event_ids)->get();
-
+            $reservations = Reservation::select('date','start_time','end_time')->whereIn('event_id',$event_ids)->get();
+            
+            $arr = explode("-", $request->time, 2);
+            $start_time = $arr[0];
+            $end_time = $arr[1];
+    
             $naujasEventasTikrinimui =collect(array(
-                'date'=>"$request->date"
+                'date'=>"$request->date",
+                'start_time'=>"$start_time",
+                'end_time'=>"$end_time"
             ));
 
             // dd($naujasEventasTikrinimui==$reservations[0]);
