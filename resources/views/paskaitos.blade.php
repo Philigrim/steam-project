@@ -165,7 +165,7 @@
         
         @if(Auth::user()->isRole()=="admin")
         <div class="col-" style="position: absolute; margin-left:1140px;">
-          @if(date($reservation->date) < date('Y-m-d'))
+          @if(date($reservation->date) < date('Y-m-d') || (date($reservation->date) == date('Y-m-d') && date($reservation->start_time) > date('h:i:s')))
             <button class="btn btn-dark" style="width: 130px; opacity: 1;" disabled>Praejęs</button>
           @elseif($reservation->event->capacity_left == 0)
             <button class="btn btn-primary" style="width: 130px" disabled>No Capacity</button>
@@ -179,7 +179,7 @@
             data-name="{{ $reservation->event->name }}" data-course_title="{{ $reservation->event->course->course_title }}" data-subject_title="{{ $reservation->event->course->subject->subject }}" 
             data-city="{{ $reservation->room->steam->city->city_name }}" data-steam_center="{{ $reservation->room->steam->steam_name }}" data-room="{{ $reservation->room->room_number }}({{$reservation->room->capacity }}) {{ $reservation->room->subject->subject }}" data-room_id="{{ $reservation->room->id }}"
             data-reservation_date="{{ $reservation->date }}" data-reservation_time="{{ substr($reservation->start_time, 0, 5) }}-{{ substr($reservation->end_time, 0, 5) }}"
-            data-event_capacity="{{ $reservation->event->max_capacity }}" data-event_description="{{ $reservation->event->description }}" @if(isset($reservation->event->file->id)) data-file_name="{{ $reservation->event->file->name }}" @endif
+            data-event_capacity="{{ $reservation->event->max_capacity }}" data-event_capacity_used="{{$reservation->event->max_capacity}}-{{$reservation->event->capacity_left}}" data-event_description="{{ $reservation->event->description }}" @if(isset($reservation->event->file->id)) data-file_name="{{ $reservation->event->file->name }}" @endif
             data-lecturers="@foreach($lecturers[$reservation->event->id] as $lecturer){{ $lecturer->lecturer->id }};@endforeach">
             Redaguoti
           </button>
@@ -292,6 +292,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
+                    <input type="hidden" id="edit-capacity_left" name="capacity_left">
                     <input class="form-control input-group" id="edit-capacity" type="number" min="1" name="capacity" value="1" placeholder="Žmonių skaičius">
                   </div>
                 </div>
@@ -477,9 +478,12 @@
   $('.room').change(function set_new_max_capacity(){
     var room_value = $('#room_id').val();
     var room_capacity = $('#room_id').find(':selected').data('capacity');
+    $('#room_id').find(':selected').data('capacity');
     $('#edit-capacity').attr("max", room_capacity);
     if(parseInt($('#edit-capacity').val()) > parseInt($('#edit-capacity').attr("max"))){
         $('#edit-capacity').val($('#edit-capacity').attr("max"));
+    }else if($('#edit-capacity').val() < $('#edit-capacity').attr("min")){
+        $('#edit-capacity').val($('#edit-capacity').attr("min"));
     }
   })
 
@@ -562,6 +566,11 @@
   $('#time option').filter(function() { return ($(this).text() == timeWas); }).prop('selected', 'selected'); 
   document.querySelector("#time").dispatchEvent(new Event("change"));
 
+  var used = $(this).data('event_capacity_used');
+  var usedArray = used.split('-');
+  var used = usedArray[0]-usedArray[1];
+  $('#edit-capacity_left').val(used);
+  $('#edit-capacity').attr("min", used);
   $('#edit-capacity').val($(this).data('event_capacity'));
   document.querySelector("#edit-capacity").dispatchEvent(new Event("change"));
   

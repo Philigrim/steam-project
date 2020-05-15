@@ -276,7 +276,7 @@ class EventController extends Controller
                 'room_id' => $request->room_id,
                 'course_id' => $request->course_id,
                 'description' => $request->description,
-                'capacity_left' => $request->capacity,
+                'capacity_left' => $request->capacity-$request->capacity_left,
                 'max_capacity' => $request->capacity,
                 'file_id' => $file->id,
                 'updated_at' => $modification_date);
@@ -286,7 +286,7 @@ class EventController extends Controller
                 'room_id' => $request->room_id,
                 'course_id' => $request->course_id,
                 'description' => $request->description,
-                'capacity_left' => $request->capacity,
+                'capacity_left' => $request->capacity-$request->capacity_left,
                 'max_capacity' => $request->capacity,
                 'updated_at' => $modification_date);
         }

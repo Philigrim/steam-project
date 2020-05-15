@@ -141,6 +141,41 @@
                     class="show-edit-announcement btn btn-success ml-3 mb-3" data-toggle = "modal" data-target = "#editAnnouncementModal">
                     Redaguoti
                 </button>
+
+                <form action="{{ url('/announcements', [$announcement->id]) }}" method="post">
+                <Button class="btn btn-danger ml-2" type="submit">Ištrinti</Button>
+                <input type="hidden" name="_method" value="delete" />
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                </form>
+                </div>
+
+                <br>
+                <br>
+                @endif
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div class="row d-flex justify-content-center">
+                <h1 class="card-title font-weight-bold">{{ $announcement->title }}</h1>
+                </div>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div>
+                <span class="ml-2">Autorius:</span>
+                <span class="ml-2">{{ $announcement->author }}</span>
+                <div class="ml-2 float-right">{{ $announcement->created_at }}</div>
+                </div>
+
+                <div class="border-top mt-2 mb-2"></div>
+
+                <div class="ml-2">{{ $announcement->text }}</div>
+
+                <div class="border-top mt-2 mb-2"></div>
+                </div>
+                </div>
+        @endforeach
+        <!-- /Announcements -->
+
                
                 <!-- Announcemenet Editing Modal -->
                 <div class="modal fade" id="editAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby = "editAnnouncementLabel" aria-hidden = "true">
@@ -151,11 +186,11 @@
                                 <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
                             </div>
 
-                            <form action="{{ route('announcements.update', [$announcement->id]) }}" method="post">
+                            <form id="announcementEditingModalForm" method="post">
                             <input type="hidden" name="_method" value="patch" />
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                            <input type="hidden" id="editing_id" name="edited_id" value="{{ $announcement->id }}">
+                            <input type="hidden" id="editing_id" name="edited_id">
                             
                             <div class="modal-body pt-2">
 
@@ -194,41 +229,6 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div>
-
-                <form action="{{ url('/announcements', [$announcement->id]) }}" method="post">
-                <Button class="btn btn-danger ml-2" type="submit">Ištrinti</Button>
-                <input type="hidden" name="_method" value="delete" />
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                </form>
-                </div>
-
-                <br>
-                <br>
-                @endif
-                <div class="border-top mt-2 mb-2"></div>
-
-                <div class="row d-flex justify-content-center">
-                <h1 class="card-title font-weight-bold">{{ $announcement->title }}</h1>
-                </div>
-
-                <div class="border-top mt-2 mb-2"></div>
-
-                <div>
-                <span class="ml-2">Autorius:</span>
-                <span class="ml-2">{{ $announcement->author }}</span>
-                <div class="ml-2 float-right">{{ $announcement->created_at }}</div>
-                </div>
-
-                <div class="border-top mt-2 mb-2"></div>
-
-                <div class="ml-2">{{ $announcement->text }}</div>
-
-                <div class="border-top mt-2 mb-2"></div>
-                </div>
-                </div>
-        @endforeach
-        <!-- /Announcements -->
-
     </div>
     </div>
 
@@ -348,6 +348,9 @@
 {{--Editing modal script--}}
 <script type="text/javascript">
     $(document).on('click', '.show-edit-announcement', function() {
+    var route = '{{ route("announcements.update", ":id") }}';
+    route = route.replace(':id', $(this).data('id'));
+    document.getElementById('announcementEditingModalForm').setAttribute("action", route);
     $('#editing_id').val($(this).data('id'));
     $('#editing_title').text($(this).data('title'));
     $('#editing_author').text($(this).data('author'));
