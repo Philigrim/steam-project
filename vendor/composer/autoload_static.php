@@ -107,6 +107,10 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
             'Laravel\\Tinker\\' => 15,
             'LaravelFrontendPresets\\ArgonPreset\\' => 35,
         ),
+        'K' => 
+        array (
+            'KO\\Fullcalendar\\' => 16,
+        ),
         'J' => 
         array (
             'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
@@ -334,6 +338,10 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         array (
             0 => __DIR__ . '/..' . '/laravel-frontend-presets/argon/src',
         ),
+        'KO\\Fullcalendar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src',
+        ),
         'JakubOnderka\\PhpConsoleHighlighter\\' => 
         array (
             0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
@@ -443,6 +451,7 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\CalendarController' => __DIR__ . '/../..' . '/app/Http/Controllers/CalendarController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CourseController' => __DIR__ . '/../..' . '/app/Http/Controllers/CourseController.php',
         'App\\Http\\Controllers\\CreateCourseController' => __DIR__ . '/../..' . '/app/Http/Controllers/CreateCourseController.php',
@@ -2151,6 +2160,11 @@ class ComposerStaticInitbb9ce04a08ad7c4ca7951a927518e454
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'KO\\Fullcalendar\\Calendar' => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src/Calendar.php',
+        'KO\\Fullcalendar\\Event' => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src/Event.php',
+        'KO\\Fullcalendar\\EventCollection' => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src/EventCollection.php',
+        'KO\\Fullcalendar\\Options' => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src/Options.php',
+        'KO\\Fullcalendar\\Providers\\FullcalendarServiceProvider' => __DIR__ . '/..' . '/ko/laravel-fullcalendar/src/Providers/FullcalendarServiceProvider.php',
         'LaravelFrontendPresets\\ArgonPreset\\ArgonPreset' => __DIR__ . '/..' . '/laravel-frontend-presets/argon/src/ArgonPreset.php',
         'LaravelFrontendPresets\\ArgonPreset\\ArgonPresetServiceProvider' => __DIR__ . '/..' . '/laravel-frontend-presets/argon/src/ArgonPresetServiceProvider.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',

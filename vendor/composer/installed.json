@@ -779,7 +779,8 @@
                 "name": "Jakub Onderka",
                 "email": "jakub.onderka@gmail.com"
             }
-        ]
+        ],
+        "abandoned": "php-parallel-lint/php-console-color"
     },
     {
         "name": "jakub-onderka/php-console-highlighter",
@@ -827,7 +828,53 @@
                 "homepage": "http://www.acci.cz/"
             }
         ],
-        "description": "Highlight PHP code in terminal"
+        "description": "Highlight PHP code in terminal",
+        "abandoned": "php-parallel-lint/php-console-highlighter"
+    },
+    {
+        "name": "ko/laravel-fullcalendar",
+        "version": "0.0.9",
+        "version_normalized": "0.0.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/peledies/ko-laravel-fullcalendar.git",
+            "reference": "28f6f600791ba24dd5849f906a6189302d719be3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/peledies/ko-laravel-fullcalendar/zipball/28f6f600791ba24dd5849f906a6189302d719be3",
+            "reference": "28f6f600791ba24dd5849f906a6189302d719be3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6.0"
+        },
+        "time": "2019-01-03T18:56:24+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "KO\\Fullcalendar\\Providers\\FullcalendarServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "KO\\Fullcalendar\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Deac Karns",
+                "email": "peledies@gmail.com"
+            }
+        ],
+        "description": "Laravel helper for FullCalendar.io"
     },
     {
         "name": "laravel-frontend-presets/argon",
@@ -1289,7 +1336,8 @@
             "extension",
             "markdown",
             "table"
-        ]
+        ],
+        "abandoned": "league/commonmark"
     },
     {
         "name": "league/flysystem",

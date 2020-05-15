@@ -26,6 +26,12 @@
                         <i class="ni ni-settings-gear-65"></i>
                         <span>{{ __('Nustatymai') }}</span>
                     </a>
+                    @if((Auth::user()->isRole() === 'mokytojas') || (Auth::user()->isRole()=="paskaitu_lektorius")) 
+                    <a href="{{ route('calendar') }}" class="dropdown-item">
+                        <i class="ni ni-calendar-grid-58"></i>
+                        <span>{{ __('Kalendorius') }}</span>
+                    </a>
+                    @endif
                     @if((Auth::user()->isRole() === 'mokytojas') || (Auth::user()->isRole()=="paskaitu_lektorius"))
                     <a href="{{ route('manopaskaitos') }}" class="dropdown-item">
                         <i class="ni ni-calendar-grid-58"></i>

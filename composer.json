@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "ko/laravel-fullcalendar": "^0.0.9",
         "laravel-frontend-presets/argon": "^1.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",

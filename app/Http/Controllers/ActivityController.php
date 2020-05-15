@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Teacher;
 use App\EventHasTeacher;
@@ -47,6 +48,33 @@ class ActivityController extends Controller
         $pastEvents2 = $reservations->where('date', $date)->where('end_time', '<', $time);
         $pastEvents = $pastEvents1->merge($pastEvents2)->sortBy('end_time')->sortBy('date');
 
-        return view('manopaskaitos',['events'=>$events, 'futureEvents'=>$futureEvents, 'pastEvents'=>$pastEvents]);
+        return view('manopaskaitos',['events'=>$events, 'futureEvents'=>$futureEvents, 'pastEvents'=>$pastEvents,'date'=>$date]);
     }
+
+    public function update(Request $request){
+
+        $teacher=Teacher::all()->where('user_id','=',\Auth::user()->id)->first()->id;
+        $capacity = Event::select('capacity_left')->where(['id'=>$request->event_id])->first();
+        // dd($capacity);
+        $oldteacherpupilcount=EventHasTeacher::select('pupil_count')->where([['teacher_id','=',$teacher],['event_id','=',$request->event_id]])->first();
+        
+        
+        $newpupilcount = $request->pupil_count;
+        // dd($oldteacherpupilcount);
+        $subcapacity = $capacity ->capacity_left -$oldteacherpupilcount->pupil_count + $newpupilcount;
+        Event::where('id',$request->event_id)
+                                                ->update([
+                                                        'capacity_left'=>$subcapacity
+                                                    ]);
+        EventHasTeacher::where([
+            ['event_id','=',$request->event_id],
+            ['teacher_id','=',$teacher]
+        ])->update([
+            'pupil_count'=>$newpupilcount
+        ]);
+        return \redirect()->back()->with('message','Jūs sėkmingai pakeitėte registraciją!');         
+
+    }
+
+
 }

@@ -268,9 +268,9 @@ class EventController extends Controller
         $modification_date = date('Y/m/d H:i', time());
 
         if($request->hasFile('file')){
-            $filename = $request ->file -> getClientOriginalName();
-            $request->file -> storeAs(('public/file'),$filename);
-            $file = File::create(['name' =>$filename]);
+            $filename = $request->file ->getClientOriginalName();
+            $request->file->storeAs(('public/file'),$filename);
+            $file = File::create(['name'=>$filename]);
             $data = array(
                 'name' => $request->name,
                 'room_id' => $request->room_id,
@@ -286,15 +286,32 @@ class EventController extends Controller
                 'room_id' => $request->room_id,
                 'course_id' => $request->course_id,
                 'description' => $request->description,
-                //'capacity_left' => $request->capacity,
+                'capacity_left' => $request->capacity,
                 'max_capacity' => $request->capacity,
                 'updated_at' => $modification_date);
         }
-        
-        $id = $request->input('edited_id');
-        $event_id = Reservation::where('id', $id)->pluck('event_id');
+
+        $event_id = Reservation::where('id', $request->edited_id)->pluck('event_id')->first();
+
+        LecturerHasEvent::where('event_id', $event_id)->delete();
+
+        foreach($request->lecturers as $lecturer){
+            LecturerHasEvent::create(['lecturer_id' => $lecturer, 'event_id' => $event_id]);
+        }
+
+        $arr = explode("-", $request->time, 2);
+        $start_time = $arr[0];
+        $end_time = $arr[1];
+
+        Reservation::where('id', $request->edited_id)->update([
+            'room_id' => $request->room_id,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'date' => $request->date,
+            'updated_at' => $modification_date]);
+
         Event::where('id', $event_id)->update($data);
-        $room_id = $request->room_id;
+
         return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
     }
 

@@ -84,6 +84,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('manopaskaitos', 'ActivityController@index')->name('manopaskaitos');
+Route::post('manopaskaitos', 'ActivityController@update');
+Route::get('kalendorius', 'CalendarController@index')->name('calendar');
+
 
 // Data insertation page
 Route::group(['middleware' => ['auth' => 'admin']], function(){
