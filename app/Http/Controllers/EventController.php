@@ -293,15 +293,17 @@ class EventController extends Controller
 
         $event_id = Reservation::where('id', $request->edited_id)->pluck('event_id')->first();
 
-        LecturerHasEvent::where('event_id', $event_id)->delete();
-
-        foreach($request->lecturers as $lecturer){
-            LecturerHasEvent::create(['lecturer_id' => $lecturer, 'event_id' => $event_id]);
+        if($request->lecturers != null){
+            LecturerHasEvent::where('event_id', $event_id)->delete();
+            foreach($request->lecturers as $lecturer){
+                LecturerHasEvent::create(['lecturer_id' => $lecturer, 'event_id' => $event_id]);
+            }
+            $arr = explode("-", $request->time, 2);
+            $start_time = $arr[0];
+            $end_time = $arr[1];
+        } else {
+            return redirect()->route('Paskaitos')->with('dangerstatus','Paskaita nebuvo redaguota. Turite pasirinkti bent vieną dėstytoją!');  
         }
-
-        $arr = explode("-", $request->time, 2);
-        $start_time = $arr[0];
-        $end_time = $arr[1];
 
         Reservation::where('id', $request->edited_id)->update([
             'room_id' => $request->room_id,
@@ -312,7 +314,7 @@ class EventController extends Controller
 
         Event::where('id', $event_id)->update($data);
 
-        return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai redaguota.'));
+        return redirect()->route('Paskaitos')->with('status','Paskaita sėkmingai redaguota.');  
     }
 
     public function destroy($id)
@@ -321,6 +323,7 @@ class EventController extends Controller
         LecturerHasEvent::where('event_id', $id)->delete();
         Reservation::where('event_id', $id)->delete();
         Event::where('id', $id)->delete();
-        return redirect()->route('Paskaitos')->withStatus(__('Paskaita sėkmingai ištrinta.'));
+        
+        return redirect()->route('Paskaitos')->with('status','Paskaita sėkmingai ištrinta.');  
     }
 }
